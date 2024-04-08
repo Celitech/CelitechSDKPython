@@ -1,0 +1,164 @@
+{
+  "liblabVersion": "2.1.0",
+  "date": "2024-04-08T14:21:53.916Z",
+  "config": {
+    "apiId": 673,
+    "sdkName": "Celitech",
+    "sdkVersion": "1.0.0",
+    "liblabVersion": "2",
+    "deliveryMethods": ["zip"],
+    "languages": ["python"],
+    "apiVersion": "1.0.0",
+    "specFilePath": "swagger.yaml",
+    "createDocs": true,
+    "languageOptions": {
+      "python": {
+        "alwaysInitializeOptionals": true,
+        "pypiPackageName": "celitech-sdk",
+        "githubRepoName": "CelitechSDKPython",
+        "liblabVersion": "2",
+        "sdkVersion": "1.0.0"
+      },
+      "typescript": {
+        "bundle": false,
+        "exportClassDefault": false,
+        "httpClient": "axios",
+        "npmName": "celitech-sdk",
+        "npmOrg": "Celitech",
+        "githubRepoName": "CelitechSDKTypeScript",
+        "ignoreFiles": [],
+        "liblabVersion": "1",
+        "sdkVersion": "1.0.0"
+      }
+    },
+    "publishing": {
+      "githubOrg": "Celitech"
+    },
+    "devContainer": true,
+    "environmentVariables": [
+      {
+        "description": "Client ID parameter",
+        "name": "CLIENT_ID"
+      },
+      {
+        "description": "Client Secret parameter",
+        "name": "CLIENT_SECRET"
+      }
+    ],
+    "generateEnv": true,
+    "includeOptionalSnippetParameters": false,
+    "inferServiceNames": false,
+    "injectedModels": [],
+    "license": {
+      "type": "MIT",
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT",
+      "path": "MIT.ejs"
+    },
+    "responseHeaders": false,
+    "retry": {
+      "enabled": true,
+      "maxAttempts": 3,
+      "retryDelay": 150,
+      "maxDelay": 5000,
+      "retryDelayJitter": 50,
+      "backOffFactor": 2,
+      "httpCodesToRetry": [408, 429, 500, 502, 503, 504],
+      "httpMethodsToRetry": ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"]
+    },
+    "multiTenant": true,
+    "hooksLocation": {
+      "bucketKey": "4706/hooks.zip",
+      "bucketName": "prod-liblab-api-stack-hooks"
+    },
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/673/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240408%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240408T142149Z&X-Amz-Expires=43200&X-Amz-Signature=350e3a65a8f6f924d5ab78578c05d48e18229c4e88f3b022fc5e6a4c8bebb70a&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "includeWatermark": false,
+    "alwaysInitializeOptionals": true,
+    "pypiPackageName": "celitech-sdk",
+    "githubRepoName": "CelitechSDKPython",
+    "language": "python",
+    "deliveryMethod": "zip",
+    "hooks": {
+      "enabled": true,
+      "sourceDir": "/tmp/resources/hooks"
+    },
+    "usesFormData": false,
+    "authentication": {},
+    "fileOutput": "/tmp",
+    "httpLibrary": {
+      "name": "axios",
+      "packages": {
+        "axios": "^1.6.8"
+      },
+      "languages": ["typescript"]
+    },
+    "auth": [],
+    "customQueries": {
+      "paths": [],
+      "rawQueries": [],
+      "queriesData": []
+    }
+  },
+  "files": [
+    "src/celitech/models/base.py",
+    "src/celitech/models/utils/json_map.py",
+    "src/celitech/models/__init__.py",
+    "src/celitech/services/__init__.py",
+    "src/celitech/__init__.py",
+    "src/celitech/net/__init__.py",
+    "src/celitech/net/headers/__init__.py",
+    "src/celitech/net/transport/__init__.py",
+    "src/celitech/hooks/__init__.py",
+    "src/celitech/net/environment/__init__.py",
+    "src/celitech/net/request_chain/__init__.py",
+    "src/celitech/net/request_chain/handlers/__init__.py",
+    "src/celitech/net/transport/request.py",
+    "src/celitech/net/transport/response.py",
+    "src/celitech/net/transport/request_error.py",
+    "src/celitech/sdk.py",
+    "src/celitech/net/transport/serializer.py",
+    "src/celitech/services/utils/validator.py",
+    "src/celitech/services/utils/base_service.py",
+    "pyproject.toml",
+    ".gitignore",
+    "src/celitech/models/utils/cast_models.py",
+    "src/celitech/net/transport/utils.py",
+    "src/celitech/hooks/hook.py",
+    "install.sh",
+    "install.cmd",
+    "examples/install.sh",
+    "examples/install.cmd",
+    "src/celitech/net/headers/base_header.py",
+    "src/celitech/net/environment/environment.py",
+    "src/celitech/net/request_chain/request_chain.py",
+    "src/celitech/net/request_chain/handlers/base_handler.py",
+    "src/celitech/net/request_chain/handlers/http_handler.py",
+    "src/celitech/net/request_chain/handlers/hook_handler.py",
+    "src/celitech/net/request_chain/handlers/retry_handler.py",
+    "examples/sample.py",
+    ".env.example",
+    "/examples/.env.example",
+    "src/celitech/services/utils/default_headers.py",
+    "./LICENSE",
+    ".devcontainer/devcontainer.json",
+    "src/celitech/services/destinations.py",
+    "src/celitech/services/packages.py",
+    "src/celitech/models/create_purchase_request.py",
+    "src/celitech/models/top_up_esim_request.py",
+    "src/celitech/models/edit_purchase_request.py",
+    "src/celitech/models/edit_purchase_ok_response.py",
+    "src/celitech/models/get_purchase_consumption_ok_response.py",
+    "src/celitech/models/list_destinations_ok_response.py",
+    "src/celitech/models/list_packages_ok_response.py",
+    "src/celitech/models/get_esim_ok_response.py",
+    "src/celitech/models/get_esim_device_ok_response.py",
+    "src/celitech/models/get_esim_mac_ok_response.py",
+    "src/celitech/services/e_sim.py",
+    "src/celitech/models/create_purchase_ok_response.py",
+    "src/celitech/models/top_up_esim_ok_response.py",
+    "src/celitech/models/get_esim_history_ok_response.py",
+    "src/celitech/services/purchases.py",
+    "src/celitech/models/list_purchases_ok_response.py",
+    "README.md"
+  ]
+}
