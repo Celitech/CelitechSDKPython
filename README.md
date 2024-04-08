@@ -16,7 +16,7 @@ Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.
 ## Installation
 
 ```bash
-pip install celitech-sdk
+pip install celitech
 ```
 
 ## Environment Variables
