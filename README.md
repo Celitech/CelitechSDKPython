@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.0.0
+# Celitech Python SDK 1.1.46
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.0.0
+- SDK version: 1.1.46
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -124,9 +124,9 @@ result = sdk.packages.list_packages(
     end_date="2023-11-20",
     after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
     limit=20,
-    start_time=9,
-    end_time=8,
-    duration=2.38
+    start_time=3,
+    end_time=10,
+    duration=6.67
 )
 
 print(result)
@@ -181,8 +181,8 @@ result = sdk.purchases.list_purchases(
     before_date="2023-11-20",
     after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
     limit=20,
-    after=6.14,
-    before=6.84
+    after=8.42,
+    before=3.39
 )
 
 print(result)
@@ -221,8 +221,8 @@ request_body = CreatePurchaseRequest(**{
     "end_date": "2023-11-20",
     "email": "example@domain.com",
     "network_brand": "CELITECH",
-    "start_time": 1.18,
-    "end_time": 3.39
+    "start_time": 1.92,
+    "end_time": 1.94
 })
 
 result = sdk.purchases.create_purchase(request_body=request_body)
@@ -262,8 +262,8 @@ request_body = TopUpEsimRequest(**{
     "start_date": "2023-11-01",
     "end_date": "2023-11-20",
     "email": "example@domain.com",
-    "start_time": 7.07,
-    "end_time": 7.91
+    "start_time": 6.98,
+    "end_time": 7.77
 })
 
 result = sdk.purchases.top_up_esim(request_body=request_body)
@@ -301,8 +301,8 @@ request_body = EditPurchaseRequest(**{
     "purchase_id": "ae471106-c8b4-42cf-b83a-b061291f2922",
     "start_date": "2023-11-01",
     "end_date": "2023-11-20",
-    "start_time": 8.99,
-    "end_time": 8.75
+    "start_time": 8.42,
+    "end_time": 5.43
 })
 
 result = sdk.purchases.edit_purchase(request_body=request_body)
