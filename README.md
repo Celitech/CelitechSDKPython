@@ -97,12 +97,12 @@ List of available packages
 | Name | Type| Required | Description |
 | :-------- | :----------| :----------:| :----------|
 | destination | str | ❌ | List of available packages |
-| startDate | str | ❌ | List of available packages |
-| endDate | str | ❌ | List of available packages |
-| afterCursor | str | ❌ | List of available packages |
+| start_date | str | ❌ | List of available packages |
+| end_date | str | ❌ | List of available packages |
+| after_cursor | str | ❌ | List of available packages |
 | limit | float | ❌ | List of available packages |
-| startTime | int | ❌ | List of available packages |
-| endTime | int | ❌ | List of available packages |
+| start_time | int | ❌ | List of available packages |
+| end_time | int | ❌ | List of available packages |
 | duration | float | ❌ | List of available packages |
 
 **Return Type**
@@ -124,9 +124,9 @@ result = sdk.packages.list_packages(
     end_date="2023-11-20",
     after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
     limit=20,
-    start_time=8,
-    end_time=2,
-    duration=8.44
+    start_time=9,
+    end_time=8,
+    duration=2.38
 )
 
 print(result)
@@ -155,9 +155,9 @@ This endpoint can be used to list all the successful purchases made between a gi
 | Name | Type| Required | Description |
 | :-------- | :----------| :----------:| :----------|
 | iccid | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| afterDate | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| beforeDate | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| afterCursor | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after_date | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+| before_date | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after_cursor | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
 | limit | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
 | after | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
 | before | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
@@ -181,8 +181,8 @@ result = sdk.purchases.list_purchases(
     before_date="2023-11-20",
     after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
     limit=20,
-    after=2.38,
-    before=3.34
+    after=6.14,
+    before=6.84
 )
 
 print(result)
@@ -221,8 +221,8 @@ request_body = CreatePurchaseRequest(**{
     "end_date": "2023-11-20",
     "email": "example@domain.com",
     "network_brand": "CELITECH",
-    "start_time": 2.37,
-    "end_time": 8.12
+    "start_time": 1.18,
+    "end_time": 3.39
 })
 
 result = sdk.purchases.create_purchase(request_body=request_body)
@@ -262,8 +262,8 @@ request_body = TopUpEsimRequest(**{
     "start_date": "2023-11-01",
     "end_date": "2023-11-20",
     "email": "example@domain.com",
-    "start_time": 8.12,
-    "end_time": 4.35
+    "start_time": 7.07,
+    "end_time": 7.91
 })
 
 result = sdk.purchases.top_up_esim(request_body=request_body)
@@ -301,8 +301,8 @@ request_body = EditPurchaseRequest(**{
     "purchase_id": "ae471106-c8b4-42cf-b83a-b061291f2922",
     "start_date": "2023-11-01",
     "end_date": "2023-11-20",
-    "start_time": 8.76,
-    "end_time": 4.68
+    "start_time": 8.99,
+    "end_time": 8.75
 })
 
 result = sdk.purchases.edit_purchase(request_body=request_body)
@@ -320,7 +320,7 @@ This endpoint can be called for consumption notifications (e.g. every 1 hour or 
 **Parameters**
 | Name | Type| Required | Description |
 | :-------- | :----------| :----------:| :----------|
-| purchaseId | str | ✅ | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
+| purchase_id | str | ✅ | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
 
 **Return Type**
 
