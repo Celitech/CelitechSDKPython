@@ -14,7 +14,7 @@ class ESimService(BaseService):
     def get_esim(self, iccid: str) -> GetEsimOkResponse:
         """Get status from eSIM
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -40,7 +40,7 @@ class ESimService(BaseService):
     def get_esim_device(self, iccid: str) -> GetEsimDeviceOkResponse:
         """Get device info from an installed eSIM
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -68,7 +68,7 @@ class ESimService(BaseService):
     def get_esim_history(self, iccid: str) -> GetEsimHistoryOkResponse:
         """Get history from an eSIM
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -96,7 +96,7 @@ class ESimService(BaseService):
     def get_esim_mac(self, iccid: str) -> GetEsimMacOkResponse:
         """Get MAC from eSIM
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.

@@ -29,15 +29,15 @@ class PurchasesService(BaseService):
     ) -> ListPurchasesOkResponse:
         """This endpoint can be used to list all the successful purchases made between a given interval.
 
-        :param iccid: iccid, defaults to None
+        :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
         :param after_date: Start date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
         :type after_date: str, optional
         :param before_date: End date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
         :type before_date: str, optional
-        :param after_cursor: after_cursor, defaults to None
+        :param after_cursor: To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data., defaults to None
         :type after_cursor: str, optional
-        :param limit: limit, defaults to None
+        :param limit: Maximum number of purchases to be returned in the response. The value must be greater than 0 and less than or equal to 100. If not provided, the default value is 20, defaults to None
         :type limit: float, optional
         :param after: Epoch value representing the start of the time interval for filtering purchases, defaults to None
         :type after: float, optional
@@ -163,7 +163,7 @@ class PurchasesService(BaseService):
     ) -> GetPurchaseConsumptionOkResponse:
         """This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages.
 
-        :param purchase_id: purchase_id
+        :param purchase_id: ID of the purchase
         :type purchase_id: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
