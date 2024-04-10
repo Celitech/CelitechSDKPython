@@ -50,7 +50,7 @@ class PurchasesService(BaseService):
         :rtype: ListPurchasesOkResponse
         """
 
-        Validator(str).is_optional().validate(iccid)
+        Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
         Validator(str).is_optional().validate(after_date)
         Validator(str).is_optional().validate(before_date)
         Validator(str).is_optional().validate(after_cursor)

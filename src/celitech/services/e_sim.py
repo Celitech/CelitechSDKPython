@@ -23,7 +23,7 @@ class ESimService(BaseService):
         :rtype: GetEsimOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(f"{self.base_url}/esim", self.get_default_headers())
@@ -49,7 +49,7 @@ class ESimService(BaseService):
         :rtype: GetEsimDeviceOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(
@@ -77,7 +77,7 @@ class ESimService(BaseService):
         :rtype: GetEsimHistoryOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(
@@ -105,7 +105,7 @@ class ESimService(BaseService):
         :rtype: GetEsimMacOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(

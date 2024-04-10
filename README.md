@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.0.0
+# Celitech Python SDK 1.1.46
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.0.0
+- SDK version: 1.1.46
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -97,12 +97,12 @@ List of available packages
 | Name | Type| Required | Description |
 | :-------- | :----------| :----------:| :----------|
 | destination | str | ❌ | List of available packages |
-| startDate | str | ❌ | List of available packages |
-| endDate | str | ❌ | List of available packages |
-| afterCursor | str | ❌ | List of available packages |
+| start_date | str | ❌ | List of available packages |
+| end_date | str | ❌ | List of available packages |
+| after_cursor | str | ❌ | List of available packages |
 | limit | float | ❌ | List of available packages |
-| startTime | int | ❌ | List of available packages |
-| endTime | int | ❌ | List of available packages |
+| start_time | int | ❌ | List of available packages |
+| end_time | int | ❌ | List of available packages |
 | duration | float | ❌ | List of available packages |
 
 **Return Type**
@@ -155,9 +155,9 @@ This endpoint can be used to list all the successful purchases made between a gi
 | Name | Type| Required | Description |
 | :-------- | :----------| :----------:| :----------|
 | iccid | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| afterDate | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| beforeDate | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| afterCursor | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after_date | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+| before_date | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after_cursor | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
 | limit | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
 | after | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
 | before | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
@@ -320,7 +320,7 @@ This endpoint can be called for consumption notifications (e.g. every 1 hour or 
 **Parameters**
 | Name | Type| Required | Description |
 | :-------- | :----------| :----------:| :----------|
-| purchaseId | str | ✅ | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
+| purchase_id | str | ✅ | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
 
 **Return Type**
 
