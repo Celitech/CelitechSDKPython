@@ -1,4 +1,5 @@
 import re
+import operator
 from typing import Union, Any, Type, Pattern, get_args
 from ...models.base import OneOfBaseModel
 
@@ -25,8 +26,12 @@ class Validator:
         self._is_optional: bool = False
         self._is_array: bool = False
         self._pattern: Pattern[str] = None
+        self._min_length: int = None
+        self._max_length: int = None
         self._min: int = None
+        self._min_exclusive: bool = False
         self._max: int = None
+        self._max_exclusive: bool = False
 
     def is_array(self) -> "Validator":
         """
@@ -59,26 +64,52 @@ class Validator:
         self._pattern = re.compile(pattern)
         return self
 
-    def min(self, min: int) -> "Validator":
+    def min(self, min: int, exclusive=False) -> "Validator":
         """
         Specifies a minimum value for validating the value.
 
-        :param int min: The minimum value.
+        :param int min: The minimum value to be validated against.
+        :param bool exclusive: (optional) If set to True, the minimum value is not inclusive.
         :return: The Validator instance for method chaining.
         :rtype: Validator
         """
         self._min = min
+        self._min_exclusive = exclusive
         return self
 
-    def max(self, max: int) -> "Validator":
+    def max(self, max: int, exclusive=False) -> "Validator":
         """
         Specifies a maximum value for validating the value.
 
         :param int max: The maximum value.
+        :param bool exclusive: (optional) If set to True, the maximum value is not inclusive.
         :return: The Validator instance for method chaining.
         :rtype: Validator
         """
         self._max = max
+        self._max_exclusive = exclusive
+        return self
+
+    def min_length(self, min_length: int) -> "Validator":
+        """
+        Specifies a minimum length for validating the value.
+
+        :param int min_length: The minimum length to be validated against.
+        :return: The Validator instance for method chaining.
+        :rtype: Validator
+        """
+        self._min_length = min_length
+        return self
+
+    def max_length(self, max_length: int) -> "Validator":
+        """
+        Specifies a maximum length for validating the value.
+
+        :param int max_length: The maximum length.
+        :return: The Validator instance for method chaining.
+        :rtype: Validator
+        """
+        self._max_length = max_length
         return self
 
     def validate(self, value: Any) -> None:
@@ -150,10 +181,25 @@ class Validator:
         :param Any value: The input that needs to be validated
         :raises ValueError: If the value does not meet the specified validation criteria.
         """
-        if self._min is not None and value < self._min:
-            raise ValueError(f"Invalid value: {value} is less than {self._min}")
-        if self._max is not None and value > self._max:
-            raise ValueError(f"Invalid value: {value} is greater than {self._max}")
+        min_operator = operator.lt if self._min_exclusive else operator.le
+        max_operator = operator.gt if self._max_exclusive else operator.ge
+
+        if self._min is not None and not min_operator(self._min, value):
+            raise ValueError(
+                f"Invalid value: {value} is {'less than or equal to' if self._min_exclusive else 'less than'} {self._min}"
+            )
+        if self._max is not None and not max_operator(self._max, value):
+            raise ValueError(
+                f"Invalid value: {value} is {'greater than or equal to' if self._max_exclusive else 'greater than'} {self._max}"
+            )
+        if self._min_length is not None and len(value) < self._min_length:
+            raise ValueError(
+                f"Invalid value: the length of {value} is less than {self._min_length}"
+            )
+        if self._max_length is not None and len(value) > self._max_length:
+            raise ValueError(
+                f"Invalid value: the length of {value} is greater than {self._max_length}"
+            )
         if self._pattern and not self._pattern.match(str(value)):
             raise ValueError(
                 f"Invalid value: {value} does not match pattern {self._pattern}"
