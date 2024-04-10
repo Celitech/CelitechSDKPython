@@ -1,5 +1,5 @@
 {
-	"name": "celitech",
+	"name": "celitech-sdk",
 	"image": "mcr.microsoft.com/devcontainers/python:3.9-bullseye",
 	"postCreateCommand": "bash install.sh",
 	"customizations": {

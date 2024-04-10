@@ -1,6 +1,6 @@
 {
   "liblabVersion": "2.1.0",
-  "date": "2024-04-09T12:46:41.735Z",
+  "date": "2024-04-09T13:20:11.833Z",
   "config": {
     "apiId": 673,
     "sdkName": "Celitech",
@@ -14,7 +14,7 @@
     "languageOptions": {
       "python": {
         "alwaysInitializeOptionals": true,
-        "pypiPackageName": "celitech",
+        "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
         "sdkVersion": "1.0.0"
@@ -23,7 +23,7 @@
         "bundle": false,
         "exportClassDefault": false,
         "httpClient": "axios",
-        "npmName": "celitech",
+        "npmName": "celitech-sdk",
         "githubRepoName": "CelitechSDKTypeScript",
         "ignoreFiles": [],
         "liblabVersion": "1",
@@ -67,13 +67,13 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "4742/hooks.zip",
+      "bucketKey": "4743/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/673/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240409T124637Z&X-Amz-Expires=43200&X-Amz-Signature=143f58b34c04e9c9b6584b550d08e5f9ebe0cb2dd62c15f8776fd1f57f29d56d&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/673/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240409T132005Z&X-Amz-Expires=43200&X-Amz-Signature=a2967c4070db8154b323cc4d7b31f96c8836ca8135e994e1907b46c7793a9618&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
-    "pypiPackageName": "celitech",
+    "pypiPackageName": "celitech-sdk",
     "githubRepoName": "CelitechSDKPython",
     "language": "python",
     "deliveryMethod": "zip",
