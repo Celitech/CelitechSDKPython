@@ -62,4 +62,4 @@ class RetryHandler(BaseHandler):
         """
         if not error:
             return False
-        return error.status_code == 408 or error.status_code >= 500
+        return error.status == 408 or error.status >= 500
