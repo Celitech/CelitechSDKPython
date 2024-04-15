@@ -6,7 +6,7 @@ class Response:
     """
     A simple HTTP response wrapper class using the requests library.
 
-    :ivar int status_code: The status code of the HTTP response.
+    :ivar int status: The status code of the HTTP response.
     :ivar dict headers: The headers of the HTTP response.
     :ivar str body: The body of the HTTP response.
     """
@@ -17,7 +17,7 @@ class Response:
 
         :param RequestsResponse response: The requests.Response object.
         """
-        self.status_code = response.status_code
+        self.status = response.status_code
         self.headers = response.headers
         self.body = self._get_response_body(response)
 
@@ -28,7 +28,9 @@ class Response:
         :return: A string representation of the Response object.
         :rtype: str
         """
-        return f"Response(status_code={self.status_code}, headers={self.headers}, body={self.body})"
+        return (
+            f"Response(status={self.status}, headers={self.headers}, body={self.body})"
+        )
 
     def _get_response_body(self, response: RequestsResponse) -> str:
         """

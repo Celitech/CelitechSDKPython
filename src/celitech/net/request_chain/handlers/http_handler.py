@@ -45,10 +45,10 @@ class HttpHandler(BaseHandler):
             )
             response = Response(result)
 
-            if result.status_code >= 400:
+            if response.status >= 400:
                 return None, RequestError(
-                    message=f"{result.status_code} error in request to: {request.url}",
-                    status_code=result.status_code,
+                    message=f"{response.status} error in request to: {request.url}",
+                    status=response.status,
                     response=response,
                 )
 
