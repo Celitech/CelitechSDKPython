@@ -7,14 +7,14 @@ class RequestError(IOError):
     Class representing a Request Error.
 
     :ivar bool is_http_error: Indicates if the error is an HTTP error.
-    :ivar int status_code: The status code of the HTTP error.
+    :ivar int status: The status code of the HTTP error.
     :ivar Optional[Response] response: The response associated with the error.
     """
 
     def __init__(
         self,
         message: str,
-        status_code: Optional[int] = None,
+        status: Optional[int] = None,
         response: Optional[Response] = None,
         stack: Optional["RequestError"] = None,
     ):
@@ -22,18 +22,18 @@ class RequestError(IOError):
         Initialize a new instance of RequestError.
 
         :param str message: The error message.
-        :param Optional[int] status_code: The status code of the HTTP error.
+        :param Optional[int] status: The status code of the HTTP error.
         :param Optional[Response] response: The response associated with the error.
         """
         super().__init__(message)
         self.response = response
         self.stack = stack
 
-        if status_code is not None:
-            self.status_code = status_code
+        if status is not None:
+            self.status = status
             self.is_http_error = True
         else:
-            self.status_code = -1
+            self.status = -1
             self.is_http_error = False
 
     def __str__(self):
@@ -47,7 +47,7 @@ class RequestError(IOError):
         current_error = self
         while current_error is not None:
             error_stack.append(
-                f"Error: {super().__str__()}, Status Code: {current_error.status_code}"
+                f"Error: {super().__str__()}, Status Code: {current_error.status}"
             )
             current_error = current_error.stack
         return "\n".join(error_stack)

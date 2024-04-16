@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.1.49
+# Celitech Python SDK 1.1.50
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.1.49
+- SDK version: 1.1.50
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -123,10 +123,7 @@ result = sdk.packages.list_packages(
     start_date="2023-11-01",
     end_date="2023-11-20",
     after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
-    limit=20,
-    start_time=8,
-    end_time=2,
-    duration=8.44
+    limit=20
 )
 
 print(result)
@@ -180,9 +177,7 @@ result = sdk.purchases.list_purchases(
     after_date="2023-11-01",
     before_date="2023-11-20",
     after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
-    limit=20,
-    after=2.38,
-    before=3.34
+    limit=20
 )
 
 print(result)
@@ -220,9 +215,7 @@ request_body = CreatePurchaseRequest(**{
     "start_date": "2023-11-01",
     "end_date": "2023-11-20",
     "email": "example@domain.com",
-    "network_brand": "CELITECH",
-    "start_time": 2.37,
-    "end_time": 8.12
+    "network_brand": "CELITECH"
 })
 
 result = sdk.purchases.create_purchase(request_body=request_body)
@@ -261,9 +254,7 @@ request_body = TopUpEsimRequest(**{
     "data_limit_in_gb": 1,
     "start_date": "2023-11-01",
     "end_date": "2023-11-20",
-    "email": "example@domain.com",
-    "start_time": 8.12,
-    "end_time": 4.35
+    "email": "example@domain.com"
 })
 
 result = sdk.purchases.top_up_esim(request_body=request_body)
@@ -300,9 +291,7 @@ sdk = Celitech(
 request_body = EditPurchaseRequest(**{
     "purchase_id": "ae471106-c8b4-42cf-b83a-b061291f2922",
     "start_date": "2023-11-01",
-    "end_date": "2023-11-20",
-    "start_time": 8.76,
-    "end_time": 4.68
+    "end_date": "2023-11-20"
 })
 
 result = sdk.purchases.edit_purchase(request_body=request_body)
