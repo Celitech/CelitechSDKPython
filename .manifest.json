@@ -1,10 +1,10 @@
 {
-  "liblabVersion": "2.1.2",
-  "date": "2024-04-16T08:26:22.809Z",
+  "liblabVersion": "2.1.3",
+  "date": "2024-04-20T11:04:10.062Z",
   "config": {
     "apiId": 714,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.50",
+    "sdkVersion": "1.0.0",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
@@ -17,7 +17,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.50"
+        "sdkVersion": "1.0.0"
       },
       "typescript": {
         "bundle": false,
@@ -27,7 +27,7 @@
         "githubRepoName": "CelitechSDKTypeScript",
         "ignoreFiles": [],
         "liblabVersion": "1",
-        "sdkVersion": "1.1.50"
+        "sdkVersion": "1.0.0"
       }
     },
     "publishing": {
@@ -67,10 +67,10 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "4890/hooks.zip",
+      "bucketKey": "4976/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/714/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240416%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240416T082618Z&X-Amz-Expires=43200&X-Amz-Signature=71cf65ee9df6b1722fd9f91f9b2c5e76fc76b03103b62c64fbba671f187c16b0&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/714/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240420%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240420T110404Z&X-Amz-Expires=43200&X-Amz-Signature=4881567fbc805836fc1c04d54a9be238026af5cdfe29c93e972b725a6ac42fcd&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
     "pypiPackageName": "celitech-sdk",
