@@ -209,14 +209,16 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = CreatePurchaseRequest(**{
-    "destination": "FRA",
-    "data_limit_in_gb": 1,
-    "start_date": "2023-11-01",
-    "end_date": "2023-11-20",
-    "email": "example@domain.com",
-    "network_brand": "CELITECH"
-})
+request_body = CreatePurchaseRequest(
+    destination="FRA",
+    data_limit_in_gb=1,
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    email="example@domain.com",
+    network_brand="CELITECH",
+    start_time=2.37,
+    end_time=8.12
+)
 
 result = sdk.purchases.create_purchase(request_body=request_body)
 
@@ -249,13 +251,15 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = TopUpEsimRequest(**{
-    "iccid": "1111222233334444555",
-    "data_limit_in_gb": 1,
-    "start_date": "2023-11-01",
-    "end_date": "2023-11-20",
-    "email": "example@domain.com"
-})
+request_body = TopUpEsimRequest(
+    iccid="1111222233334444555",
+    data_limit_in_gb=1,
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    email="example@domain.com",
+    start_time=8.12,
+    end_time=4.35
+)
 
 result = sdk.purchases.top_up_esim(request_body=request_body)
 
@@ -288,11 +292,13 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = EditPurchaseRequest(**{
-    "purchase_id": "ae471106-c8b4-42cf-b83a-b061291f2922",
-    "start_date": "2023-11-01",
-    "end_date": "2023-11-20"
-})
+request_body = EditPurchaseRequest(
+    purchase_id="ae471106-c8b4-42cf-b83a-b061291f2922",
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    start_time=8.76,
+    end_time=4.68
+)
 
 result = sdk.purchases.edit_purchase(request_body=request_body)
 
