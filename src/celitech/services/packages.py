@@ -21,7 +21,7 @@ class PackagesService(BaseService):
     ) -> ListPackagesOkResponse:
         """List of available packages
 
-        :param destination: ISO representation of the package's destination. Optional, unless startDate and endDate are used, then it becomes mandatory., defaults to None
+        :param destination: ISO representation of the package's destination., defaults to None
         :type destination: str, optional
         :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
         :type start_date: str, optional
