@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.1.53
+# Celitech Python SDK 1.1.54
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.1.53
+- SDK version: 1.1.54
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -209,14 +209,16 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = CreatePurchaseRequest(**{
-    "destination": "FRA",
-    "data_limit_in_gb": 1,
-    "start_date": "2023-11-01",
-    "end_date": "2023-11-20",
-    "email": "example@domain.com",
-    "network_brand": "CELITECH"
-})
+request_body = CreatePurchaseRequest(
+    destination="FRA",
+    data_limit_in_gb=1,
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    email="example@domain.com",
+    network_brand="CELITECH",
+    start_time=0.16,
+    end_time=0.96
+)
 
 result = sdk.purchases.create_purchase(request_body=request_body)
 
@@ -249,13 +251,15 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = TopUpEsimRequest(**{
-    "iccid": "1111222233334444555",
-    "data_limit_in_gb": 1,
-    "start_date": "2023-11-01",
-    "end_date": "2023-11-20",
-    "email": "example@domain.com"
-})
+request_body = TopUpEsimRequest(
+    iccid="1111222233334444555",
+    data_limit_in_gb=1,
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    email="example@domain.com",
+    start_time=2.14,
+    end_time=9.34
+)
 
 result = sdk.purchases.top_up_esim(request_body=request_body)
 
@@ -288,11 +292,13 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = EditPurchaseRequest(**{
-    "purchase_id": "ae471106-c8b4-42cf-b83a-b061291f2922",
-    "start_date": "2023-11-01",
-    "end_date": "2023-11-20"
-})
+request_body = EditPurchaseRequest(
+    purchase_id="ae471106-c8b4-42cf-b83a-b061291f2922",
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    start_time=8.29,
+    end_time=0.24
+)
 
 result = sdk.purchases.edit_purchase(request_body=request_body)
 
