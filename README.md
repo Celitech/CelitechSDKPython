@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.1.54
+# Celitech Python SDK 1.1.55
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.1.54
+- SDK version: 1.1.55
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -118,13 +118,7 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-result = sdk.packages.list_packages(
-    destination="FRA",
-    start_date="2023-11-01",
-    end_date="2023-11-20",
-    after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
-    limit=20
-)
+result = sdk.packages.list_packages()
 
 print(result)
 ```
@@ -172,13 +166,7 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-result = sdk.purchases.list_purchases(
-    iccid="1111222233334444555",
-    after_date="2023-11-01",
-    before_date="2023-11-20",
-    after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
-    limit=20
-)
+result = sdk.purchases.list_purchases()
 
 print(result)
 ```
@@ -203,24 +191,12 @@ This endpoint is used to purchase a new eSIM by providing the package details.
 
 ```py
 from celitech import Celitech, Environment
-from celitech.models import CreatePurchaseRequest
 
 sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = CreatePurchaseRequest(
-    destination="FRA",
-    data_limit_in_gb=1,
-    start_date="2023-11-01",
-    end_date="2023-11-20",
-    email="example@domain.com",
-    network_brand="CELITECH",
-    start_time=0.16,
-    end_time=0.96
-)
-
-result = sdk.purchases.create_purchase(request_body=request_body)
+result = sdk.purchases.create_purchase()
 
 print(result)
 ```
@@ -245,23 +221,12 @@ This endpoint is used to top-up an eSIM with the previously associated destinati
 
 ```py
 from celitech import Celitech, Environment
-from celitech.models import TopUpEsimRequest
 
 sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = TopUpEsimRequest(
-    iccid="1111222233334444555",
-    data_limit_in_gb=1,
-    start_date="2023-11-01",
-    end_date="2023-11-20",
-    email="example@domain.com",
-    start_time=2.14,
-    end_time=9.34
-)
-
-result = sdk.purchases.top_up_esim(request_body=request_body)
+result = sdk.purchases.top_up_esim()
 
 print(result)
 ```
@@ -286,21 +251,12 @@ This endpoint allows you to modify the dates of an existing package with a futur
 
 ```py
 from celitech import Celitech, Environment
-from celitech.models import EditPurchaseRequest
 
 sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-request_body = EditPurchaseRequest(
-    purchase_id="ae471106-c8b4-42cf-b83a-b061291f2922",
-    start_date="2023-11-01",
-    end_date="2023-11-20",
-    start_time=8.29,
-    end_time=0.24
-)
-
-result = sdk.purchases.edit_purchase(request_body=request_body)
+result = sdk.purchases.edit_purchase()
 
 print(result)
 ```
