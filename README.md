@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.1.55
+# Celitech Python SDK 1.1.56
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.1.55
+- SDK version: 1.1.56
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -57,8 +57,9 @@ Name of the destinations
 - Endpoint: `/destinations`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
+
+| Name | Type | Required | Description |
+| :--- | :--- | :------: | :---------- |
 
 **Return Type**
 
@@ -94,16 +95,17 @@ List of available packages
 - Endpoint: `/packages`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| destination | str | ❌ | List of available packages |
-| start_date | str | ❌ | List of available packages |
-| end_date | str | ❌ | List of available packages |
-| after_cursor | str | ❌ | List of available packages |
-| limit | float | ❌ | List of available packages |
-| start_time | int | ❌ | List of available packages |
-| end_time | int | ❌ | List of available packages |
-| duration | float | ❌ | List of available packages |
+
+| Name         | Type  | Required | Description                |
+| :----------- | :---- | :------: | :------------------------- |
+| destination  | str   |    ❌    | List of available packages |
+| start_date   | str   |    ❌    | List of available packages |
+| end_date     | str   |    ❌    | List of available packages |
+| after_cursor | str   |    ❌    | List of available packages |
+| limit        | float |    ❌    | List of available packages |
+| start_time   | int   |    ❌    | List of available packages |
+| end_time     | int   |    ❌    | List of available packages |
+| duration     | float |    ❌    | List of available packages |
 
 **Return Type**
 
@@ -143,15 +145,16 @@ This endpoint can be used to list all the successful purchases made between a gi
 - Endpoint: `/purchases`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| iccid | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| after_date | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| before_date | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| after_cursor | str | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| limit | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| after | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
-| before | float | ❌ | This endpoint can be used to list all the successful purchases made between a given interval. |
+
+| Name         | Type  | Required | Description                                                                                   |
+| :----------- | :---- | :------: | :-------------------------------------------------------------------------------------------- |
+| iccid        | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after_date   | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| before_date  | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after_cursor | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| limit        | float |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| after        | float |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| before       | float |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
 
 **Return Type**
 
@@ -179,9 +182,10 @@ This endpoint is used to purchase a new eSIM by providing the package details.
 - Endpoint: `/purchases`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| request_body | CreatePurchaseRequest | ❌ | The request body. |
+
+| Name         | Type                  | Required | Description       |
+| :----------- | :-------------------- | :------: | :---------------- |
+| request_body | CreatePurchaseRequest |    ❌    | The request body. |
 
 **Return Type**
 
@@ -209,9 +213,10 @@ This endpoint is used to top-up an eSIM with the previously associated destinati
 - Endpoint: `/purchases/topup`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| request_body | TopUpEsimRequest | ❌ | The request body. |
+
+| Name         | Type             | Required | Description       |
+| :----------- | :--------------- | :------: | :---------------- |
+| request_body | TopUpEsimRequest |    ❌    | The request body. |
 
 **Return Type**
 
@@ -239,9 +244,10 @@ This endpoint allows you to modify the dates of an existing package with a futur
 - Endpoint: `/purchases/edit`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| request_body | EditPurchaseRequest | ❌ | The request body. |
+
+| Name         | Type                | Required | Description       |
+| :----------- | :------------------ | :------: | :---------------- |
+| request_body | EditPurchaseRequest |    ❌    | The request body. |
 
 **Return Type**
 
@@ -269,9 +275,10 @@ This endpoint can be called for consumption notifications (e.g. every 1 hour or 
 - Endpoint: `/purchases/{purchaseId}/consumption`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| purchase_id | str | ✅ | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
+
+| Name        | Type | Required | Description                                                                                                                                                                      |
+| :---------- | :--- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| purchase_id | str  |    ✅    | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
 
 **Return Type**
 
@@ -310,9 +317,10 @@ Get status from eSIM
 - Endpoint: `/esim`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| iccid | str | ✅ | Get status from eSIM |
+
+| Name  | Type | Required | Description          |
+| :---- | :--- | :------: | :------------------- |
+| iccid | str  |    ✅    | Get status from eSIM |
 
 **Return Type**
 
@@ -340,9 +348,10 @@ Get device info from an installed eSIM
 - Endpoint: `/esim/{iccid}/device`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| iccid | str | ✅ | Get device info from an installed eSIM |
+
+| Name  | Type | Required | Description                            |
+| :---- | :--- | :------: | :------------------------------------- |
+| iccid | str  |    ✅    | Get device info from an installed eSIM |
 
 **Return Type**
 
@@ -370,9 +379,10 @@ Get history from an eSIM
 - Endpoint: `/esim/{iccid}/history`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| iccid | str | ✅ | Get history from an eSIM |
+
+| Name  | Type | Required | Description              |
+| :---- | :--- | :------: | :----------------------- |
+| iccid | str  |    ✅    | Get history from an eSIM |
 
 **Return Type**
 
@@ -400,9 +410,10 @@ Get MAC from eSIM
 - Endpoint: `/esim/{iccid}/mac`
 
 **Parameters**
-| Name | Type| Required | Description |
-| :-------- | :----------| :----------:| :----------|
-| iccid | str | ✅ | Get MAC from eSIM |
+
+| Name  | Type | Required | Description       |
+| :---- | :--- | :------: | :---------------- |
+| iccid | str  |    ✅    | Get MAC from eSIM |
 
 **Return Type**
 
