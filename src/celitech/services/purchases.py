@@ -77,12 +77,12 @@ class PurchasesService(BaseService):
 
     @cast_models
     def create_purchase(
-        self, request_body: CreatePurchaseRequest = None
+        self, request_body: CreatePurchaseRequest
     ) -> CreatePurchaseOkResponse:
         """This endpoint is used to purchase a new eSIM by providing the package details.
 
-        :param request_body: The request body., defaults to None
-        :type request_body: CreatePurchaseRequest, optional
+        :param request_body: The request body.
+        :type request_body: CreatePurchaseRequest
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -90,7 +90,7 @@ class PurchasesService(BaseService):
         :rtype: CreatePurchaseOkResponse
         """
 
-        Validator(CreatePurchaseRequest).is_optional().validate(request_body)
+        Validator(CreatePurchaseRequest).validate(request_body)
 
         serialized_request = (
             Serializer(f"{self.base_url}/purchases", self.get_default_headers())
@@ -104,11 +104,11 @@ class PurchasesService(BaseService):
         return CreatePurchaseOkResponse._unmap(response)
 
     @cast_models
-    def top_up_esim(self, request_body: TopUpEsimRequest = None) -> TopUpEsimOkResponse:
+    def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
         """This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is not feasible for eSIMs in "DELETED" or "ERROR" state.
 
-        :param request_body: The request body., defaults to None
-        :type request_body: TopUpEsimRequest, optional
+        :param request_body: The request body.
+        :type request_body: TopUpEsimRequest
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -116,7 +116,7 @@ class PurchasesService(BaseService):
         :rtype: TopUpEsimOkResponse
         """
 
-        Validator(TopUpEsimRequest).is_optional().validate(request_body)
+        Validator(TopUpEsimRequest).validate(request_body)
 
         serialized_request = (
             Serializer(f"{self.base_url}/purchases/topup", self.get_default_headers())
@@ -131,12 +131,12 @@ class PurchasesService(BaseService):
 
     @cast_models
     def edit_purchase(
-        self, request_body: EditPurchaseRequest = None
+        self, request_body: EditPurchaseRequest
     ) -> EditPurchaseOkResponse:
         """This endpoint allows you to modify the dates of an existing package with a future activation start time. Editing can only be performed for packages that have not been activated, and it cannot change the package size. The modification must not change the package duration category to ensure pricing consistency.
 
-        :param request_body: The request body., defaults to None
-        :type request_body: EditPurchaseRequest, optional
+        :param request_body: The request body.
+        :type request_body: EditPurchaseRequest
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -144,7 +144,7 @@ class PurchasesService(BaseService):
         :rtype: EditPurchaseOkResponse
         """
 
-        Validator(EditPurchaseRequest).is_optional().validate(request_body)
+        Validator(EditPurchaseRequest).validate(request_body)
 
         serialized_request = (
             Serializer(f"{self.base_url}/purchases/edit", self.get_default_headers())
