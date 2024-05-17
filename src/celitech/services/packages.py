@@ -25,7 +25,7 @@ class PackagesService(BaseService):
         :type destination: str, optional
         :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
         :type start_date: str, optional
-        :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 60 days after Start date., defaults to None
+        :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
         :type end_date: str, optional
         :param after_cursor: To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data., defaults to None
         :type after_cursor: str, optional
@@ -33,9 +33,9 @@ class PackagesService(BaseService):
         :type limit: float, optional
         :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months, defaults to None
         :type start_time: int, optional
-        :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 60 days after Start time, defaults to None
+        :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time, defaults to None
         :type end_time: int, optional
-        :param duration: Duration in seconds for the package's validity. If this parameter is present, it will override the startTime and endTime parameters. The maximum duration for a package's validity period is 60 days, defaults to None
+        :param duration: Duration in seconds for the package's validity. If this parameter is present, it will override the startTime and endTime parameters. The maximum duration for a package's validity period is 90 days, defaults to None
         :type duration: float, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.

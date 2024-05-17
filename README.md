@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.1.57
+# Celitech Python SDK 1.1.58
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.1.57
+- SDK version: 1.1.58
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 

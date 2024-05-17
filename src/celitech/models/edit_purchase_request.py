@@ -18,11 +18,11 @@ class EditPurchaseRequest(BaseModel):
     :type purchase_id: str
     :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
     :type start_date: str
-    :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 60 days after Start date.
+    :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.
     :type end_date: str
     :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
     :type start_time: float, optional
-    :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 60 days after Start time., defaults to None
+    :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
     :type end_time: float, optional
     """
 
