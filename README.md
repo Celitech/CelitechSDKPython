@@ -1,9 +1,9 @@
-# Celitech Python SDK 1.1.58
+# Celitech Python SDK 1.1.59
 
 A Python SDK for Celitech.
 
 - API version: 1.1.0
-- SDK version: 1.1.58
+- SDK version: 1.1.59
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
@@ -96,16 +96,16 @@ List of available packages
 
 **Parameters**
 
-| Name         | Type  | Required | Description                |
-| :----------- | :---- | :------: | :------------------------- |
-| destination  | str   |    ❌    | List of available packages |
-| start_date   | str   |    ❌    | List of available packages |
-| end_date     | str   |    ❌    | List of available packages |
-| after_cursor | str   |    ❌    | List of available packages |
-| limit        | float |    ❌    | List of available packages |
-| start_time   | int   |    ❌    | List of available packages |
-| end_time     | int   |    ❌    | List of available packages |
-| duration     | float |    ❌    | List of available packages |
+| Name         | Type  | Required | Description                                                                                                                                                                                                         |
+| :----------- | :---- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| destination  | str   |    ❌    | ISO representation of the package's destination.                                                                                                                                                                    |
+| start_date   | str   |    ❌    | Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.                                                                      |
+| end_date     | str   |    ❌    | End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.                                                                                                    |
+| after_cursor | str   |    ❌    | To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data. |
+| limit        | float |    ❌    | Maximum number of packages to be returned in the response. The value must be greater than 0 and less than or equal to 160. If not provided, the default value is 20                                                 |
+| start_time   | int   |    ❌    | Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months                                                              |
+| end_time     | int   |    ❌    | Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time                                                                                                   |
+| duration     | float |    ❌    | Duration in seconds for the package's validity. If this parameter is present, it will override the startTime and endTime parameters. The maximum duration for a package's validity period is 90 days                |
 
 **Return Type**
 
@@ -146,15 +146,15 @@ This endpoint can be used to list all the successful purchases made between a gi
 
 **Parameters**
 
-| Name         | Type  | Required | Description                                                                                   |
-| :----------- | :---- | :------: | :-------------------------------------------------------------------------------------------- |
-| iccid        | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
-| after_date   | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
-| before_date  | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
-| after_cursor | str   |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
-| limit        | float |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
-| after        | float |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
-| before       | float |    ❌    | This endpoint can be used to list all the successful purchases made between a given interval. |
+| Name         | Type  | Required | Description                                                                                                                                                                                                         |
+| :----------- | :---- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| iccid        | str   |    ❌    | ID of the eSIM                                                                                                                                                                                                      |
+| after_date   | str   |    ❌    | Start date of the interval for filtering purchases in the format 'yyyy-MM-dd'                                                                                                                                       |
+| before_date  | str   |    ❌    | End date of the interval for filtering purchases in the format 'yyyy-MM-dd'                                                                                                                                         |
+| after_cursor | str   |    ❌    | To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data. |
+| limit        | float |    ❌    | Maximum number of purchases to be returned in the response. The value must be greater than 0 and less than or equal to 100. If not provided, the default value is 20                                                |
+| after        | float |    ❌    | Epoch value representing the start of the time interval for filtering purchases                                                                                                                                     |
+| before       | float |    ❌    | Epoch value representing the end of the time interval for filtering purchases                                                                                                                                       |
 
 **Return Type**
 
@@ -299,9 +299,9 @@ This endpoint can be called for consumption notifications (e.g. every 1 hour or 
 
 **Parameters**
 
-| Name        | Type | Required | Description                                                                                                                                                                      |
-| :---------- | :--- | :------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| purchase_id | str  |    ✅    | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages. |
+| Name        | Type | Required | Description        |
+| :---------- | :--- | :------: | :----------------- |
+| purchase_id | str  |    ✅    | ID of the purchase |
 
 **Return Type**
 
@@ -341,9 +341,9 @@ Get status from eSIM
 
 **Parameters**
 
-| Name  | Type | Required | Description          |
-| :---- | :--- | :------: | :------------------- |
-| iccid | str  |    ✅    | Get status from eSIM |
+| Name  | Type | Required | Description    |
+| :---- | :--- | :------: | :------------- |
+| iccid | str  |    ✅    | ID of the eSIM |
 
 **Return Type**
 
@@ -372,9 +372,9 @@ Get device info from an installed eSIM
 
 **Parameters**
 
-| Name  | Type | Required | Description                            |
-| :---- | :--- | :------: | :------------------------------------- |
-| iccid | str  |    ✅    | Get device info from an installed eSIM |
+| Name  | Type | Required | Description    |
+| :---- | :--- | :------: | :------------- |
+| iccid | str  |    ✅    | ID of the eSIM |
 
 **Return Type**
 
@@ -403,9 +403,9 @@ Get history from an eSIM
 
 **Parameters**
 
-| Name  | Type | Required | Description              |
-| :---- | :--- | :------: | :----------------------- |
-| iccid | str  |    ✅    | Get history from an eSIM |
+| Name  | Type | Required | Description    |
+| :---- | :--- | :------: | :------------- |
+| iccid | str  |    ✅    | ID of the eSIM |
 
 **Return Type**
 
@@ -434,9 +434,9 @@ Get MAC from eSIM
 
 **Parameters**
 
-| Name  | Type | Required | Description       |
-| :---- | :--- | :------: | :---------------- |
-| iccid | str  |    ✅    | Get MAC from eSIM |
+| Name  | Type | Required | Description    |
+| :---- | :--- | :------: | :------------- |
+| iccid | str  |    ✅    | ID of the eSIM |
 
 **Return Type**
 
