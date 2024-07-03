@@ -75,6 +75,9 @@ class HttpHandler(BaseHandler):
             return {"json": data}
 
         if "multipart/form-data" in content_type:
-            return {"files": data}
+            headers.pop("Content-Type", None)
+            if data:
+                return {"files": data}
+            return {}
 
         return {"data": data}
