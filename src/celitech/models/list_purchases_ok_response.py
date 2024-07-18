@@ -62,6 +62,7 @@ class PurchasesEsim(BaseModel):
         "start_time": "startTime",
         "end_time": "endTime",
         "created_at": "createdAt",
+        "reference_id": "referenceId",
     }
 )
 class Purchases(BaseModel):
@@ -85,8 +86,10 @@ class Purchases(BaseModel):
     :type package: Package, optional
     :param esim: esim, defaults to None
     :type esim: PurchasesEsim, optional
-    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, or landing-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page or promo-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
     :type source: str, optional
+    :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
+    :type reference_id: str, optional
     """
 
     def __init__(
@@ -101,6 +104,7 @@ class Purchases(BaseModel):
         package: Package = None,
         esim: PurchasesEsim = None,
         source: str = None,
+        reference_id: str = None,
     ):
         self.id_ = id_
         self.start_date = start_date
@@ -112,6 +116,7 @@ class Purchases(BaseModel):
         self.package = self._define_object(package, Package)
         self.esim = self._define_object(esim, PurchasesEsim)
         self.source = source
+        self.reference_id = reference_id
 
 
 @JsonMap({"after_cursor": "afterCursor"})

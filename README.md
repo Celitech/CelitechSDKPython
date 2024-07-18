@@ -63,7 +63,6 @@ The SDK provides various services to interact with the API.
 | [ESimService](documentation/services/ESimService.md)                 |
 
 </details>
-<br/>
 
 ## Models
 
@@ -104,7 +103,6 @@ The SDK includes several models that represent the data structures used in API r
 | [GetEsimMacOkResponseEsim](documentation/models/GetEsimMacOkResponseEsim.md)                 |             |
 
 </details>
-<br/>
 
 ## License
 

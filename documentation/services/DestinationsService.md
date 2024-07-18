@@ -2,13 +2,13 @@
 
 A list of all methods in the `DestinationsService` service. Click on the method name to view detailed information about that method.
 
-| Methods                                 | Description              |
-| :-------------------------------------- | :----------------------- |
-| [list_destinations](#list_destinations) | Name of the destinations |
+| Methods                                 | Description       |
+| :-------------------------------------- | :---------------- |
+| [list_destinations](#list_destinations) | List Destinations |
 
 ## list_destinations
 
-Name of the destinations
+List Destinations
 
 - HTTP Method: `GET`
 - Endpoint: `/destinations`

@@ -1,6 +1,8 @@
 import re
-from typing import List, Union, get_origin, get_args
+from typing import List, Union, Type, Any, TypeVar, Optional, get_origin, get_args
 from enum import Enum
+
+T = TypeVar("T")
 
 
 class BaseModel:
@@ -79,10 +81,11 @@ class BaseModel:
         else:
             return input_class._unmap(input_data)
 
-    def _define_list(self, input_data, list_class):
+    def _define_list(
+        self, input_data: Optional[List[Any]], list_class: Type[T]
+    ) -> Optional[List[T]]:
         """
         Create a list of instances of a specified class from input data.
-
         :param input_data: The input data to be transformed into a list of instances.
         :param list_class: The class that each instance in the list should be an instance of.
         :return: A list of instances of list_class.
@@ -92,7 +95,7 @@ class BaseModel:
         if input_data is None:
             return None
 
-        result = []
+        result: List[T] = []
         for item in input_data:
             if hasattr(list_class, "__args__") and len(list_class.__args__) > 0:
                 class_list = self.__create_class_map(list_class)
