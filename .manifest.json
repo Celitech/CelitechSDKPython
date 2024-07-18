@@ -1,14 +1,14 @@
 {
   "liblabVersion": "2.1.19",
-  "date": "2024-07-18T10:36:49.450Z",
+  "date": "2024-07-18T16:21:21.061Z",
   "config": {
-    "apiId": 776,
+    "apiId": 778,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.60",
+    "sdkVersion": "1.1.62",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
-    "apiVersion": "1.1.60",
+    "apiVersion": "1.1.62",
     "specFilePath": "swagger.yaml",
     "createDocs": false,
     "languageOptions": {
@@ -17,7 +17,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.60"
+        "sdkVersion": "1.1.62"
       },
       "typescript": {
         "bundle": false,
@@ -27,7 +27,7 @@
         "githubRepoName": "CelitechSDKTypeScript",
         "ignoreFiles": [],
         "liblabVersion": "1",
-        "sdkVersion": "1.1.60"
+        "sdkVersion": "1.1.62"
       }
     },
     "publishing": {
@@ -67,10 +67,10 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "6228/hooks.zip",
+      "bucketKey": "6240/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/776/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240718%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240718T103644Z&X-Amz-Expires=43200&X-Amz-Signature=a068985fa88239ea77aa29ebbebb065de6cc0068836617324172df5caf141e9d&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/778/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240718%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240718T162119Z&X-Amz-Expires=43200&X-Amz-Signature=58976fa1a3a284fb4f786254f43baf28d61022da1d18214cb45269789ba60b2d&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
     "pypiPackageName": "celitech-sdk",
