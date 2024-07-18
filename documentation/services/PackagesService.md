@@ -2,13 +2,13 @@
 
 A list of all methods in the `PackagesService` service. Click on the method name to view detailed information about that method.
 
-| Methods                         | Description                |
-| :------------------------------ | :------------------------- |
-| [list_packages](#list_packages) | List of available packages |
+| Methods                         | Description   |
+| :------------------------------ | :------------ |
+| [list_packages](#list_packages) | List Packages |
 
 ## list_packages
 
-List of available packages
+List Packages
 
 - HTTP Method: `GET`
 - Endpoint: `/packages`

@@ -2,16 +2,16 @@
 
 A list of all methods in the `ESimService` service. Click on the method name to view detailed information about that method.
 
-| Methods                               | Description                            |
-| :------------------------------------ | :------------------------------------- |
-| [get_esim](#get_esim)                 | Get status from eSIM                   |
-| [get_esim_device](#get_esim_device)   | Get device info from an installed eSIM |
-| [get_esim_history](#get_esim_history) | Get history from an eSIM               |
-| [get_esim_mac](#get_esim_mac)         | Get MAC from eSIM                      |
+| Methods                               | Description      |
+| :------------------------------------ | :--------------- |
+| [get_esim](#get_esim)                 | Get eSIM Status  |
+| [get_esim_device](#get_esim_device)   | Get eSIM Device  |
+| [get_esim_history](#get_esim_history) | Get eSIM History |
+| [get_esim_mac](#get_esim_mac)         | Get eSIM MAC     |
 
 ## get_esim
 
-Get status from eSIM
+Get eSIM Status
 
 - HTTP Method: `GET`
 - Endpoint: `/esim`
@@ -42,7 +42,7 @@ print(result)
 
 ## get_esim_device
 
-Get device info from an installed eSIM
+Get eSIM Device
 
 - HTTP Method: `GET`
 - Endpoint: `/esim/{iccid}/device`
@@ -73,7 +73,7 @@ print(result)
 
 ## get_esim_history
 
-Get history from an eSIM
+Get eSIM History
 
 - HTTP Method: `GET`
 - Endpoint: `/esim/{iccid}/history`
@@ -104,7 +104,7 @@ print(result)
 
 ## get_esim_mac
 
-Get MAC from eSIM
+Get eSIM MAC
 
 - HTTP Method: `GET`
 - Endpoint: `/esim/{iccid}/mac`

@@ -7,6 +7,7 @@ from .base import BaseModel
         "data_limit_in_gb": "dataLimitInGB",
         "start_date": "startDate",
         "end_date": "endDate",
+        "reference_id": "referenceId",
         "network_brand": "networkBrand",
         "start_time": "startTime",
         "end_time": "endTime",
@@ -25,6 +26,8 @@ class CreatePurchaseRequest(BaseModel):
     :type end_date: str
     :param email: Email address where the purchase confirmation email will be sent (including QR Code & activation steps), defaults to None
     :type email: str, optional
+    :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
+    :type reference_id: str, optional
     :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters, defaults to None
     :type network_brand: str, optional
     :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
@@ -40,6 +43,7 @@ class CreatePurchaseRequest(BaseModel):
         start_date: str,
         end_date: str,
         email: str = None,
+        reference_id: str = None,
         network_brand: str = None,
         start_time: float = None,
         end_time: float = None,
@@ -49,6 +53,7 @@ class CreatePurchaseRequest(BaseModel):
         self.start_date = start_date
         self.end_date = end_date
         self.email = email
+        self.reference_id = reference_id
         self.network_brand = network_brand
         self.start_time = start_time
         self.end_time = end_time

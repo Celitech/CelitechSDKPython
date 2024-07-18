@@ -12,7 +12,7 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim(self, iccid: str) -> GetEsimOkResponse:
-        """Get status from eSIM
+        """Get eSIM Status
 
         :param iccid: ID of the eSIM
         :type iccid: str
@@ -38,7 +38,7 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim_device(self, iccid: str) -> GetEsimDeviceOkResponse:
-        """Get device info from an installed eSIM
+        """Get eSIM Device
 
         :param iccid: ID of the eSIM
         :type iccid: str
@@ -66,7 +66,7 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim_history(self, iccid: str) -> GetEsimHistoryOkResponse:
-        """Get history from an eSIM
+        """Get eSIM History
 
         :param iccid: ID of the eSIM
         :type iccid: str
@@ -94,7 +94,7 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim_mac(self, iccid: str) -> GetEsimMacOkResponse:
-        """Get MAC from eSIM
+        """Get eSIM MAC
 
         :param iccid: ID of the eSIM
         :type iccid: str

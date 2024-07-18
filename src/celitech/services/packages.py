@@ -19,7 +19,7 @@ class PackagesService(BaseService):
         end_time: int = None,
         duration: float = None,
     ) -> ListPackagesOkResponse:
-        """List of available packages
+        """List Packages
 
         :param destination: ISO representation of the package's destination., defaults to None
         :type destination: str, optional
