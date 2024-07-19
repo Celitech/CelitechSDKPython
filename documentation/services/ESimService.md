@@ -32,6 +32,8 @@ Get eSIM Status
 from celitech import Celitech, Environment
 
 sdk = Celitech(
+    client_id="client-id",
+    client_secret="client-secret",
     base_url=Environment.DEFAULT.value
 )
 
@@ -63,6 +65,8 @@ Get eSIM Device
 from celitech import Celitech, Environment
 
 sdk = Celitech(
+    client_id="client-id",
+    client_secret="client-secret",
     base_url=Environment.DEFAULT.value
 )
 
@@ -94,6 +98,8 @@ Get eSIM History
 from celitech import Celitech, Environment
 
 sdk = Celitech(
+    client_id="client-id",
+    client_secret="client-secret",
     base_url=Environment.DEFAULT.value
 )
 
@@ -125,6 +131,8 @@ Get eSIM MAC
 from celitech import Celitech, Environment
 
 sdk = Celitech(
+    client_id="client-id",
+    client_secret="client-secret",
     base_url=Environment.DEFAULT.value
 )
 

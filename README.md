@@ -1,11 +1,11 @@
-# Celitech Python SDK 1.1.66
+# Celitech Python SDK 1.1.68
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions
 
 - API version: `1.1.0`
-- SDK version: `1.1.66`
+- SDK version: `1.1.68`
 
 ## About the API
 
@@ -57,6 +57,8 @@ Below is a comprehensive example demonstrating how to authenticate and call a si
 from celitech import Celitech, Environment
 
 sdk = Celitech(
+    client_id="client-id",
+    client_secret="client-secret",
     base_url=Environment.DEFAULT.value
 )
 
