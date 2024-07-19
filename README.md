@@ -1,11 +1,11 @@
-# Celitech Python SDK 1.1.60
+# Celitech Python SDK 1.1.64
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions
 
 - API version: `1.1.0`
-- SDK version: `1.1.60`
+- SDK version: `1.1.64`
 
 ## About the API
 
@@ -17,6 +17,7 @@ Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.
   - [Supported Language Versions](#supported-language-versions)
   - [Installation](#installation)
   - [Environment Variables](#environment-variables)
+- [Sample Usage](#sample-usage)
 - [Services](#services)
 - [Models](#models)
 - [License](#license)
@@ -47,6 +48,23 @@ These are the environment variables for the SDK:
 Environment variables are a way to configure your application outside the code. You can set these environment variables on the command line or use your project's existing tooling for managing environment variables.
 
 If you are using a `.env` file, a template with the variable names is provided in the `.env.example` file located in the same directory as this README.
+
+# Sample Usage
+
+Below is a comprehensive example demonstrating how to authenticate and call a simple endpoint:
+
+```py
+from celitech import Celitech, Environment
+
+sdk = Celitech(
+    base_url=Environment.DEFAULT.value
+)
+
+result = sdk.destinations.list_destinations()
+
+print(result)
+
+```
 
 ## Services
 
