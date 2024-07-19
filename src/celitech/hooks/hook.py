@@ -15,7 +15,7 @@ class Request:
         self.body = body
 
     def __str__(self):
-        return f"method={self.method}, url={self.url}, headers={self.headers}, body={self.body})"
+        return f"Request(method={self.method}, url={self.url}, headers={self.headers}, body={self.body})"
 
 
 class Response:
@@ -25,21 +25,21 @@ class Response:
         self.body = body
 
     def __str__(self):
-        return "Response(status={}, headers={}, body={})".format(
-            self.status, self.headers, self.body
+        return (
+            f"Response(status={self.status}, headers={self.headers}, body={self.body})"
         )
 
 
 class CustomHook:
 
-    async def before_request(self, request: Request):
+    async def before_request(self, request: Request, **kwargs):
         if request.url.endswith("/oauth/token"):
             return
-        client_id = os.environ.get("CLIENT_ID", "")
-        client_secret = os.environ.get("CLIENT_SECRET", "")
+        client_id = kwargs.get("client_id")
+        client_secret = kwargs.environ.get("client_secret")
 
         if not client_id or not client_secret:
-            print("Missing CLIENT_ID and/or CLIENT_SECRET environment variables")
+            print("Missing client_id and/or client_secret constructor parameters")
             return
 
         if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
@@ -75,8 +75,10 @@ class CustomHook:
             print("Error in posting the request:", error)
             return None
 
-    def after_response(self, request: Request, response: Response):
+    def after_response(self, request: Request, response: Response, **kwargs):
         pass
 
-    def on_error(self, error: Exception, request: Request, response: Response):
+    def on_error(
+        self, error: Exception, request: Request, response: Response, **kwargs
+    ):
         pass
