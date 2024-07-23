@@ -149,7 +149,11 @@ class Serializer:
         data = extract_original_data(data)
 
         if style == "form":
-            separator = "&" if explode else ","
+            separator = (
+                f"&{key}="
+                if explode and isinstance(data, list)
+                else ("&" if explode else ",")
+            )
             prefix = "" if (explode and isinstance(data, dict)) else f"{key}="
             query_param = f"{prefix}{self._serialize_value(data=data, explode=explode, separator=separator)}"
         elif style == "spaceDelimited":

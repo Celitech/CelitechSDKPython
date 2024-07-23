@@ -9,7 +9,7 @@ class DestinationsService(BaseService):
 
     @cast_models
     def list_destinations(self) -> ListDestinationsOkResponse:
-        """Name of the destinations
+        """List Destinations
 
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.

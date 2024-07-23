@@ -45,10 +45,10 @@ class HttpHandler(BaseHandler):
             )
             response = Response(result)
 
-            if result.status_code >= 400:
+            if response.status >= 400:
                 return None, RequestError(
-                    message=f"{result.status_code} error in request to: {request.url}",
-                    status_code=result.status_code,
+                    message=f"{response.status} error in request to: {request.url}",
+                    status=response.status,
                     response=response,
                 )
 
@@ -75,6 +75,9 @@ class HttpHandler(BaseHandler):
             return {"json": data}
 
         if "multipart/form-data" in content_type:
-            return {"files": data}
+            headers.pop("Content-Type", None)
+            if data:
+                return {"files": data}
+            return {}
 
         return {"data": data}

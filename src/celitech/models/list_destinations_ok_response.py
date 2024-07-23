@@ -11,7 +11,7 @@ class Destinations(BaseModel):
     :type name: str, optional
     :param destination: ISO representation of the destination, defaults to None
     :type destination: str, optional
-    :param supported_countries: supported_countries, defaults to None
+    :param supported_countries: This array indicates the geographical area covered by a specific destination. If the destination represents a single country, the array will include that country. However, if the destination represents a broader regional scope, the array will be populated with the names of the countries belonging to that region., defaults to None
     :type supported_countries: List[str], optional
     """
 

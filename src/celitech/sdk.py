@@ -6,7 +6,12 @@ from .net.environment import Environment
 
 
 class Celitech:
-    def __init__(self, base_url: str = Environment.DEFAULT.value):
+    def __init__(
+        self,
+        client_id: str = None,
+        client_secret: str = None,
+        base_url: str = Environment.DEFAULT.value,
+    ):
         """
         Initializes Celitech the SDK class.
         """
@@ -14,6 +19,7 @@ class Celitech:
         self.packages = PackagesService(base_url=base_url)
         self.purchases = PurchasesService(base_url=base_url)
         self.e_sim = ESimService(base_url=base_url)
+        self.set_additional_variables(client_id, client_secret)
 
     def set_base_url(self, base_url):
         """
@@ -23,6 +29,19 @@ class Celitech:
         self.packages.set_base_url(base_url)
         self.purchases.set_base_url(base_url)
         self.e_sim.set_base_url(base_url)
+
+        return self
+
+    def set_additional_variables(
+        self, client_id: str = None, client_secret: str = None
+    ):
+        """
+        Sets the additional variables for the entire SDK.
+        """
+        self.destinations.set_additional_variables(client_id, client_secret)
+        self.packages.set_additional_variables(client_id, client_secret)
+        self.purchases.set_additional_variables(client_id, client_secret)
+        self.e_sim.set_additional_variables(client_id, client_secret)
 
         return self
 

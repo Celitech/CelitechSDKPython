@@ -1,6 +1,10 @@
-import os
-import time
 import requests
+import os
+from typing import Dict
+import datetime
+
+CURRENT_TOKEN = ""
+CURRENT_EXPIRY = -1
 
 
 class Request:
@@ -11,7 +15,7 @@ class Request:
         self.body = body
 
     def __str__(self):
-        return f"method={self.method}, url={self.url}, headers={self.headers}, body={self.body})"
+        return f"Request(method={self.method}, url={self.url}, headers={self.headers}, body={self.body})"
 
 
 class Response:
@@ -21,75 +25,60 @@ class Response:
         self.body = body
 
     def __str__(self):
-        return "Response(status={}, headers={}, body={})".format(
-            self.status, self.headers, self.body
+        return (
+            f"Response(status={self.status}, headers={self.headers}, body={self.body})"
         )
 
 
 class CustomHook:
 
-    def __init__(self):
-        self.CURRENT_TOKEN = None
-        self.CURRENT_EXPIRY = 0
-
-    def before_request(self, request: Request):
+    async def before_request(self, request: Request, **kwargs):
         if request.url.endswith("/oauth/token"):
             return
-
-        # Get the client_id and client_secret from environment variables
-        client_id = os.getenv("CLIENT_ID", "")
-        client_secret = os.getenv("CLIENT_SECRET", "")
+        client_id = kwargs.get("client_id")
+        client_secret = kwargs.environ.get("client_secret")
 
         if not client_id or not client_secret:
-            print("Missing CLIENT_ID and/or CLIENT_SECRET environment variables")
+            print("Missing client_id and/or client_secret constructor parameters")
             return
-        else:
-            # Check if CURRENT_TOKEN is missing or CURRENT_EXPIRY is in the past
-            if not self.CURRENT_TOKEN or self.CURRENT_EXPIRY < time.time() * 1000:
-                # Assuming Celitech class and its methods are defined appropriately
-                sdk = Celitech(environment=Environment.TOKEN_SERVER)
 
-                # Prepare the request payload for fetching a fresh OAuth token
-                input_data = {
-                    "client_id": client_id,
-                    "client_secret": client_secret,
-                    "grant_type": "client_credentials",
-                }
+        if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
+            input_data = {
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "grant_type": "client_credentials",
+            }
 
-                # Fetch a fresh OAuth token
-                token_response = self.do_post(request, input_data, "/oauth2/token")
-                expires_in = token_response.get("expires_in")
-                access_token = token_response.get("access_token")
+            token_response = await self.doPost(request, input_data, "/oauth2/token")
+            expires_in = token_response["data"].get("expires_in")
+            access_token = token_response["data"].get("access_token")
 
-                if not expires_in or not access_token:
-                    print("There is an issue with getting the OAuth token")
-                    return
+            if not expires_in or not access_token:
+                print("There is an issue with getting the oauth token")
+                return
 
-                self.CURRENT_EXPIRY = time.time() * 1000 + expires_in * 1000
-                self.CURRENT_TOKEN = access_token
+            CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
+            CURRENT_TOKEN = access_token
 
-            # Set the Bearer token in the request header
-            authorization = f"Bearer {self.CURRENT_TOKEN}"
-            request.headers.update({"Authorization": authorization})
+        authorization = f"Bearer {CURRENT_TOKEN}"
+        request.headers.update({"Authorization": authorization})
 
-    def do_post(self, request: Request, input_data: dict, url_endpoint: str):
-        full_url = "https://auth.celitech.net/oauth2/token"
+    def doPost(self, input_data: Dict) -> Dict:
+        full_url = f"https://auth.celitech.net/oauth2/token"
+        headers = {"Content-type": "application/x-www-form-urlencoded"}
 
         try:
-            response = requests.post(
-                full_url,
-                data=input_data,
-                headers={"Content-type": "application/x-www-form-urlencoded"},
-                verify=True,
-            )
-
-            return response.json() if response.ok else None
+            resp = requests.post(full_url, data=input_data, headers=headers)
+            resp.raise_for_status()
+            return resp.json()
         except Exception as error:
             print("Error in posting the request:", error)
             return None
 
-    def after_response(self, request: Request, response: Response):
+    def after_response(self, request: Request, response: Response, **kwargs):
         pass
 
-    def on_error(self, error: Exception, request: Request, response: Response):
+    def on_error(
+        self, error: Exception, request: Request, response: Response, **kwargs
+    ):
         pass

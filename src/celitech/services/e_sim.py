@@ -12,9 +12,9 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim(self, iccid: str) -> GetEsimOkResponse:
-        """Get status from eSIM
+        """Get eSIM Status
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -23,7 +23,7 @@ class ESimService(BaseService):
         :rtype: GetEsimOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(f"{self.base_url}/esim", self.get_default_headers())
@@ -38,9 +38,9 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim_device(self, iccid: str) -> GetEsimDeviceOkResponse:
-        """Get device info from an installed eSIM
+        """Get eSIM Device
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -49,7 +49,7 @@ class ESimService(BaseService):
         :rtype: GetEsimDeviceOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(
@@ -66,9 +66,9 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim_history(self, iccid: str) -> GetEsimHistoryOkResponse:
-        """Get history from an eSIM
+        """Get eSIM History
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -77,7 +77,7 @@ class ESimService(BaseService):
         :rtype: GetEsimHistoryOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(
@@ -94,9 +94,9 @@ class ESimService(BaseService):
 
     @cast_models
     def get_esim_mac(self, iccid: str) -> GetEsimMacOkResponse:
-        """Get MAC from eSIM
+        """Get eSIM MAC
 
-        :param iccid: iccid
+        :param iccid: ID of the eSIM
         :type iccid: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
@@ -105,7 +105,7 @@ class ESimService(BaseService):
         :rtype: GetEsimMacOkResponse
         """
 
-        Validator(str).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
             Serializer(

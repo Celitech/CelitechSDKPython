@@ -15,12 +15,14 @@ class HookHandler(BaseHandler):
     :ivar Hook _hook: The hook to be called. This is a placeholder and should be replaced with an instance of the actual hook class.
     """
 
-    def __init__(self):
+    def __init__(self, additional_variables: dict = {}):
         """
         Initialize a new instance of HookHandler.
         """
         super().__init__()
         self._hook = CustomHook()
+
+        self._additional_variables = additional_variables
 
     def handle(
         self, request: Request
@@ -37,11 +39,13 @@ class HookHandler(BaseHandler):
         if self._next_handler is None:
             raise RequestError("Handler chain is incomplete")
 
-        self._hook.before_request(request)
+        self._hook.before_request(request, **self._additional_variables)
         response, error = self._next_handler.handle(request)
         if error is not None and error.is_http_error:
-            self._hook.on_error(error, request, error.response)
+            self._hook.on_error(
+                error, request, error.response, **self._additional_variables
+            )
         else:
-            self._hook.after_response(request, response)
+            self._hook.after_response(request, response, **self._additional_variables)
 
         return response, error

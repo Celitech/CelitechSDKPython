@@ -1,33 +1,67 @@
 {
-  "liblabVersion": "2.1.0",
-  "date": "2024-04-09T13:20:11.833Z",
+  "liblabVersion": "2.1.22",
+  "date": "2024-07-23T14:32:38.799Z",
   "config": {
-    "apiId": 673,
+    "apiId": 819,
     "sdkName": "Celitech",
-    "sdkVersion": "1.0.0",
+    "sdkVersion": "1.1.71",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
-    "apiVersion": "1.0.0",
+    "apiVersion": "1.1.71",
     "specFilePath": "swagger.yaml",
-    "createDocs": true,
     "languageOptions": {
       "python": {
         "alwaysInitializeOptionals": true,
+        "additionalConstructorParameters": [
+          {
+            "name": "client_id",
+            "example": "client-id"
+          },
+          {
+            "name": "client_secret",
+            "example": "client-secret"
+          }
+        ],
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.0.0"
+        "sdkVersion": "1.1.71"
+      },
+      "php": {
+        "packageName": "celitech-sdk/sdk",
+        "additionalConstructorParameters": [
+          {
+            "name": "clientId",
+            "example": "client-id"
+          },
+          {
+            "name": "clientSecret",
+            "example": "client-secret"
+          }
+        ],
+        "githubRepoName": "CelitechSDKPHP",
+        "sdkVersion": "1.1.71"
       },
       "typescript": {
         "bundle": false,
         "exportClassDefault": false,
         "httpClient": "axios",
         "npmName": "celitech-sdk",
+        "additionalConstructorParameters": [
+          {
+            "name": "clientId",
+            "example": "client-id"
+          },
+          {
+            "name": "clientSecret",
+            "example": "client-secret"
+          }
+        ],
         "githubRepoName": "CelitechSDKTypeScript",
         "ignoreFiles": [],
-        "liblabVersion": "1",
-        "sdkVersion": "1.0.0"
+        "liblabVersion": "2",
+        "sdkVersion": "1.1.71"
       }
     },
     "publishing": {
@@ -67,12 +101,22 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "4743/hooks.zip",
+      "bucketKey": "6342/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/673/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240409%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240409T132005Z&X-Amz-Expires=43200&X-Amz-Signature=a2967c4070db8154b323cc4d7b31f96c8836ca8135e994e1907b46c7793a9618&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/819/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240723%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240723T143233Z&X-Amz-Expires=43200&X-Amz-Signature=e60e010fbb2260e633a3b6b6919d9e94ea1120bd4e68b4ff4215e5c4f959f644&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
+    "additionalConstructorParameters": [
+      {
+        "name": "client_id",
+        "example": "client-id"
+      },
+      {
+        "name": "client_secret",
+        "example": "client-secret"
+      }
+    ],
     "pypiPackageName": "celitech-sdk",
     "githubRepoName": "CelitechSDKPython",
     "language": "python",
@@ -140,24 +184,42 @@
     "src/celitech/services/utils/default_headers.py",
     "./LICENSE",
     ".devcontainer/devcontainer.json",
+    "documentation/models/CreatePurchaseRequest.md",
+    "documentation/models/TopUpEsimRequest.md",
+    "documentation/models/EditPurchaseRequest.md",
+    "documentation/models/EditPurchaseOkResponse.md",
+    "documentation/models/GetPurchaseConsumptionOkResponse.md",
     "src/celitech/services/destinations.py",
     "src/celitech/services/packages.py",
+    "documentation/models/ListDestinationsOkResponse.md",
+    "documentation/models/ListPackagesOkResponse.md",
+    "documentation/models/GetEsimOkResponse.md",
+    "documentation/models/GetEsimDeviceOkResponse.md",
+    "documentation/models/GetEsimMacOkResponse.md",
     "src/celitech/models/create_purchase_request.py",
     "src/celitech/models/top_up_esim_request.py",
     "src/celitech/models/edit_purchase_request.py",
     "src/celitech/models/edit_purchase_ok_response.py",
     "src/celitech/models/get_purchase_consumption_ok_response.py",
+    "documentation/services/DestinationsService.md",
+    "documentation/services/PackagesService.md",
+    "documentation/models/CreatePurchaseOkResponse.md",
+    "documentation/models/TopUpEsimOkResponse.md",
+    "documentation/models/GetEsimHistoryOkResponse.md",
+    "documentation/models/ListPurchasesOkResponse.md",
     "src/celitech/models/list_destinations_ok_response.py",
     "src/celitech/models/list_packages_ok_response.py",
     "src/celitech/models/get_esim_ok_response.py",
     "src/celitech/models/get_esim_device_ok_response.py",
     "src/celitech/models/get_esim_mac_ok_response.py",
+    "documentation/services/ESimService.md",
+    "documentation/services/PurchasesService.md",
     "src/celitech/services/e_sim.py",
     "src/celitech/models/create_purchase_ok_response.py",
     "src/celitech/models/top_up_esim_ok_response.py",
     "src/celitech/models/get_esim_history_ok_response.py",
     "src/celitech/services/purchases.py",
-    "src/celitech/models/list_purchases_ok_response.py",
-    "README.md"
+    "README.md",
+    "src/celitech/models/list_purchases_ok_response.py"
   ]
 }

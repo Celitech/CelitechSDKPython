@@ -22,6 +22,7 @@ class PurchasesService(BaseService):
         iccid: str = None,
         after_date: str = None,
         before_date: str = None,
+        reference_id: str = None,
         after_cursor: str = None,
         limit: float = None,
         after: float = None,
@@ -29,15 +30,17 @@ class PurchasesService(BaseService):
     ) -> ListPurchasesOkResponse:
         """This endpoint can be used to list all the successful purchases made between a given interval.
 
-        :param iccid: iccid, defaults to None
+        :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
         :param after_date: Start date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
         :type after_date: str, optional
         :param before_date: End date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
         :type before_date: str, optional
-        :param after_cursor: after_cursor, defaults to None
+        :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow., defaults to None
+        :type reference_id: str, optional
+        :param after_cursor: To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data., defaults to None
         :type after_cursor: str, optional
-        :param limit: limit, defaults to None
+        :param limit: Maximum number of purchases to be returned in the response. The value must be greater than 0 and less than or equal to 100. If not provided, the default value is 20, defaults to None
         :type limit: float, optional
         :param after: Epoch value representing the start of the time interval for filtering purchases, defaults to None
         :type after: float, optional
@@ -50,9 +53,10 @@ class PurchasesService(BaseService):
         :rtype: ListPurchasesOkResponse
         """
 
-        Validator(str).is_optional().validate(iccid)
+        Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
         Validator(str).is_optional().validate(after_date)
         Validator(str).is_optional().validate(before_date)
+        Validator(str).is_optional().validate(reference_id)
         Validator(str).is_optional().validate(after_cursor)
         Validator(float).is_optional().validate(limit)
         Validator(float).is_optional().validate(after)
@@ -63,6 +67,7 @@ class PurchasesService(BaseService):
             .add_query("iccid", iccid)
             .add_query("afterDate", after_date)
             .add_query("beforeDate", before_date)
+            .add_query("referenceId", reference_id)
             .add_query("afterCursor", after_cursor)
             .add_query("limit", limit)
             .add_query("after", after)
@@ -77,12 +82,12 @@ class PurchasesService(BaseService):
 
     @cast_models
     def create_purchase(
-        self, request_body: CreatePurchaseRequest = None
+        self, request_body: CreatePurchaseRequest
     ) -> CreatePurchaseOkResponse:
         """This endpoint is used to purchase a new eSIM by providing the package details.
 
-        :param request_body: The request body., defaults to None
-        :type request_body: CreatePurchaseRequest, optional
+        :param request_body: The request body.
+        :type request_body: CreatePurchaseRequest
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -90,7 +95,7 @@ class PurchasesService(BaseService):
         :rtype: CreatePurchaseOkResponse
         """
 
-        Validator(CreatePurchaseRequest).is_optional().validate(request_body)
+        Validator(CreatePurchaseRequest).validate(request_body)
 
         serialized_request = (
             Serializer(f"{self.base_url}/purchases", self.get_default_headers())
@@ -104,11 +109,11 @@ class PurchasesService(BaseService):
         return CreatePurchaseOkResponse._unmap(response)
 
     @cast_models
-    def top_up_esim(self, request_body: TopUpEsimRequest = None) -> TopUpEsimOkResponse:
+    def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
         """This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is not feasible for eSIMs in "DELETED" or "ERROR" state.
 
-        :param request_body: The request body., defaults to None
-        :type request_body: TopUpEsimRequest, optional
+        :param request_body: The request body.
+        :type request_body: TopUpEsimRequest
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -116,7 +121,7 @@ class PurchasesService(BaseService):
         :rtype: TopUpEsimOkResponse
         """
 
-        Validator(TopUpEsimRequest).is_optional().validate(request_body)
+        Validator(TopUpEsimRequest).validate(request_body)
 
         serialized_request = (
             Serializer(f"{self.base_url}/purchases/topup", self.get_default_headers())
@@ -131,12 +136,12 @@ class PurchasesService(BaseService):
 
     @cast_models
     def edit_purchase(
-        self, request_body: EditPurchaseRequest = None
+        self, request_body: EditPurchaseRequest
     ) -> EditPurchaseOkResponse:
         """This endpoint allows you to modify the dates of an existing package with a future activation start time. Editing can only be performed for packages that have not been activated, and it cannot change the package size. The modification must not change the package duration category to ensure pricing consistency.
 
-        :param request_body: The request body., defaults to None
-        :type request_body: EditPurchaseRequest, optional
+        :param request_body: The request body.
+        :type request_body: EditPurchaseRequest
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -144,7 +149,7 @@ class PurchasesService(BaseService):
         :rtype: EditPurchaseOkResponse
         """
 
-        Validator(EditPurchaseRequest).is_optional().validate(request_body)
+        Validator(EditPurchaseRequest).validate(request_body)
 
         serialized_request = (
             Serializer(f"{self.base_url}/purchases/edit", self.get_default_headers())
@@ -163,7 +168,7 @@ class PurchasesService(BaseService):
     ) -> GetPurchaseConsumptionOkResponse:
         """This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages.
 
-        :param purchase_id: purchase_id
+        :param purchase_id: ID of the purchase
         :type purchase_id: str
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.

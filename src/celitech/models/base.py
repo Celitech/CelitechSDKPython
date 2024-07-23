@@ -1,6 +1,8 @@
 import re
-from typing import List, Union, get_origin, get_args
+from typing import List, Union, Type, Any, TypeVar, Optional, get_origin, get_args
 from enum import Enum
+
+T = TypeVar("T")
 
 
 class BaseModel:
@@ -31,7 +33,9 @@ class BaseModel:
         if re.match(r"{}".format(pattern), value):
             return value
         else:
-            raise ValueError(f"Invalid value for {variable_name}: must match {pattern}")
+            raise ValueError(
+                f"Invalid value for {variable_name}: must match {pattern}, received {value}"
+            )
 
     def _enum_matching(
         self, value: Union[str, Enum], enum_values: List[str], variable_name: str
@@ -57,7 +61,7 @@ class BaseModel:
             return value
         else:
             raise ValueError(
-                f"Invalid value for {variable_name}: must match one of {enum_values}"
+                f"Invalid value for {variable_name}: must match one of {enum_values}, received {value}"
             )
 
     def _define_object(self, input_data, input_class):
@@ -77,10 +81,11 @@ class BaseModel:
         else:
             return input_class._unmap(input_data)
 
-    def _define_list(self, input_data, list_class):
+    def _define_list(
+        self, input_data: Optional[List[Any]], list_class: Type[T]
+    ) -> Optional[List[T]]:
         """
         Create a list of instances of a specified class from input data.
-
         :param input_data: The input data to be transformed into a list of instances.
         :param list_class: The class that each instance in the list should be an instance of.
         :return: A list of instances of list_class.
@@ -90,7 +95,7 @@ class BaseModel:
         if input_data is None:
             return None
 
-        result = []
+        result: List[T] = []
         for item in input_data:
             if hasattr(list_class, "__args__") and len(list_class.__args__) > 0:
                 class_list = self.__create_class_map(list_class)
@@ -185,6 +190,7 @@ class OneOfBaseModel:
             return input_data
 
         for class_constructor in cls.class_list.values():
+            exception_list = []
             try:
                 # Check if the class is a only a TypeHint
                 origin = get_origin(class_constructor)
@@ -206,12 +212,10 @@ class OneOfBaseModel:
                     instance = class_constructor._unmap(input_data)
                     if cls._check_params(input_data, instance):
                         return instance
-            except Exception:
-                pass
+            except Exception as e:
+                exception_list.append({"class": class_constructor, "exception": e})
 
-        raise ValueError(
-            f"Input data must match one of the models: {list(cls.class_list.keys())}"
-        )
+        cls._raise_one_of_error(exception_list)
 
     @classmethod
     def _get_list_instance(cls, input_data, class_constructor, origin):
@@ -249,3 +253,23 @@ class OneOfBaseModel:
             k: v for k, v in instance_map.items() if v is not None
         }.values()
         return len(input_values) == len(instance_values)
+
+    @classmethod
+    def _raise_one_of_error(cls, exception_list):
+        """
+        Raises a ValueError with the appropriate error message for one of models.
+
+        :param exception_list: List of exceptions that occurred.
+        :type exception_list: list
+        :raises ValueError: If input data does not match any of the models.
+        """
+        if not exception_list:
+            return
+        exception_messages = "\n".join(
+            f"Class: {exception['class']}, Exception: {exception['exception']}"
+            for exception in exception_list
+        )
+        raise ValueError(
+            f"Input data must match one of the models: {list(cls.class_list.keys())}"
+            f"Errors occurred:\n{exception_messages}"
+        )
