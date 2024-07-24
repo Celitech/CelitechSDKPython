@@ -1,7 +1,7 @@
 import requests
 import os
 from typing import Dict
-import datetime
+import time
 
 CURRENT_TOKEN = ""
 CURRENT_EXPIRY = -1
@@ -61,13 +61,7 @@ class CustomHook:
 
         global CURRENT_TOKEN, CURRENT_EXPIRY
 
-        print("CURRENT_TOKEN", CURRENT_TOKEN)
-        print("CURRENT_EXPIRY", CURRENT_EXPIRY)
-        print("datetime.datetime.now()", datetime.datetime.now())
-
-        if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
-
-            print("Before the API call")
+        if not CURRENT_TOKEN or CURRENT_EXPIRY < round(time.time() * 1000):
 
             token_response = self.getToken(client_id, client_secret)
 
@@ -82,7 +76,7 @@ class CustomHook:
             if not expires_in or not access_token:
                 raise Exception("There is an issue with getting the oauth token")
 
-            CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
+            CURRENT_EXPIRY = round(time.time() * 1000) + expires_in * 1000
             CURRENT_TOKEN = access_token
 
         authorization = f"Bearer {CURRENT_TOKEN}"
