@@ -59,11 +59,17 @@ class CustomHook:
                 "Missing client_id and/or client_secret constructor parameters"
             )
 
+        print("CURRENT_TOKEN", CURRENT_TOKEN)
+        print("CURRENT_EXPIRY", CURRENT_EXPIRY)
+        print("datetime.datetime.now()", datetime.datetime.now())
+
         if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
+
+            print("Before the API call")
 
             token_response = self.getToken(client_id, client_secret)
 
-            print(token_response)
+            print("token_response", token_response)
 
             if token_response.get("error"):
                 raise Exception(token_response.get("error"))
