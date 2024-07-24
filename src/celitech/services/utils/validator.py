@@ -1,7 +1,7 @@
 import re
 import operator
 from typing import Union, Any, Type, Pattern, get_args
-from ...models.base import OneOfBaseModel
+from ...models.utils.one_of_base_model import OneOfBaseModel
 
 
 class Validator:

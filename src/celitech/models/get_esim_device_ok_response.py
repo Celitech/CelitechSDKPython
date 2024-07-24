@@ -1,5 +1,5 @@
 from .utils.json_map import JsonMap
-from .base import BaseModel
+from .utils.base_model import BaseModel
 
 
 @JsonMap({"hardware_name": "hardwareName", "hardware_model": "hardwareModel"})
