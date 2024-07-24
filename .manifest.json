@@ -1,14 +1,14 @@
 {
   "liblabVersion": "2.1.23",
-  "date": "2024-07-24T22:08:39.746Z",
+  "date": "2024-07-24T22:23:55.768Z",
   "config": {
-    "apiId": 963,
+    "apiId": 964,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.81",
+    "sdkVersion": "1.1.82",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
-    "apiVersion": "1.1.81",
+    "apiVersion": "1.1.82",
     "specFilePath": "swagger.yaml",
     "docs": ["api", "snippets"],
     "languageOptions": {
@@ -27,7 +27,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.81"
+        "sdkVersion": "1.1.82"
       },
       "php": {
         "packageName": "celitech-sdk/sdk",
@@ -43,7 +43,7 @@
         ],
         "githubRepoName": "CelitechSDKPHP",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.81"
+        "sdkVersion": "1.1.82"
       },
       "typescript": {
         "bundle": false,
@@ -62,7 +62,7 @@
         ],
         "githubRepoName": "CelitechSDKTypeScript",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.81"
+        "sdkVersion": "1.1.82"
       }
     },
     "publishing": {
@@ -102,10 +102,10 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "6387/hooks.zip",
+      "bucketKey": "6388/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/963/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240724T220837Z&X-Amz-Expires=43200&X-Amz-Signature=654cac4aa36bea236c4c670860c6d7abbe222d794a2a8ecf56f9de8b3446180d&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/964/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240724T222349Z&X-Amz-Expires=43200&X-Amz-Signature=0a45e72fdee969657a47c5286e25b333e44e67e9b1c308a865c06dd0562d10b5&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
     "additionalConstructorParameters": [

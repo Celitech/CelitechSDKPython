@@ -59,6 +59,8 @@ class CustomHook:
                 "Missing client_id and/or client_secret constructor parameters"
             )
 
+        global CURRENT_TOKEN, CURRENT_EXPIRY
+
         print("CURRENT_TOKEN", CURRENT_TOKEN)
         print("CURRENT_EXPIRY", CURRENT_EXPIRY)
         print("datetime.datetime.now()", datetime.datetime.now())
