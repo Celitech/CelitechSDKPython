@@ -32,7 +32,7 @@ class Response:
 
 class CustomHook:
 
-    async def getToken(self, client_id, client_secret):
+    def getToken(self, client_id, client_secret):
         full_url = "https://auth.celitech.net/oauth2/token"
         headers = {"Content-type": "application/x-www-form-urlencoded"}
         data = {
@@ -44,44 +44,42 @@ class CustomHook:
         resp = requests.post(full_url, headers=headers, data=data)
         return resp.json()
 
-    async def before_request(self, request: Request, **kwargs):
+    def before_request(self, request: Request, **kwargs):
         print("request", request)
         print("kwargs", kwargs)
+        pass
+        # client_id = kwargs.get("client_id")
+        # client_secret = kwargs.get("client_secret")
 
-        client_id = kwargs.get("client_id")
-        client_secret = kwargs.get("client_secret")
+        # print("client_id",client_id)
+        # print("client_secret", client_secret)
 
-        print("client_id", client_id)
-        print("client_secret", client_secret)
+        # if not client_id or not client_secret:
+        #     raise Exception("Missing client_id and/or client_secret constructor parameters")
 
-        if not client_id or not client_secret:
-            raise Exception(
-                "Missing client_id and/or client_secret constructor parameters"
-            )
+        # if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
 
-        if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
+        #     token_response = await self.getToken(client_id, client_secret)
 
-            token_response = await self.getToken(client_id, client_secret)
+        #     print(token_response)
 
-            print(token_response)
+        #     if(token_response.get("error")):
+        #         raise Exception(token_response.get("error"))
 
-            if token_response.get("error"):
-                raise Exception(token_response.get("error"))
+        #     expires_in = token_response.get("expires_in")
+        #     access_token = token_response.get("access_token")
 
-            expires_in = token_response.get("expires_in")
-            access_token = token_response.get("access_token")
+        #     if not expires_in or not access_token:
+        #         raise Exception("There is an issue with getting the oauth token")
 
-            if not expires_in or not access_token:
-                raise Exception("There is an issue with getting the oauth token")
+        #     CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
+        #     CURRENT_TOKEN = access_token
 
-            CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
-            CURRENT_TOKEN = access_token
+        # authorization = f"Bearer {CURRENT_TOKEN}"
 
-        authorization = f"Bearer {CURRENT_TOKEN}"
+        # print("authorization", authorization)
 
-        print("authorization", authorization)
-
-        request.headers.update({"Authorization": authorization})
+        # request.headers.update({"Authorization": authorization})
 
     def after_response(self, request: Request, response: Response, **kwargs):
         pass
