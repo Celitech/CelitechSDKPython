@@ -32,7 +32,7 @@ class Response:
 
 class CustomHook:
 
-    def getToken(self, client_id, client_secret):
+    async def getToken(self, client_id, client_secret):
         full_url = "https://auth.celitech.net/oauth2/token"
         headers = {"Content-type": "application/x-www-form-urlencoded"}
         data = {
@@ -61,7 +61,7 @@ class CustomHook:
 
         if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
 
-            token_response = await self.getToken(request, client_id, client_secret)
+            token_response = await self.getToken(client_id, client_secret)
 
             print(token_response)
 
