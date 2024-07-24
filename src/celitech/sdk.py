@@ -11,6 +11,7 @@ class Celitech:
         client_id: str = None,
         client_secret: str = None,
         base_url: str = Environment.DEFAULT.value,
+        timeout: int = 60000,
     ):
         """
         Initializes Celitech the SDK class.
@@ -20,6 +21,7 @@ class Celitech:
         self.purchases = PurchasesService(base_url=base_url)
         self.e_sim = ESimService(base_url=base_url)
         self.set_additional_variables(client_id, client_secret)
+        self.set_timeout(timeout)
 
     def set_base_url(self, base_url):
         """
@@ -42,6 +44,20 @@ class Celitech:
         self.packages.set_additional_variables(client_id, client_secret)
         self.purchases.set_additional_variables(client_id, client_secret)
         self.e_sim.set_additional_variables(client_id, client_secret)
+
+        return self
+
+    def set_timeout(self, timeout: int):
+        """
+        Sets the timeout for the entire SDK.
+
+        :param int timeout: The timeout (ms) to be set.
+        :return: The SDK instance.
+        """
+        self.destinations.set_timeout(timeout)
+        self.packages.set_timeout(timeout)
+        self.purchases.set_timeout(timeout)
+        self.e_sim.set_timeout(timeout)
 
         return self
 

@@ -25,10 +25,11 @@ class BaseService:
         """
         self.base_url = base_url
         self._default_headers = DefaultHeaders()
+        self._timeout = 60000
 
         self._additional_variables = {}
 
-        self._request_handler = self._get_request_handler()
+        self._update_request_handler()
 
     def set_additional_variables(
         self, client_id: str = None, client_secret: str = None
@@ -41,7 +42,19 @@ class BaseService:
         if client_secret is not None:
             self._additional_variables["client_secret"] = client_secret
 
-        self._request_handler = self._get_request_handler()
+        self._update_request_handler()
+        return self
+
+    def set_timeout(self, timeout: int):
+        """
+        Sets the timeout for the service.
+
+        :param int timeout: The timeout (ms) to be set.
+        :return: The service instance.
+        """
+        self._timeout = timeout
+        self._update_request_handler()
+
         return self
 
     def set_base_url(self, base_url: str):
@@ -85,5 +98,11 @@ class BaseService:
             RequestChain()
             .add_handler(RetryHandler())
             .add_handler(HookHandler(self._additional_variables))
-            .add_handler(HttpHandler())
+            .add_handler(HttpHandler(self._timeout))
         )
+
+    def _update_request_handler(self) -> None:
+        """
+        Update the request handler.
+        """
+        self._request_handler = self._get_request_handler()

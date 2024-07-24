@@ -1,6 +1,6 @@
 {
-  "liblabVersion": "2.1.22",
-  "date": "2024-07-23T14:32:38.799Z",
+  "liblabVersion": "2.1.23",
+  "date": "2024-07-24T16:07:19.059Z",
   "config": {
     "apiId": 819,
     "sdkName": "Celitech",
@@ -41,6 +41,7 @@
           }
         ],
         "githubRepoName": "CelitechSDKPHP",
+        "liblabVersion": "2",
         "sdkVersion": "1.1.71"
       },
       "typescript": {
@@ -59,7 +60,6 @@
           }
         ],
         "githubRepoName": "CelitechSDKTypeScript",
-        "ignoreFiles": [],
         "liblabVersion": "2",
         "sdkVersion": "1.1.71"
       }
@@ -101,10 +101,10 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "6342/hooks.zip",
+      "bucketKey": "6360/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/819/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240723%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240723T143233Z&X-Amz-Expires=43200&X-Amz-Signature=e60e010fbb2260e633a3b6b6919d9e94ea1120bd4e68b4ff4215e5c4f959f644&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/819/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240724T160710Z&X-Amz-Expires=43200&X-Amz-Signature=8155167b2e82c7c3448bfe4cff4ad19c07e0f872b0b94893d3215940b2693b85&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
     "additionalConstructorParameters": [
@@ -143,7 +143,7 @@
     }
   },
   "files": [
-    "src/celitech/models/base.py",
+    "src/celitech/models/utils/base_model.py",
     "src/celitech/models/utils/json_map.py",
     "src/celitech/models/__init__.py",
     "src/celitech/services/__init__.py",
@@ -189,6 +189,7 @@
     "documentation/models/EditPurchaseRequest.md",
     "documentation/models/EditPurchaseOkResponse.md",
     "documentation/models/GetPurchaseConsumptionOkResponse.md",
+    "src/celitech/models/utils/one_of_base_model.py",
     "src/celitech/services/destinations.py",
     "src/celitech/services/packages.py",
     "documentation/models/ListDestinationsOkResponse.md",
