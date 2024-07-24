@@ -49,7 +49,7 @@ class CustomHook:
         print("kwargs", kwargs)
 
         client_id = kwargs.get("client_id")
-        client_secret = kwargs.environ.get("client_secret")
+        client_secret = kwargs.get("client_secret")
 
         print("client_id", client_id)
         print("client_secret", client_secret)
