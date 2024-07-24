@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import get_origin, get_args, Union
+from typing import get_args, Union
 from inspect import isclass
-from ..base import OneOfBaseModel
+from .one_of_base_model import OneOfBaseModel
 
 
 def cast_models(func):
