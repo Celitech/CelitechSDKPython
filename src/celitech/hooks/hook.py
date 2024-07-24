@@ -47,39 +47,41 @@ class CustomHook:
     def before_request(self, request: Request, **kwargs):
         print("request", request)
         print("kwargs", kwargs)
-        pass
-        # client_id = kwargs.get("client_id")
-        # client_secret = kwargs.get("client_secret")
 
-        # print("client_id",client_id)
-        # print("client_secret", client_secret)
+        client_id = kwargs.get("client_id")
+        client_secret = kwargs.get("client_secret")
 
-        # if not client_id or not client_secret:
-        #     raise Exception("Missing client_id and/or client_secret constructor parameters")
+        print("client_id", client_id)
+        print("client_secret", client_secret)
 
-        # if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
+        if not client_id or not client_secret:
+            raise Exception(
+                "Missing client_id and/or client_secret constructor parameters"
+            )
 
-        #     token_response = await self.getToken(client_id, client_secret)
+        if not CURRENT_TOKEN or CURRENT_EXPIRY < datetime.datetime.now():
 
-        #     print(token_response)
+            token_response = self.getToken(client_id, client_secret)
 
-        #     if(token_response.get("error")):
-        #         raise Exception(token_response.get("error"))
+            print(token_response)
 
-        #     expires_in = token_response.get("expires_in")
-        #     access_token = token_response.get("access_token")
+            if token_response.get("error"):
+                raise Exception(token_response.get("error"))
 
-        #     if not expires_in or not access_token:
-        #         raise Exception("There is an issue with getting the oauth token")
+            expires_in = token_response.get("expires_in")
+            access_token = token_response.get("access_token")
 
-        #     CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
-        #     CURRENT_TOKEN = access_token
+            if not expires_in or not access_token:
+                raise Exception("There is an issue with getting the oauth token")
 
-        # authorization = f"Bearer {CURRENT_TOKEN}"
+            CURRENT_EXPIRY = datetime.datetime.now() + expires_in * 1000
+            CURRENT_TOKEN = access_token
 
-        # print("authorization", authorization)
+        authorization = f"Bearer {CURRENT_TOKEN}"
 
-        # request.headers.update({"Authorization": authorization})
+        print("authorization", authorization)
+
+        request.headers.update({"Authorization": authorization})
 
     def after_response(self, request: Request, response: Response, **kwargs):
         pass
