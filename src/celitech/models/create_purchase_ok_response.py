@@ -42,6 +42,23 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         start_time: float = None,
         end_time: float = None,
     ):
+        """CreatePurchaseOkResponsePurchase
+
+        :param id_: ID of the purchase, defaults to None
+        :type id_: str, optional
+        :param package_id: ID of the package, defaults to None
+        :type package_id: str, optional
+        :param start_date: Start date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type start_date: str, optional
+        :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type end_date: str, optional
+        :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type created_date: str, optional
+        :param start_time: Epoch value representing the start time of the package's validity, defaults to None
+        :type start_time: float, optional
+        :param end_time: Epoch value representing the end time of the package's validity, defaults to None
+        :type end_time: float, optional
+        """
         self.id_ = id_
         self.package_id = package_id
         self.start_date = start_date
@@ -62,6 +79,13 @@ class CreatePurchaseOkResponseProfile(BaseModel):
     """
 
     def __init__(self, iccid: str = None, activation_code: str = None):
+        """CreatePurchaseOkResponseProfile
+
+        :param iccid: ID of the eSIM, defaults to None
+        :type iccid: str, optional
+        :param activation_code: QR Code of the eSIM as base64, defaults to None
+        :type activation_code: str, optional
+        """
         self.iccid = iccid
         self.activation_code = activation_code
 
@@ -81,5 +105,12 @@ class CreatePurchaseOkResponse(BaseModel):
         purchase: CreatePurchaseOkResponsePurchase = None,
         profile: CreatePurchaseOkResponseProfile = None,
     ):
+        """CreatePurchaseOkResponse
+
+        :param purchase: purchase, defaults to None
+        :type purchase: CreatePurchaseOkResponsePurchase, optional
+        :param profile: profile, defaults to None
+        :type profile: CreatePurchaseOkResponseProfile, optional
+        """
         self.purchase = self._define_object(purchase, CreatePurchaseOkResponsePurchase)
         self.profile = self._define_object(profile, CreatePurchaseOkResponseProfile)

@@ -1,14 +1,14 @@
 {
-  "liblabVersion": "2.1.23",
-  "date": "2024-07-24T22:45:04.123Z",
+  "liblabVersion": "2.1.24",
+  "date": "2024-08-01T10:35:12.020Z",
   "config": {
-    "apiId": 965,
+    "apiId": 989,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.83",
+    "sdkVersion": "1.1.84",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
-    "apiVersion": "1.1.83",
+    "apiVersion": "1.1.84",
     "specFilePath": "swagger.yaml",
     "docs": ["api", "snippets"],
     "languageOptions": {
@@ -27,7 +27,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.83"
+        "sdkVersion": "1.1.84"
       },
       "php": {
         "packageName": "celitech-sdk/sdk",
@@ -43,7 +43,7 @@
         ],
         "githubRepoName": "CelitechSDKPHP",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.83"
+        "sdkVersion": "1.1.84"
       },
       "typescript": {
         "bundle": false,
@@ -62,7 +62,7 @@
         ],
         "githubRepoName": "CelitechSDKTypeScript",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.83"
+        "sdkVersion": "1.1.84"
       }
     },
     "publishing": {
@@ -102,10 +102,10 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "6389/hooks.zip",
+      "bucketKey": "6485/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
-    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/965/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240724%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240724T224455Z&X-Amz-Expires=43200&X-Amz-Signature=38936ee2239b46872d063dc84d2777437a597ac85540cee8173305502bc60911&X-Amz-SignedHeaders=host&x-id=GetObject",
+    "specUrl": "https://prod-liblab-api-stack-specs.s3.us-east-1.amazonaws.com/989/open-api-spec.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA5P3QKKDKGVNIJ2H7%2F20240801%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240801T103505Z&X-Amz-Expires=43200&X-Amz-Signature=84225ec722bcc21e1c8123be35d234d9af95ef89246da5ce207e7bb29ad1d032&X-Amz-SignedHeaders=host&x-id=GetObject",
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
     "additionalConstructorParameters": [
@@ -209,30 +209,30 @@
     "documentation/models/GetEsimOkResponse.md",
     "documentation/models/GetEsimDeviceOkResponse.md",
     "documentation/models/GetEsimMacOkResponse.md",
-    "src/celitech/models/create_purchase_request.py",
-    "src/celitech/models/top_up_esim_request.py",
-    "src/celitech/models/edit_purchase_request.py",
-    "src/celitech/models/edit_purchase_ok_response.py",
-    "src/celitech/models/get_purchase_consumption_ok_response.py",
     "documentation/services/DestinationsService.md",
     "documentation/services/PackagesService.md",
     "documentation/models/CreatePurchaseOkResponse.md",
     "documentation/models/TopUpEsimOkResponse.md",
     "documentation/models/GetEsimHistoryOkResponse.md",
+    "src/celitech/models/create_purchase_request.py",
+    "src/celitech/models/top_up_esim_request.py",
+    "src/celitech/models/edit_purchase_request.py",
+    "src/celitech/models/edit_purchase_ok_response.py",
+    "src/celitech/models/get_purchase_consumption_ok_response.py",
     "documentation/models/ListPurchasesOkResponse.md",
+    "documentation/services/ESimService.md",
+    "documentation/services/PurchasesService.md",
     "src/celitech/models/list_destinations_ok_response.py",
     "src/celitech/models/list_packages_ok_response.py",
     "src/celitech/models/get_esim_ok_response.py",
     "src/celitech/models/get_esim_device_ok_response.py",
     "src/celitech/models/get_esim_mac_ok_response.py",
-    "documentation/services/ESimService.md",
-    "documentation/services/PurchasesService.md",
     "src/celitech/services/e_sim.py",
+    "src/celitech/services/purchases.py",
+    "README.md",
     "src/celitech/models/create_purchase_ok_response.py",
     "src/celitech/models/top_up_esim_ok_response.py",
     "src/celitech/models/get_esim_history_ok_response.py",
-    "src/celitech/services/purchases.py",
-    "README.md",
     "src/celitech/models/list_purchases_ok_response.py"
   ]
 }

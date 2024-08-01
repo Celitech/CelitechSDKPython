@@ -34,6 +34,19 @@ class Package(BaseModel):
         destination_name: str = None,
         price_in_cents: float = None,
     ):
+        """Package
+
+        :param id_: ID of the package, defaults to None
+        :type id_: str, optional
+        :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
+        :type data_limit_in_bytes: float, optional
+        :param destination: ISO representation of the package's destination, defaults to None
+        :type destination: str, optional
+        :param destination_name: Name of the package's destination, defaults to None
+        :type destination_name: str, optional
+        :param price_in_cents: Price of the package in cents, defaults to None
+        :type price_in_cents: float, optional
+        """
         self.id_ = id_
         self.data_limit_in_bytes = data_limit_in_bytes
         self.destination = destination
@@ -50,6 +63,11 @@ class PurchasesEsim(BaseModel):
     """
 
     def __init__(self, iccid: str = None):
+        """PurchasesEsim
+
+        :param iccid: ID of the eSIM, defaults to None
+        :type iccid: str, optional
+        """
         self.iccid = iccid
 
 
@@ -106,6 +124,31 @@ class Purchases(BaseModel):
         source: str = None,
         reference_id: str = None,
     ):
+        """Purchases
+
+        :param id_: ID of the purchase, defaults to None
+        :type id_: str, optional
+        :param start_date: Start date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type start_date: str, optional
+        :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type end_date: str, optional
+        :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type created_date: str, optional
+        :param start_time: Epoch value representing the start time of the package's validity, defaults to None
+        :type start_time: float, optional
+        :param end_time: Epoch value representing the end time of the package's validity, defaults to None
+        :type end_time: float, optional
+        :param created_at: Epoch value representing the date of creation of the purchase, defaults to None
+        :type created_at: float, optional
+        :param package: package, defaults to None
+        :type package: Package, optional
+        :param esim: esim, defaults to None
+        :type esim: PurchasesEsim, optional
+        :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page or promo-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+        :type source: str, optional
+        :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
+        :type reference_id: str, optional
+        """
         self.id_ = id_
         self.start_date = start_date
         self.end_date = end_date
@@ -130,5 +173,12 @@ class ListPurchasesOkResponse(BaseModel):
     """
 
     def __init__(self, purchases: List[Purchases] = None, after_cursor: str = None):
+        """ListPurchasesOkResponse
+
+        :param purchases: purchases, defaults to None
+        :type purchases: List[Purchases], optional
+        :param after_cursor: The cursor value representing the end of the current page of results. Use this cursor value as the "afterCursor" parameter in your next request to retrieve the subsequent page of results. It ensures that you continue fetching data from where you left off, facilitating smooth pagination., defaults to None
+        :type after_cursor: str, optional
+        """
         self.purchases = self._define_list(purchases, Purchases)
         self.after_cursor = after_cursor

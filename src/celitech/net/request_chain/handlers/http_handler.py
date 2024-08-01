@@ -76,8 +76,12 @@ class HttpHandler(BaseHandler):
 
         if "multipart/form-data" in content_type:
             headers.pop("Content-Type", None)
-            if data:
-                return {"files": data}
-            return {}
+            files, form_data = {}, {}
+            for key, value in data.items():
+                if isinstance(value, bytes):
+                    files[key] = value
+                else:
+                    form_data[key] = value
+            return {"files": files, "data": form_data}
 
         return {"data": data}
