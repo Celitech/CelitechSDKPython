@@ -42,6 +42,23 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         start_time: float = None,
         end_time: float = None,
     ):
+        """TopUpEsimOkResponsePurchase
+
+        :param id_: ID of the purchase, defaults to None
+        :type id_: str, optional
+        :param package_id: ID of the package, defaults to None
+        :type package_id: str, optional
+        :param start_date: Start date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type start_date: str, optional
+        :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type end_date: str, optional
+        :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
+        :type created_date: str, optional
+        :param start_time: Epoch value representing the start time of the package's validity, defaults to None
+        :type start_time: float, optional
+        :param end_time: Epoch value representing the end time of the package's validity, defaults to None
+        :type end_time: float, optional
+        """
         self.id_ = id_
         self.package_id = package_id
         self.start_date = start_date
@@ -60,6 +77,11 @@ class TopUpEsimOkResponseProfile(BaseModel):
     """
 
     def __init__(self, iccid: str = None):
+        """TopUpEsimOkResponseProfile
+
+        :param iccid: ID of the eSIM, defaults to None
+        :type iccid: str, optional
+        """
         self.iccid = iccid
 
 
@@ -78,5 +100,12 @@ class TopUpEsimOkResponse(BaseModel):
         purchase: TopUpEsimOkResponsePurchase = None,
         profile: TopUpEsimOkResponseProfile = None,
     ):
+        """TopUpEsimOkResponse
+
+        :param purchase: purchase, defaults to None
+        :type purchase: TopUpEsimOkResponsePurchase, optional
+        :param profile: profile, defaults to None
+        :type profile: TopUpEsimOkResponseProfile, optional
+        """
         self.purchase = self._define_object(purchase, TopUpEsimOkResponsePurchase)
         self.profile = self._define_object(profile, TopUpEsimOkResponseProfile)
