@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Generator
 from enum import Enum
 
 from .default_headers import DefaultHeaders, DefaultHeadersKeys
@@ -77,6 +77,10 @@ class BaseService:
         """
         response = self._request_handler.send(request)
         return response.body
+
+    def stream_request(self, request: Request) -> Generator[dict, None, None]:
+        for response in self._request_handler.stream(request):
+            yield response.body
 
     def get_default_headers(self) -> list:
         """

@@ -47,11 +47,17 @@ class Package(BaseModel):
         :param price_in_cents: Price of the package in cents, defaults to None
         :type price_in_cents: float, optional
         """
-        self.id_ = id_
-        self.data_limit_in_bytes = data_limit_in_bytes
-        self.destination = destination
-        self.destination_name = destination_name
-        self.price_in_cents = price_in_cents
+        self.id_ = self._define_str("id_", id_, nullable=True)
+        self.data_limit_in_bytes = self._define_number(
+            "data_limit_in_bytes", data_limit_in_bytes, nullable=True
+        )
+        self.destination = self._define_str("destination", destination, nullable=True)
+        self.destination_name = self._define_str(
+            "destination_name", destination_name, nullable=True
+        )
+        self.price_in_cents = self._define_number(
+            "price_in_cents", price_in_cents, nullable=True
+        )
 
 
 @JsonMap({})
@@ -68,7 +74,9 @@ class PurchasesEsim(BaseModel):
         :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
         """
-        self.iccid = iccid
+        self.iccid = self._define_str(
+            "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
 
 
 @JsonMap(
@@ -149,17 +157,21 @@ class Purchases(BaseModel):
         :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
         :type reference_id: str, optional
         """
-        self.id_ = id_
-        self.start_date = start_date
-        self.end_date = end_date
-        self.created_date = created_date
-        self.start_time = start_time
-        self.end_time = end_time
-        self.created_at = created_at
+        self.id_ = self._define_str("id_", id_, nullable=True)
+        self.start_date = self._define_str("start_date", start_date, nullable=True)
+        self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.created_date = self._define_str(
+            "created_date", created_date, nullable=True
+        )
+        self.start_time = self._define_number("start_time", start_time, nullable=True)
+        self.end_time = self._define_number("end_time", end_time, nullable=True)
+        self.created_at = self._define_number("created_at", created_at, nullable=True)
         self.package = self._define_object(package, Package)
         self.esim = self._define_object(esim, PurchasesEsim)
-        self.source = source
-        self.reference_id = reference_id
+        self.source = self._define_str("source", source, nullable=True)
+        self.reference_id = self._define_str(
+            "reference_id", reference_id, nullable=True
+        )
 
 
 @JsonMap({"after_cursor": "afterCursor"})
@@ -181,4 +193,6 @@ class ListPurchasesOkResponse(BaseModel):
         :type after_cursor: str, optional
         """
         self.purchases = self._define_list(purchases, Purchases)
-        self.after_cursor = after_cursor
+        self.after_cursor = self._define_str(
+            "after_cursor", after_cursor, nullable=True
+        )

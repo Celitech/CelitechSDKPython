@@ -30,8 +30,8 @@ class Destinations(BaseModel):
         :param supported_countries: This array indicates the geographical area covered by a specific destination. If the destination represents a single country, the array will include that country. However, if the destination represents a broader regional scope, the array will be populated with the names of the countries belonging to that region., defaults to None
         :type supported_countries: List[str], optional
         """
-        self.name = name
-        self.destination = destination
+        self.name = self._define_str("name", name, nullable=True)
+        self.destination = self._define_str("destination", destination, nullable=True)
         self.supported_countries = supported_countries
 
 

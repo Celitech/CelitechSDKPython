@@ -34,10 +34,14 @@ class Device(BaseModel):
         :param eid: Serial Number of the eSIM, defaults to None
         :type eid: str, optional
         """
-        self.oem = oem
-        self.hardware_name = hardware_name
-        self.hardware_model = hardware_model
-        self.eid = eid
+        self.oem = self._define_str("oem", oem, nullable=True)
+        self.hardware_name = self._define_str(
+            "hardware_name", hardware_name, nullable=True
+        )
+        self.hardware_model = self._define_str(
+            "hardware_model", hardware_model, nullable=True
+        )
+        self.eid = self._define_str("eid", eid, nullable=True)
 
 
 @JsonMap({})

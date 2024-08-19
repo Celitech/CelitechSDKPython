@@ -31,9 +31,15 @@ class GetEsimMacOkResponseEsim(BaseModel):
         :param manual_activation_code: The manual activation code, defaults to None
         :type manual_activation_code: str, optional
         """
-        self.iccid = iccid
-        self.smdp_address = smdp_address
-        self.manual_activation_code = manual_activation_code
+        self.iccid = self._define_str(
+            "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
+        self.smdp_address = self._define_str(
+            "smdp_address", smdp_address, nullable=True
+        )
+        self.manual_activation_code = self._define_str(
+            "manual_activation_code", manual_activation_code, nullable=True
+        )
 
 
 @JsonMap({})

@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Generator, Optional
 from .handlers.base_handler import BaseHandler
 from ..transport.request import Request
 from ..transport.response import Response
@@ -53,5 +53,24 @@ class RequestChain:
                 raise error
 
             return response
+        else:
+            raise RuntimeError("RequestChain is empty")
+
+    def stream(self, request: Request) -> Generator[Response, None, None]:
+        """
+        Send the request through the chain of handlers.
+
+        :param Request request: The request to send.
+        :return: The response from the request.
+        :rtype: Generator[Response, None, None]
+        :raises RuntimeError: If the RequestChain is empty.
+        """
+        if self._head is not None:
+            stream = self._head.stream(request)
+            for response, error in stream:
+                if error is not None:
+                    raise error
+
+                yield response
         else:
             raise RuntimeError("RequestChain is empty")

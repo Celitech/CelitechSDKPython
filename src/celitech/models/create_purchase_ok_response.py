@@ -59,13 +59,15 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         :param end_time: Epoch value representing the end time of the package's validity, defaults to None
         :type end_time: float, optional
         """
-        self.id_ = id_
-        self.package_id = package_id
-        self.start_date = start_date
-        self.end_date = end_date
-        self.created_date = created_date
-        self.start_time = start_time
-        self.end_time = end_time
+        self.id_ = self._define_str("id_", id_, nullable=True)
+        self.package_id = self._define_str("package_id", package_id, nullable=True)
+        self.start_date = self._define_str("start_date", start_date, nullable=True)
+        self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.created_date = self._define_str(
+            "created_date", created_date, nullable=True
+        )
+        self.start_time = self._define_number("start_time", start_time, nullable=True)
+        self.end_time = self._define_number("end_time", end_time, nullable=True)
 
 
 @JsonMap({"activation_code": "activationCode"})
@@ -86,8 +88,16 @@ class CreatePurchaseOkResponseProfile(BaseModel):
         :param activation_code: QR Code of the eSIM as base64, defaults to None
         :type activation_code: str, optional
         """
-        self.iccid = iccid
-        self.activation_code = activation_code
+        self.iccid = self._define_str(
+            "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
+        self.activation_code = self._define_str(
+            "activation_code",
+            activation_code,
+            nullable=True,
+            min_length=1000,
+            max_length=8000,
+        )
 
 
 @JsonMap({})

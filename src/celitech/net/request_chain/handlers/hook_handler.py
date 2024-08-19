@@ -1,8 +1,8 @@
-from typing import Optional, Tuple
+from typing import Generator, Optional, Tuple
 
 
 from .base_handler import BaseHandler
-from ....hooks.hook import DefaultHook
+from ....hooks.hook import CustomHook
 from ...transport.request import Request
 from ...transport.response import Response
 from ...transport.request_error import RequestError
@@ -20,7 +20,7 @@ class HookHandler(BaseHandler):
         Initialize a new instance of HookHandler.
         """
         super().__init__()
-        self._hook = DefaultHook()
+        self._hook = CustomHook()
 
         self._additional_variables = additional_variables
 
@@ -41,11 +41,36 @@ class HookHandler(BaseHandler):
 
         self._hook.before_request(request, **self._additional_variables)
         response, error = self._next_handler.handle(request)
+        self._handle_response(request, response, error)
+
+        return response, error
+
+    def stream(
+        self, request: Request
+    ) -> Generator[Tuple[Optional[Response], Optional[RequestError]], None, None]:
+        """
+        Call the beforeRequest hook before passing the request to the next handler in the chain.
+        Call the afterResponse hook after receiving a response from the next handler in the chain.
+        Call the onError hook if an error occurs in the next handler in the chain.
+
+        :param Request request: The request to handle.
+        :return: The response and any error that occurred.
+        :rtype: Generator[Tuple[Optional[Response], Optional[RequestError]], None, None]
+        """
+        if self._next_handler is None:
+            raise RequestError("Handler chain is incomplete")
+
+        self._hook.before_request(request, **self._additional_variables)
+        for response, error in self._next_handler.stream(request):
+            self._handle_response(request, response, error)
+            yield response, error
+
+    def _handle_response(
+        self, request: Request, response: Response, error: RequestError
+    ):
         if error is not None and error.is_http_error:
             self._hook.on_error(
                 error, request, error.response, **self._additional_variables
             )
         else:
             self._hook.after_response(request, response, **self._additional_variables)
-
-        return response, error

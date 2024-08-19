@@ -63,11 +63,13 @@ class TopUpEsimRequest(BaseModel):
         :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
         :type end_time: float, optional
         """
-        self.iccid = iccid
+        self.iccid = self._define_str("iccid", iccid, min_length=18, max_length=22)
         self.data_limit_in_gb = data_limit_in_gb
         self.start_date = start_date
         self.end_date = end_date
-        self.email = email
-        self.reference_id = reference_id
-        self.start_time = start_time
-        self.end_time = end_time
+        self.email = self._define_str("email", email, nullable=True)
+        self.reference_id = self._define_str(
+            "reference_id", reference_id, nullable=True
+        )
+        self.start_time = self._define_number("start_time", start_time, nullable=True)
+        self.end_time = self._define_number("end_time", end_time, nullable=True)

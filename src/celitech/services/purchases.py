@@ -77,7 +77,6 @@ class PurchasesService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return ListPurchasesOkResponse._unmap(response)
 
     @cast_models
@@ -105,7 +104,6 @@ class PurchasesService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return CreatePurchaseOkResponse._unmap(response)
 
     @cast_models
@@ -131,7 +129,6 @@ class PurchasesService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return TopUpEsimOkResponse._unmap(response)
 
     @cast_models
@@ -159,7 +156,6 @@ class PurchasesService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return EditPurchaseOkResponse._unmap(response)
 
     @cast_models
@@ -190,5 +186,4 @@ class PurchasesService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return GetPurchaseConsumptionOkResponse._unmap(response)
