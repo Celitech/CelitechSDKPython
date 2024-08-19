@@ -68,5 +68,4 @@ class PackagesService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return ListPackagesOkResponse._unmap(response)

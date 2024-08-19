@@ -73,8 +73,12 @@ class CreatePurchaseRequest(BaseModel):
         self.data_limit_in_gb = data_limit_in_gb
         self.start_date = start_date
         self.end_date = end_date
-        self.email = email
-        self.reference_id = reference_id
-        self.network_brand = network_brand
-        self.start_time = start_time
-        self.end_time = end_time
+        self.email = self._define_str("email", email, nullable=True)
+        self.reference_id = self._define_str(
+            "reference_id", reference_id, nullable=True
+        )
+        self.network_brand = self._define_str(
+            "network_brand", network_brand, nullable=True
+        )
+        self.start_time = self._define_number("start_time", start_time, nullable=True)
+        self.end_time = self._define_number("end_time", end_time, nullable=True)

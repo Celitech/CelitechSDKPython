@@ -1,6 +1,6 @@
 import random
 
-from typing import Optional, Tuple
+from typing import Generator, Optional, Tuple
 from time import sleep
 from .base_handler import BaseHandler
 from ...transport.request import Request
@@ -29,7 +29,7 @@ class RetryHandler(BaseHandler):
         self, request: Request
     ) -> Tuple[Optional[Response], Optional[RequestError]]:
         """
-        Retry the request if the previous handler in the chain returned an error or a response with a status code of 500 or higher.
+        Retry the request if the response has a status code greater or equal to 500 or equal to 408 (timeout).
 
         :param Request request: The request to retry.
         :return: The response and any error that occurred.
@@ -43,13 +43,48 @@ class RetryHandler(BaseHandler):
 
         try_count = 0
         while try_count < self._max_attempts and self._should_retry(error):
-            jitter = random.uniform(0.5, 1.5)
-            delay = self._delay_in_milliseconds * (2**try_count) * jitter / 1000
-            sleep(delay)
+            self._delay(try_count)
             response, error = self._next_handler.handle(request)
             try_count += 1
 
         return response, error
+
+    def stream(
+        self, request: Request
+    ) -> Generator[Tuple[Optional[Response], Optional[RequestError]], None, None]:
+        """
+        Retry the request if the response has a status code greater or equal to 500 or equal to 408 (timeout).
+
+        :param Request request: The request to retry.
+        :return: The response and any error that occurred.
+        :rtype: Generator[Tuple[Optional[Response], Optional[RequestError]], None, None]
+        :raises RequestError: If the handler chain is incomplete.
+        """
+        if self._next_handler is None:
+            raise RequestError("Handler chain is incomplete")
+
+        try:
+            try_count = 0
+            stream = self._next_handler.stream(request)
+            while True:
+                response, error = next(stream)
+                if try_count < self._max_attempts and self._should_retry(error):
+                    self._delay(try_count)
+                    try_count += 1
+                    stream = self._next_handler.stream(request)  # Retry the request
+                elif try_count >= self._max_attempts:
+                    yield response, error
+                    break
+                else:
+                    yield response, error
+
+        except StopIteration:
+            pass
+
+    def _delay(self, try_count: int) -> None:
+        jitter = random.uniform(0.5, 1.5)
+        delay = self._delay_in_milliseconds * (2**try_count) * jitter / 1000
+        sleep(delay)
 
     def _should_retry(self, error: Optional[RequestError]) -> bool:
         """

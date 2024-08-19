@@ -27,9 +27,9 @@ class History(BaseModel):
         :param date_: Epoch value representing the date when the eSIM status changed, defaults to None
         :type date_: float, optional
         """
-        self.status = status
-        self.status_date = status_date
-        self.date_ = date_
+        self.status = self._define_str("status", status, nullable=True)
+        self.status_date = self._define_str("status_date", status_date, nullable=True)
+        self.date_ = self._define_number("date_", date_, nullable=True)
 
 
 @JsonMap({})
@@ -50,7 +50,9 @@ class GetEsimHistoryOkResponseEsim(BaseModel):
         :param history: history, defaults to None
         :type history: List[History], optional
         """
-        self.iccid = iccid
+        self.iccid = self._define_str(
+            "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
         self.history = self._define_list(history, History)
 
 

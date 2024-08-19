@@ -33,7 +33,6 @@ class ESimService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return GetEsimOkResponse._unmap(response)
 
     @cast_models
@@ -61,7 +60,6 @@ class ESimService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return GetEsimDeviceOkResponse._unmap(response)
 
     @cast_models
@@ -89,7 +87,6 @@ class ESimService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return GetEsimHistoryOkResponse._unmap(response)
 
     @cast_models
@@ -117,5 +114,4 @@ class ESimService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return GetEsimMacOkResponse._unmap(response)

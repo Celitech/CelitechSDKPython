@@ -59,13 +59,15 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         :param end_time: Epoch value representing the end time of the package's validity, defaults to None
         :type end_time: float, optional
         """
-        self.id_ = id_
-        self.package_id = package_id
-        self.start_date = start_date
-        self.end_date = end_date
-        self.created_date = created_date
-        self.start_time = start_time
-        self.end_time = end_time
+        self.id_ = self._define_str("id_", id_, nullable=True)
+        self.package_id = self._define_str("package_id", package_id, nullable=True)
+        self.start_date = self._define_str("start_date", start_date, nullable=True)
+        self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.created_date = self._define_str(
+            "created_date", created_date, nullable=True
+        )
+        self.start_time = self._define_number("start_time", start_time, nullable=True)
+        self.end_time = self._define_number("end_time", end_time, nullable=True)
 
 
 @JsonMap({})
@@ -82,7 +84,9 @@ class TopUpEsimOkResponseProfile(BaseModel):
         :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
         """
-        self.iccid = iccid
+        self.iccid = self._define_str(
+            "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
 
 
 @JsonMap({})

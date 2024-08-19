@@ -25,5 +25,4 @@ class DestinationsService(BaseService):
         )
 
         response = self.send_request(serialized_request)
-
         return ListDestinationsOkResponse._unmap(response)

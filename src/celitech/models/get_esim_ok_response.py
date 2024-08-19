@@ -36,10 +36,16 @@ class GetEsimOkResponseEsim(BaseModel):
         :param status: Status of the eSIM, possible values are 'RELEASED', 'DOWNLOADED', 'INSTALLED', 'ENABLED', 'DELETED', or 'ERROR', defaults to None
         :type status: str, optional
         """
-        self.iccid = iccid
-        self.smdp_address = smdp_address
-        self.manual_activation_code = manual_activation_code
-        self.status = status
+        self.iccid = self._define_str(
+            "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
+        self.smdp_address = self._define_str(
+            "smdp_address", smdp_address, nullable=True
+        )
+        self.manual_activation_code = self._define_str(
+            "manual_activation_code", manual_activation_code, nullable=True
+        )
+        self.status = self._define_str("status", status, nullable=True)
 
 
 @JsonMap({})

@@ -1,7 +1,7 @@
 import requests
 
 from requests.exceptions import Timeout
-from typing import Optional, Tuple
+from typing import Generator, Optional, Tuple
 from .base_handler import BaseHandler
 from ...transport.request import Request
 from ...transport.response import Response
@@ -55,6 +55,40 @@ class HttpHandler(BaseHandler):
             return response, None
         except Timeout:
             return None, RequestError("Request timed out")
+
+    def stream(
+        self, request: Request
+    ) -> Generator[Tuple[Optional[Response], Optional[RequestError]], None, None]:
+        try:
+            request_args = self._get_request_data(request)
+
+            result = requests.request(
+                request.method,
+                request.url,
+                headers=request.headers,
+                timeout=self._timeout_in_seconds,
+                stream=True,
+                **request_args,
+            )
+
+            if result.status_code >= 400:
+                response = Response(result)
+                yield (
+                    None,
+                    RequestError(
+                        message=f"{response.status} error in request to: {request.url}",
+                        status=response.status,
+                        response=response,
+                    ),
+                )
+
+            else:
+                for chunk in result.iter_content(chunk_size=8192):
+                    response = Response(result, chunk)
+                    yield response, None
+
+        except Timeout:
+            yield None, RequestError("Request timed out")
 
     def _get_request_data(self, request: Request) -> dict:
         """
