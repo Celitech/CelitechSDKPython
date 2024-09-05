@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Set
 from .utils import extract_original_data
 
 
@@ -32,6 +32,7 @@ class Request:
         self.method = None
         self.headers = None
         self.body = None
+        self.scopes = None
 
     def set_url(self, url: str) -> "Request":
         """
@@ -77,6 +78,17 @@ class Request:
         """
         self.body = extract_original_data(body)
         self.headers["Content-Type"] = content_type
+        return self
+
+    def set_scopes(self, scopes: Set[str]) -> "Request":
+        """
+        Set the scopes for the request.
+
+        :param list scopes: List of scopes to include in the request.
+        :return: The updated Request object.
+        :rtype: Request
+        """
+        self.scopes = scopes
         return self
 
     def __str__(self) -> str:

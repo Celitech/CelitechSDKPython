@@ -16,6 +16,7 @@ class Celitech:
         """
         Initializes Celitech the SDK class.
         """
+
         self.destinations = DestinationsService(base_url=base_url)
         self.packages = PackagesService(base_url=base_url)
         self.purchases = PurchasesService(base_url=base_url)

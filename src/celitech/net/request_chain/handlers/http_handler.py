@@ -84,8 +84,8 @@ class HttpHandler(BaseHandler):
 
             else:
                 for chunk in result.iter_content(chunk_size=8192):
-                    response = Response(result, chunk)
-                    yield response, None
+                    for response in Response.from_chunk(result, chunk):
+                        yield response, None
 
         except Timeout:
             yield None, RequestError("Request timed out")
