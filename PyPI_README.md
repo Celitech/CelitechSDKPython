@@ -84,14 +84,14 @@ print(result)
 The SDK provides various services to interact with the API.
 
 <details> 
-<summary>Below is a list of all available services with links to their detailed documentation:</summary>
+<summary>Below is a list of all available services:</summary>
 
-| Name                                                                 |
-| :------------------------------------------------------------------- |
-| [DestinationsService](documentation/services/DestinationsService.md) |
-| [PackagesService](documentation/services/PackagesService.md)         |
-| [PurchasesService](documentation/services/PurchasesService.md)       |
-| [ESimService](documentation/services/ESimService.md)                 |
+| Name         |
+| :----------- |
+| destinations |
+| packages     |
+| purchases    |
+| e_sim        |
 
 </details>
 
@@ -100,24 +100,24 @@ The SDK provides various services to interact with the API.
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
 
 <details> 
-<summary>Below is a list of all available models with links to their detailed documentation:</summary>
+<summary>Below is a list of all available models:</summary>
 
-| Name                                                                                         | Description |
-| :------------------------------------------------------------------------------------------- | :---------- |
-| [ListDestinationsOkResponse](documentation/models/ListDestinationsOkResponse.md)             |             |
-| [ListPackagesOkResponse](documentation/models/ListPackagesOkResponse.md)                     |             |
-| [ListPurchasesOkResponse](documentation/models/ListPurchasesOkResponse.md)                   |             |
-| [CreatePurchaseRequest](documentation/models/CreatePurchaseRequest.md)                       |             |
-| [CreatePurchaseOkResponse](documentation/models/CreatePurchaseOkResponse.md)                 |             |
-| [TopUpEsimRequest](documentation/models/TopUpEsimRequest.md)                                 |             |
-| [TopUpEsimOkResponse](documentation/models/TopUpEsimOkResponse.md)                           |             |
-| [EditPurchaseRequest](documentation/models/EditPurchaseRequest.md)                           |             |
-| [EditPurchaseOkResponse](documentation/models/EditPurchaseOkResponse.md)                     |             |
-| [GetPurchaseConsumptionOkResponse](documentation/models/GetPurchaseConsumptionOkResponse.md) |             |
-| [GetEsimOkResponse](documentation/models/GetEsimOkResponse.md)                               |             |
-| [GetEsimDeviceOkResponse](documentation/models/GetEsimDeviceOkResponse.md)                   |             |
-| [GetEsimHistoryOkResponse](documentation/models/GetEsimHistoryOkResponse.md)                 |             |
-| [GetEsimMacOkResponse](documentation/models/GetEsimMacOkResponse.md)                         |             |
+| Name                             | Description |
+| :------------------------------- | :---------- |
+| ListDestinationsOkResponse       |             |
+| ListPackagesOkResponse           |             |
+| ListPurchasesOkResponse          |             |
+| CreatePurchaseRequest            |             |
+| CreatePurchaseOkResponse         |             |
+| TopUpEsimRequest                 |             |
+| TopUpEsimOkResponse              |             |
+| EditPurchaseRequest              |             |
+| EditPurchaseOkResponse           |             |
+| GetPurchaseConsumptionOkResponse |             |
+| GetEsimOkResponse                |             |
+| GetEsimDeviceOkResponse          |             |
+| GetEsimHistoryOkResponse         |             |
+| GetEsimMacOkResponse             |             |
 
 </details>
 
