@@ -2,7 +2,7 @@ from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..models.utils.cast_models import cast_models
-from ..models.list_destinations_ok_response import ListDestinationsOkResponse
+from ..models import ListDestinationsOkResponse
 
 
 class DestinationsService(BaseService):
