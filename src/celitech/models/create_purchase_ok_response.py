@@ -70,26 +70,43 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         self.end_time = self._define_number("end_time", end_time, nullable=True)
 
 
-@JsonMap({"activation_code": "activationCode"})
+@JsonMap(
+    {
+        "manual_activation_code": "manualActivationCode",
+        "activation_code": "activationCode",
+    }
+)
 class CreatePurchaseOkResponseProfile(BaseModel):
     """CreatePurchaseOkResponseProfile
 
     :param iccid: ID of the eSIM, defaults to None
     :type iccid: str, optional
+    :param manual_activation_code: Manual Activation Code of the eSIM, defaults to None
+    :type manual_activation_code: str, optional
     :param activation_code: QR Code of the eSIM as base64, defaults to None
     :type activation_code: str, optional
     """
 
-    def __init__(self, iccid: str = None, activation_code: str = None):
+    def __init__(
+        self,
+        iccid: str = None,
+        manual_activation_code: str = None,
+        activation_code: str = None,
+    ):
         """CreatePurchaseOkResponseProfile
 
         :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
+        :param manual_activation_code: Manual Activation Code of the eSIM, defaults to None
+        :type manual_activation_code: str, optional
         :param activation_code: QR Code of the eSIM as base64, defaults to None
         :type activation_code: str, optional
         """
         self.iccid = self._define_str(
             "iccid", iccid, nullable=True, min_length=18, max_length=22
+        )
+        self.manual_activation_code = self._define_str(
+            "manual_activation_code", manual_activation_code, nullable=True
         )
         self.activation_code = self._define_str(
             "activation_code",
