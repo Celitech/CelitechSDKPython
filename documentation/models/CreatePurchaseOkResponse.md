@@ -25,7 +25,8 @@
 
 **Properties**
 
-| Name            | Type | Required | Description                   |
-| :-------------- | :--- | :------- | :---------------------------- |
-| iccid           | str  | ❌       | ID of the eSIM                |
-| activation_code | str  | ❌       | QR Code of the eSIM as base64 |
+| Name                   | Type | Required | Description                        |
+| :--------------------- | :--- | :------- | :--------------------------------- |
+| iccid                  | str  | ❌       | ID of the eSIM                     |
+| activation_code        | str  | ❌       | QR Code of the eSIM as base64      |
+| manual_activation_code | str  | ❌       | Manual Activation Code of the eSIM |
