@@ -1,17 +1,17 @@
-# Celitech Python SDK 1.1.87
+# Celitech Python SDK 1.1.88<a id="celitech-python-sdk-1188"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
-## Versions
+## Versions<a id="versions"></a>
 
 - API version: `1.1.0`
-- SDK version: `1.1.87`
+- SDK version: `1.1.88`
 
-## About the API
+## About the API<a id="about-the-api"></a>
 
 Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
 
-## Table of Contents
+## Table of Contents<a id="table-of-contents"></a>
 
 - [Setup & Configuration](#setup--configuration)
   - [Supported Language Versions](#supported-language-versions)
@@ -23,13 +23,13 @@ Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.
 - [Models](#models)
 - [License](#license)
 
-## Setup & Configuration
+## Setup & Configuration<a id="setup--configuration"></a>
 
-### Supported Language Versions
+### Supported Language Versions<a id="supported-language-versions"></a>
 
 This SDK is compatible with the following versions: `Python >= 3.7`
 
-### Installation
+### Installation<a id="installation"></a>
 
 To get started with the SDK, we recommend installing using `pip`:
 
@@ -37,7 +37,7 @@ To get started with the SDK, we recommend installing using `pip`:
 pip install celitech-sdk
 ```
 
-## Environment Variables
+## Environment Variables<a id="environment-variables"></a>
 
 These are the environment variables for the SDK:
 
@@ -50,7 +50,7 @@ Environment variables are a way to configure your application outside the code. 
 
 If you are using a `.env` file, a template with the variable names is provided in the `.env.example` file located in the same directory as this README.
 
-## Setting a Custom Timeout
+## Setting a Custom Timeout<a id="setting-a-custom-timeout"></a>
 
 You can set a custom timeout for the SDK's HTTP requests as follows:
 
@@ -60,7 +60,7 @@ from celitech import Celitech
 sdk = Celitech(timeout=10000)
 ```
 
-# Sample Usage
+# Sample Usage<a id="sample-usage"></a>
 
 Below is a comprehensive example demonstrating how to authenticate and call a simple endpoint:
 
@@ -79,7 +79,7 @@ print(result)
 
 ```
 
-## Services
+## Services<a id="services"></a>
 
 The SDK provides various services to interact with the API.
 
@@ -95,7 +95,7 @@ The SDK provides various services to interact with the API.
 
 </details>
 
-## Models
+## Models<a id="models"></a>
 
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
 
@@ -121,7 +121,7 @@ The SDK includes several models that represent the data structures used in API r
 
 </details>
 
-## License
+## License<a id="license"></a>
 
 This SDK is licensed under the MIT License.
 

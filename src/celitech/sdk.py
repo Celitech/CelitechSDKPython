@@ -1,3 +1,4 @@
+from typing import Union
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
 from .services.purchases import PurchasesService
@@ -10,28 +11,38 @@ class Celitech:
         self,
         client_id: str = None,
         client_secret: str = None,
-        base_url: str = Environment.DEFAULT.value,
+        base_url: Union[Environment, str] = Environment.DEFAULT,
         timeout: int = 60000,
     ):
         """
         Initializes Celitech the SDK class.
         """
 
-        self.destinations = DestinationsService(base_url=base_url)
-        self.packages = PackagesService(base_url=base_url)
-        self.purchases = PurchasesService(base_url=base_url)
-        self.e_sim = ESimService(base_url=base_url)
+        self._base_url = (
+            base_url.value if isinstance(base_url, Environment) else base_url
+        )
+        self.destinations = DestinationsService(base_url=self._base_url)
+        self.packages = PackagesService(base_url=self._base_url)
+        self.purchases = PurchasesService(base_url=self._base_url)
+        self.e_sim = ESimService(base_url=self._base_url)
         self.set_additional_variables(client_id, client_secret)
         self.set_timeout(timeout)
 
-    def set_base_url(self, base_url):
+    def set_base_url(self, base_url: Union[Environment, str]):
         """
         Sets the base URL for the entire SDK.
+
+        :param Union[Environment, str] base_url: The base URL to be set.
+        :return: The SDK instance.
         """
-        self.destinations.set_base_url(base_url)
-        self.packages.set_base_url(base_url)
-        self.purchases.set_base_url(base_url)
-        self.e_sim.set_base_url(base_url)
+        self._base_url = (
+            base_url.value if isinstance(base_url, Environment) else base_url
+        )
+
+        self.destinations.set_base_url(self._base_url)
+        self.packages.set_base_url(self._base_url)
+        self.purchases.set_base_url(self._base_url)
+        self.e_sim.set_base_url(self._base_url)
 
         return self
 

@@ -7,7 +7,7 @@ sdk = Celitech(
     base_url=Environment.DEFAULT.value
 )
 
-result = sdk.e_sim.get_esim_mac(iccid="1111222233334444555")
+result = sdk.e_sim.get_esim_mac(iccid="1111222233334444555000")
 
 print(result)
 

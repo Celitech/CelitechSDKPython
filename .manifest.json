@@ -1,16 +1,17 @@
 {
-  "liblabVersion": "2.1.31",
-  "date": "2024-09-05T11:13:02.951Z",
+  "liblabVersion": "2.5.1",
+  "date": "2024-10-03T21:56:56.445Z",
   "config": {
-    "apiId": 1117,
+    "apiId": 1249,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.87",
+    "sdkVersion": "1.1.88",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
-    "apiVersion": "1.1.87",
+    "apiVersion": "1.1.88",
+    "apiName": "Celitech",
     "specFilePath": "swagger.yaml",
-    "docs": ["api", "snippets"],
+    "docs": ["api", "snippets", "enhancedApiSpec"],
     "languageOptions": {
       "python": {
         "alwaysInitializeOptionals": true,
@@ -27,7 +28,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.87"
+        "sdkVersion": "1.1.88"
       },
       "php": {
         "packageName": "celitech-sdk/sdk",
@@ -43,12 +44,12 @@
         ],
         "githubRepoName": "CelitechSDKPHP",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.87"
+        "sdkVersion": "1.1.88"
       },
       "typescript": {
         "bundle": true,
         "exportClassDefault": false,
-        "httpClient": "axios",
+        "httpClient": "fetch",
         "npmName": "celitech-sdk",
         "additionalConstructorParameters": [
           {
@@ -62,13 +63,23 @@
         ],
         "githubRepoName": "CelitechSDKTypeScript",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.87"
+        "sdkVersion": "1.1.88",
+        "generateEnumAs": "enum"
       }
     },
     "publishing": {
       "githubOrg": "Celitech"
     },
-    "apiName": "CELITECH API",
+    "integrations": {
+      "enhancedApiSpec": {
+        "githubRepoName": "CelitechCoreAPIReference",
+        "targetBranch": "main",
+        "provider": "redocly",
+        "redocly": {
+          "openapiPath": "swagger.yaml"
+        }
+      }
+    },
     "devContainer": true,
     "environmentVariables": [
       {
@@ -103,7 +114,7 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "7002/hooks.zip",
+      "bucketKey": "7524/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
     "includeWatermark": false,
@@ -132,7 +143,7 @@
     "httpLibrary": {
       "name": "axios",
       "packages": {
-        "axios": "^1.7.4"
+        "axios": "^1.7.7"
       },
       "languages": ["typescript"]
     },
