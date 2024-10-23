@@ -37,12 +37,11 @@ This endpoint can be used to list all the successful purchases made between a gi
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.purchases.list_purchases()
@@ -70,13 +69,12 @@ This endpoint is used to purchase a new eSIM by providing the package details.
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 from celitech.models import CreatePurchaseRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 request_body = CreatePurchaseRequest(
@@ -111,13 +109,12 @@ This endpoint is used to top-up an eSIM with the previously associated destinati
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 from celitech.models import TopUpEsimRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 request_body = TopUpEsimRequest(
@@ -152,13 +149,12 @@ This endpoint allows you to modify the dates of an existing package with a futur
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 from celitech.models import EditPurchaseRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 request_body = EditPurchaseRequest(
@@ -192,12 +188,11 @@ This endpoint can be called for consumption notifications (e.g. every 1 hour or 
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.purchases.get_purchase_consumption(purchase_id="4973fa15-6979-4daa-9cf3-672620df819c")

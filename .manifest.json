@@ -1,14 +1,14 @@
 {
-  "liblabVersion": "2.5.1",
-  "date": "2024-10-03T21:56:56.445Z",
+  "liblabVersion": "2.7.0",
+  "date": "2024-10-23T15:17:12.217Z",
   "config": {
-    "apiId": 1249,
+    "apiId": 1312,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.88",
+    "sdkVersion": "1.1.89",
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
     "languages": ["python"],
-    "apiVersion": "1.1.88",
+    "apiVersion": "1.1.89",
     "apiName": "Celitech",
     "specFilePath": "swagger.yaml",
     "docs": ["api", "snippets", "enhancedApiSpec"],
@@ -28,7 +28,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.88"
+        "sdkVersion": "1.1.89"
       },
       "php": {
         "packageName": "celitech-sdk/sdk",
@@ -44,7 +44,7 @@
         ],
         "githubRepoName": "CelitechSDKPHP",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.88"
+        "sdkVersion": "1.1.89"
       },
       "typescript": {
         "bundle": true,
@@ -63,7 +63,7 @@
         ],
         "githubRepoName": "CelitechSDKTypeScript",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.88",
+        "sdkVersion": "1.1.89",
         "generateEnumAs": "enum"
       }
     },
@@ -114,7 +114,7 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "7524/hooks.zip",
+      "bucketKey": "7742/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
     "includeWatermark": false,

@@ -20,4 +20,8 @@ venv.bak/
 .devcontainer/
 
 dist/
+build/
 .vscode
+
+# Egg info
+*.egg-info/

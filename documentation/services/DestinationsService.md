@@ -20,12 +20,11 @@ List Destinations
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.destinations.list_destinations()
