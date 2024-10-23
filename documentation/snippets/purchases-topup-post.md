@@ -1,11 +1,10 @@
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 from celitech.models import TopUpEsimRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 request_body = TopUpEsimRequest(

@@ -1,11 +1,11 @@
-# Celitech Python SDK 1.1.88<a id="celitech-python-sdk-1188"></a>
+# Celitech Python SDK 1.1.89<a id="celitech-python-sdk-1189"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions<a id="versions"></a>
 
 - API version: `1.1.0`
-- SDK version: `1.1.88`
+- SDK version: `1.1.89`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -65,12 +65,11 @@ sdk = Celitech(timeout=10000)
 Below is a comprehensive example demonstrating how to authenticate and call a simple endpoint:
 
 ```py
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.destinations.list_destinations()

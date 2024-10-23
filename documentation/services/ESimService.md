@@ -29,12 +29,11 @@ Get eSIM Status
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.e_sim.get_esim(iccid="1111222233334444555000")
@@ -62,12 +61,11 @@ Get eSIM Device
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.e_sim.get_esim_device(iccid="1111222233334444555000")
@@ -95,12 +93,11 @@ Get eSIM History
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.e_sim.get_esim_history(iccid="1111222233334444555000")
@@ -128,12 +125,11 @@ Get eSIM MAC
 **Example Usage Code Snippet**
 
 ```python
-from celitech import Celitech, Environment
+from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    base_url=Environment.DEFAULT.value
+    client_secret="client-secret"
 )
 
 result = sdk.e_sim.get_esim_mac(iccid="1111222233334444555000")
