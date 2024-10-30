@@ -1,11 +1,9 @@
 from typing import Union
-from .services.o_auth import OAuthService
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
 from .services.purchases import PurchasesService
 from .services.e_sim import ESimService
 from .net.environment import Environment
-from .net.oauth.token_manager import TokenManager
 
 
 class Celitech:
@@ -13,40 +11,20 @@ class Celitech:
         self,
         client_id: str = None,
         client_secret: str = None,
-        client_id: str = None,
-        client_secret: str = None,
         base_url: Union[Environment, str] = Environment.DEFAULT,
         timeout: int = 60000,
-        base_oauth_url: str = None,
     ):
         """
         Initializes Celitech the SDK class.
         """
-        self.base_oauth_url = (
-            base_oauth_url if base_oauth_url else "https://auth.celitech.net"
-        )
-        self._token_manager = TokenManager(base_oauth_url=self.base_oauth_url)
 
         self._base_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
-        self.o_auth = OAuthService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.destinations = DestinationsService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.packages = PackagesService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.purchases = PurchasesService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.e_sim = ESimService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.set_client_id(client_id)
-        self.set_client_secret(client_secret)
+        self.destinations = DestinationsService(base_url=self._base_url)
+        self.packages = PackagesService(base_url=self._base_url)
+        self.purchases = PurchasesService(base_url=self._base_url)
+        self.e_sim = ESimService(base_url=self._base_url)
         self.set_additional_variables(client_id, client_secret)
         self.set_timeout(timeout)
 
@@ -61,20 +39,10 @@ class Celitech:
             base_url.value if isinstance(base_url, Environment) else base_url
         )
 
-        self.o_auth.set_base_url(self._base_url)
         self.destinations.set_base_url(self._base_url)
         self.packages.set_base_url(self._base_url)
         self.purchases.set_base_url(self._base_url)
         self.e_sim.set_base_url(self._base_url)
-
-        return self
-
-    def set_base_oauth_url(self, base_oauth_url):
-        """
-        Sets the base oAuth URL for the entire SDK.
-        """
-        self.base_oauth_url = base_oauth_url
-        self._token_manager.set_base_oauth_url(base_oauth_url)
 
         return self
 
@@ -84,7 +52,6 @@ class Celitech:
         """
         Sets the additional variables for the entire SDK.
         """
-        self.o_auth.set_additional_variables(client_id, client_secret)
         self.destinations.set_additional_variables(client_id, client_secret)
         self.packages.set_additional_variables(client_id, client_secret)
         self.purchases.set_additional_variables(client_id, client_secret)
@@ -99,32 +66,11 @@ class Celitech:
         :param int timeout: The timeout (ms) to be set.
         :return: The SDK instance.
         """
-        self.o_auth.set_timeout(timeout)
         self.destinations.set_timeout(timeout)
         self.packages.set_timeout(timeout)
         self.purchases.set_timeout(timeout)
         self.e_sim.set_timeout(timeout)
 
-        return self
-
-    def set_client_id(self, client_id: str):
-        """
-        Sets the client_id for the entire SDK.
-
-        :param str client_id: The client_id to be set.
-        :return: The SDK instance.
-        """
-        self._token_manager.set_client_id(client_id)
-        return self
-
-    def set_client_secret(self, client_secret: str):
-        """
-        Sets the client_secret for the entire SDK.
-
-        :param str client_secret: The client_secret to be set.
-        :return: The SDK instance.
-        """
-        self._token_manager.set_client_secret(client_secret)
         return self
 
 

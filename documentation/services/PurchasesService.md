@@ -41,9 +41,7 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="client-secret"
 )
 
 result = sdk.purchases.list_purchases()
@@ -76,9 +74,7 @@ from celitech.models import CreatePurchaseRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="client-secret"
 )
 
 request_body = CreatePurchaseRequest(
@@ -118,9 +114,7 @@ from celitech.models import TopUpEsimRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="client-secret"
 )
 
 request_body = TopUpEsimRequest(
@@ -160,9 +154,7 @@ from celitech.models import EditPurchaseRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="client-secret"
 )
 
 request_body = EditPurchaseRequest(
@@ -200,9 +192,7 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="client-secret"
 )
 
 result = sdk.purchases.get_purchase_consumption(purchase_id="4973fa15-6979-4daa-9cf3-672620df819c")
