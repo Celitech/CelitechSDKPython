@@ -1,18 +1,37 @@
 {
-  "liblabVersion": "2.7.0",
-  "date": "2024-10-23T15:17:12.217Z",
+  "liblabVersion": "2.9.0",
+  "date": "2024-10-30T12:44:35.645Z",
   "config": {
-    "apiId": 1312,
+    "apiId": 1349,
     "sdkName": "Celitech",
-    "sdkVersion": "1.1.89",
+    "sdkVersion": "1.1.91",
+    "languages": ["python"],
+    "auth": ["oauth"],
+    "docs": ["snippets"],
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
-    "languages": ["python"],
-    "apiVersion": "1.1.89",
+    "apiVersion": "1.1.91",
     "apiName": "Celitech",
     "specFilePath": "swagger.yaml",
-    "docs": ["api", "snippets", "enhancedApiSpec"],
     "languageOptions": {
+      "java": {
+        "groupId": "io.github.celitech",
+        "artifactId": "celitech-sdk",
+        "additionalConstructorParameters": [
+          {
+            "name": "clientId",
+            "example": "client-id"
+          },
+          {
+            "name": "clientSecret",
+            "example": "client-secret"
+          }
+        ],
+        "githubRepoName": "CelitechSDKJava",
+        "homepage": "https://docs.celitech.com/",
+        "liblabVersion": "2",
+        "sdkVersion": "1.1.91"
+      },
       "python": {
         "alwaysInitializeOptionals": true,
         "additionalConstructorParameters": [
@@ -28,7 +47,7 @@
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.89"
+        "sdkVersion": "1.1.91"
       },
       "php": {
         "packageName": "celitech-sdk/sdk",
@@ -44,7 +63,7 @@
         ],
         "githubRepoName": "CelitechSDKPHP",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.89"
+        "sdkVersion": "1.1.91"
       },
       "typescript": {
         "bundle": true,
@@ -63,21 +82,16 @@
         ],
         "githubRepoName": "CelitechSDKTypeScript",
         "liblabVersion": "2",
-        "sdkVersion": "1.1.89",
+        "sdkVersion": "1.1.91",
         "generateEnumAs": "enum"
       }
     },
     "publishing": {
       "githubOrg": "Celitech"
     },
-    "integrations": {
-      "enhancedApiSpec": {
-        "githubRepoName": "CelitechCoreAPIReference",
-        "targetBranch": "main",
-        "provider": "redocly",
-        "redocly": {
-          "openapiPath": "swagger.yaml"
-        }
+    "authentication": {
+      "oauth": {
+        "enabled": true
       }
     },
     "devContainer": true,
@@ -114,7 +128,7 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "7742/hooks.zip",
+      "bucketKey": "7881/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
     "includeWatermark": false,
@@ -138,7 +152,6 @@
       "sourceDir": "/tmp/resources/hooks"
     },
     "usesFormData": false,
-    "authentication": {},
     "fileOutput": "/tmp",
     "httpLibrary": {
       "name": "axios",
@@ -147,7 +160,6 @@
       },
       "languages": ["typescript"]
     },
-    "auth": [],
     "customQueries": {
       "paths": [],
       "rawQueries": [],
@@ -198,6 +210,7 @@
     "src/celitech/services/utils/default_headers.py",
     "./LICENSE",
     ".devcontainer/devcontainer.json",
+    "documentation/snippets/oauth2-token-post.md",
     "documentation/snippets/destinations-get.md",
     "documentation/snippets/packages-get.md",
     "documentation/snippets/purchases-get.md",
@@ -209,24 +222,31 @@
     "documentation/snippets/esim-{iccid}-device-get.md",
     "documentation/snippets/esim-{iccid}-history-get.md",
     "documentation/snippets/esim-{iccid}-mac-get.md",
+    "documentation/models/GetAccessTokenOkResponse.md",
     "documentation/models/CreatePurchaseRequest.md",
     "documentation/models/TopUpEsimRequest.md",
     "documentation/models/EditPurchaseRequest.md",
     "documentation/models/EditPurchaseOkResponse.md",
     "documentation/models/GetPurchaseConsumptionOkResponse.md",
     "src/celitech/models/utils/one_of_base_model.py",
+    "src/celitech/net/oauth/token_manager.py",
+    "src/celitech/net/request_chain/handlers/oauth_handler.py",
+    "src/celitech/services/o_auth.py",
     "src/celitech/services/destinations.py",
     "src/celitech/services/packages.py",
+    "documentation/models/GetAccessTokenRequest.md",
     "documentation/models/ListDestinationsOkResponse.md",
     "documentation/models/ListPackagesOkResponse.md",
     "documentation/models/GetEsimOkResponse.md",
     "documentation/models/GetEsimDeviceOkResponse.md",
     "documentation/models/GetEsimMacOkResponse.md",
+    "documentation/services/OAuthService.md",
     "documentation/services/DestinationsService.md",
     "documentation/services/PackagesService.md",
     "documentation/models/CreatePurchaseOkResponse.md",
     "documentation/models/TopUpEsimOkResponse.md",
     "documentation/models/GetEsimHistoryOkResponse.md",
+    "src/celitech/models/get_access_token_ok_response.py",
     "src/celitech/models/create_purchase_request.py",
     "src/celitech/models/top_up_esim_request.py",
     "src/celitech/models/edit_purchase_request.py",
@@ -234,6 +254,7 @@
     "src/celitech/models/get_purchase_consumption_ok_response.py",
     "documentation/models/ListPurchasesOkResponse.md",
     "documentation/services/ESimService.md",
+    "src/celitech/models/get_access_token_request.py",
     "documentation/services/PurchasesService.md",
     "src/celitech/models/list_destinations_ok_response.py",
     "src/celitech/models/list_packages_ok_response.py",
