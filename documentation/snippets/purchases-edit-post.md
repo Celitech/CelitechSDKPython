@@ -4,9 +4,7 @@ from celitech.models import EditPurchaseRequest
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret",
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="client-secret"
 )
 
 request_body = EditPurchaseRequest(
