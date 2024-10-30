@@ -74,7 +74,6 @@ class PurchasesService(BaseService):
             .add_query("before", before)
             .serialize()
             .set_method("GET")
-            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
@@ -101,7 +100,6 @@ class PurchasesService(BaseService):
             Serializer(f"{self.base_url}/purchases", self.get_default_headers())
             .serialize()
             .set_method("POST")
-            .set_scopes({})
             .set_body(request_body)
         )
 
@@ -127,7 +125,6 @@ class PurchasesService(BaseService):
             Serializer(f"{self.base_url}/purchases/topup", self.get_default_headers())
             .serialize()
             .set_method("POST")
-            .set_scopes({})
             .set_body(request_body)
         )
 
@@ -155,7 +152,6 @@ class PurchasesService(BaseService):
             Serializer(f"{self.base_url}/purchases/edit", self.get_default_headers())
             .serialize()
             .set_method("POST")
-            .set_scopes({})
             .set_body(request_body)
         )
 
@@ -187,7 +183,6 @@ class PurchasesService(BaseService):
             .add_path("purchaseId", purchase_id)
             .serialize()
             .set_method("GET")
-            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
