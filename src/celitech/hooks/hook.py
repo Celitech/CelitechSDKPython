@@ -45,14 +45,8 @@ class CustomHook:
         return resp.json()
 
     def before_request(self, request: Request, **kwargs):
-        print("request", request)
-        print("kwargs", kwargs)
-
         client_id = kwargs.get("client_id")
         client_secret = kwargs.get("client_secret")
-
-        print("client_id", client_id)
-        print("client_secret", client_secret)
 
         if not client_id or not client_secret:
             raise Exception(
@@ -64,8 +58,6 @@ class CustomHook:
         if not CURRENT_TOKEN or CURRENT_EXPIRY < round(time.time() * 1000):
 
             token_response = self.getToken(client_id, client_secret)
-
-            print("token_response", token_response)
 
             if token_response.get("error"):
                 raise Exception(token_response.get("error"))
@@ -80,8 +72,6 @@ class CustomHook:
             CURRENT_TOKEN = access_token
 
         authorization = f"Bearer {CURRENT_TOKEN}"
-
-        print("authorization", authorization)
 
         request.headers.update({"Authorization": authorization})
 
