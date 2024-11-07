@@ -32,6 +32,7 @@ class ESimService(BaseService):
             .add_query("iccid", iccid)
             .serialize()
             .set_method("GET")
+            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
@@ -59,6 +60,7 @@ class ESimService(BaseService):
             .add_path("iccid", iccid)
             .serialize()
             .set_method("GET")
+            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
@@ -86,6 +88,7 @@ class ESimService(BaseService):
             .add_path("iccid", iccid)
             .serialize()
             .set_method("GET")
+            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
@@ -113,6 +116,7 @@ class ESimService(BaseService):
             .add_path("iccid", iccid)
             .serialize()
             .set_method("GET")
+            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
