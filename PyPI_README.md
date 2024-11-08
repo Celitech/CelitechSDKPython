@@ -1,11 +1,11 @@
-# Celitech Python SDK 1.2.5<a id="celitech-python-sdk-125"></a>
+# Celitech Python SDK 1.3.4<a id="celitech-python-sdk-134"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions<a id="versions"></a>
 
 - API version: `1.1.0`
-- SDK version: `1.2.5`
+- SDK version: `1.3.4`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -16,6 +16,8 @@ Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.
 - [Setup & Configuration](#setup--configuration)
   - [Supported Language Versions](#supported-language-versions)
   - [Installation](#installation)
+- [Authentication](#authentication)
+  - [OAuth Authentication](#oauth-authentication)
   - [Environment Variables](#environment-variables)
 - [Setting a Custom Timeout](#setting-a-custom-timeout)
 - [Sample Usage](#sample-usage)
@@ -35,6 +37,30 @@ To get started with the SDK, we recommend installing using `pip`:
 
 ```bash
 pip install celitech-sdk
+```
+
+## Authentication<a id="authentication"></a>
+
+### OAuth Authentication<a id="oauth-authentication"></a>
+
+The Celitech API uses OAuth for authentication.
+
+You need to provide the OAuth parameters when initializing the SDK.
+
+```py
+sdk = Celitech(
+    client_id="client-id",
+    client_secret="client-secret",
+    client_id="CLIENT_ID",
+    client_secret="CLIENT_SECRET"
+)
+```
+
+If you need to set or update the OAuth parameters after the SDK initialization, you can use:
+
+```py
+sdk.set_client_id("CLIENT_ID")
+sdk.set_client_secret("CLIENT_SECRET")
 ```
 
 ## Environment Variables<a id="environment-variables"></a>
@@ -69,7 +95,9 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="client-id",
-    client_secret="client-secret"
+    client_secret="client-secret",
+    client_id="CLIENT_ID",
+    client_secret="CLIENT_SECRET"
 )
 
 result = sdk.destinations.list_destinations()
@@ -87,6 +115,7 @@ The SDK provides various services to interact with the API.
 
 | Name         |
 | :----------- |
+| o_auth       |
 | destinations |
 | packages     |
 | purchases    |
@@ -103,6 +132,8 @@ The SDK includes several models that represent the data structures used in API r
 
 | Name                             | Description |
 | :------------------------------- | :---------- |
+| GetAccessTokenRequest            |             |
+| GetAccessTokenOkResponse         |             |
 | ListDestinationsOkResponse       |             |
 | ListPackagesOkResponse           |             |
 | ListPurchasesOkResponse          |             |

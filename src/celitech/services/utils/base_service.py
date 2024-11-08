@@ -7,6 +7,8 @@ from ...net.request_chain.request_chain import RequestChain
 from ...net.request_chain.handlers.hook_handler import HookHandler
 from ...net.request_chain.handlers.http_handler import HttpHandler
 from ...net.request_chain.handlers.retry_handler import RetryHandler
+from ...net.oauth.token_manager import TokenManager
+from ...net.request_chain.handlers.oauth_handler import OauthHandler
 
 
 class BaseService:
@@ -17,7 +19,7 @@ class BaseService:
     :ivar dict _default_headers: A dictionary of default headers.
     """
 
-    def __init__(self, base_url: str) -> None:
+    def __init__(self, base_url: str, token_manager: TokenManager) -> None:
         """
         Initializes a BaseService instance.
 
@@ -28,6 +30,8 @@ class BaseService:
         self._timeout = 60000
 
         self._additional_variables = {}
+
+        self._token_manager = token_manager
 
         self._update_request_handler()
 
@@ -101,6 +105,7 @@ class BaseService:
         return (
             RequestChain()
             .add_handler(RetryHandler())
+            .add_handler(OauthHandler(self._token_manager))
             .add_handler(HookHandler(self._additional_variables))
             .add_handler(HttpHandler(self._timeout))
         )
