@@ -1,11 +1,11 @@
-# Celitech Python SDK 1.3.4<a id="celitech-python-sdk-134"></a>
+# Celitech Python SDK 1.3.5<a id="celitech-python-sdk-135"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions<a id="versions"></a>
 
 - API version: `1.1.0`
-- SDK version: `1.3.4`
+- SDK version: `1.3.5`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -49,8 +49,6 @@ You need to provide the OAuth parameters when initializing the SDK.
 
 ```py
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -94,8 +92,6 @@ Below is a comprehensive example demonstrating how to authenticate and call a si
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )

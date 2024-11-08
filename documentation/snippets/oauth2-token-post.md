@@ -3,8 +3,6 @@ from celitech import Celitech
 from celitech.models import GetAccessTokenRequest
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )

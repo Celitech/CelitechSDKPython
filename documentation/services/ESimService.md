@@ -32,8 +32,6 @@ Get eSIM Status
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -66,8 +64,6 @@ Get eSIM Device
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -100,8 +96,6 @@ Get eSIM History
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -134,8 +128,6 @@ Get eSIM MAC
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )

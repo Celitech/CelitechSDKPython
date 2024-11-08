@@ -40,8 +40,6 @@ This endpoint can be used to list all the successful purchases made between a gi
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -75,8 +73,6 @@ from celitech import Celitech
 from celitech.models import CreatePurchaseRequest
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -117,8 +113,6 @@ from celitech import Celitech
 from celitech.models import TopUpEsimRequest
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -159,8 +153,6 @@ from celitech import Celitech
 from celitech.models import EditPurchaseRequest
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -199,8 +191,6 @@ This endpoint can be called for consumption notifications (e.g. every 1 hour or 
 from celitech import Celitech
 
 sdk = Celitech(
-    client_id="client-id",
-    client_secret="client-secret",
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )

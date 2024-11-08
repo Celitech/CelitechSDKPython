@@ -13,8 +13,6 @@ class Celitech:
         self,
         client_id: str = None,
         client_secret: str = None,
-        client_id: str = None,
-        client_secret: str = None,
         base_url: Union[Environment, str] = Environment.DEFAULT,
         timeout: int = 60000,
         base_oauth_url: str = None,
@@ -47,7 +45,6 @@ class Celitech:
         )
         self.set_client_id(client_id)
         self.set_client_secret(client_secret)
-        self.set_additional_variables(client_id, client_secret)
         self.set_timeout(timeout)
 
     def set_base_url(self, base_url: Union[Environment, str]):
@@ -75,20 +72,6 @@ class Celitech:
         """
         self.base_oauth_url = base_oauth_url
         self._token_manager.set_base_oauth_url(base_oauth_url)
-
-        return self
-
-    def set_additional_variables(
-        self, client_id: str = None, client_secret: str = None
-    ):
-        """
-        Sets the additional variables for the entire SDK.
-        """
-        self.o_auth.set_additional_variables(client_id, client_secret)
-        self.destinations.set_additional_variables(client_id, client_secret)
-        self.packages.set_additional_variables(client_id, client_secret)
-        self.purchases.set_additional_variables(client_id, client_secret)
-        self.e_sim.set_additional_variables(client_id, client_secret)
 
         return self
 
