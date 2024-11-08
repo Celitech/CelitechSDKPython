@@ -1,5 +1,6 @@
 ```python
 from celitech import Celitech
+from celitech.models import GetAccessTokenRequest
 
 sdk = Celitech(
     client_id="client-id",
@@ -8,7 +9,11 @@ sdk = Celitech(
     client_secret="CLIENT_SECRET"
 )
 
-result = sdk.e_sim.get_esim(iccid="1111222233334444555000")
+request_body = GetAccessTokenRequest(
+
+)
+
+result = sdk.o_auth.get_access_token(request_body=request_body)
 
 print(result)
 

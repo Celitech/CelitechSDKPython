@@ -65,6 +65,7 @@ class PackagesService(BaseService):
             .add_query("duration", duration)
             .serialize()
             .set_method("GET")
+            .set_scopes({})
         )
 
         response = self.send_request(serialized_request)
