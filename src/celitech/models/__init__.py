@@ -1,3 +1,5 @@
+from .get_access_token_request import GetAccessTokenRequest, GrantType
+from .get_access_token_ok_response import GetAccessTokenOkResponse
 from .list_destinations_ok_response import ListDestinationsOkResponse, Destinations
 from .list_packages_ok_response import ListPackagesOkResponse, Packages
 from .list_purchases_ok_response import ListPurchasesOkResponse, Purchases
