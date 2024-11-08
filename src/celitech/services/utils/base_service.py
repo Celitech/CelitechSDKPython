@@ -29,25 +29,9 @@ class BaseService:
         self._default_headers = DefaultHeaders()
         self._timeout = 60000
 
-        self._additional_variables = {}
-
         self._token_manager = token_manager
 
         self._update_request_handler()
-
-    def set_additional_variables(
-        self, client_id: str = None, client_secret: str = None
-    ):
-        """
-        Sets the additional variables for the service.
-        """
-        if client_id is not None:
-            self._additional_variables["client_id"] = client_id
-        if client_secret is not None:
-            self._additional_variables["client_secret"] = client_secret
-
-        self._update_request_handler()
-        return self
 
     def set_timeout(self, timeout: int):
         """
@@ -106,7 +90,7 @@ class BaseService:
             RequestChain()
             .add_handler(RetryHandler())
             .add_handler(OauthHandler(self._token_manager))
-            .add_handler(HookHandler(self._additional_variables))
+            .add_handler(HookHandler())
             .add_handler(HttpHandler(self._timeout))
         )
 

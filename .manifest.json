@@ -1,16 +1,16 @@
 {
   "liblabVersion": "2.9.3",
-  "date": "2024-11-08T11:27:26.681Z",
+  "date": "2024-11-08T11:58:32.298Z",
   "config": {
-    "apiId": 1416,
+    "apiId": 1417,
     "sdkName": "Celitech",
-    "sdkVersion": "1.3.4",
+    "sdkVersion": "1.3.5",
     "languages": ["python"],
     "auth": ["oauth"],
     "docs": ["snippets", "enhancedApiSpec"],
     "liblabVersion": "2",
     "deliveryMethods": ["zip"],
-    "apiVersion": "1.3.4",
+    "apiVersion": "1.3.5",
     "apiName": "Celitech",
     "specFilePath": "swagger.yaml",
     "languageOptions": {
@@ -38,24 +38,14 @@
         "githubRepoName": "CelitechSDKJava",
         "homepage": "https://docs.celitech.com/",
         "liblabVersion": "2",
-        "sdkVersion": "1.3.4"
+        "sdkVersion": "1.3.5"
       },
       "python": {
         "alwaysInitializeOptionals": true,
-        "additionalConstructorParameters": [
-          {
-            "name": "client_id",
-            "example": "client-id"
-          },
-          {
-            "name": "client_secret",
-            "example": "client-secret"
-          }
-        ],
         "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
         "liblabVersion": "2",
-        "sdkVersion": "1.3.4"
+        "sdkVersion": "1.3.5"
       },
       "php": {
         "packageName": "celitech-sdk/sdk",
@@ -71,7 +61,7 @@
         ],
         "githubRepoName": "CelitechSDKPHP",
         "liblabVersion": "2",
-        "sdkVersion": "1.3.4"
+        "sdkVersion": "1.3.5"
       },
       "typescript": {
         "bundle": true,
@@ -80,7 +70,7 @@
         "npmName": "celitech-sdk",
         "githubRepoName": "CelitechSDKTypeScript",
         "liblabVersion": "2",
-        "sdkVersion": "1.3.4",
+        "sdkVersion": "1.3.5",
         "generateEnumAs": "enum"
       }
     },
@@ -136,21 +126,11 @@
     },
     "multiTenant": true,
     "hooksLocation": {
-      "bucketKey": "8044/hooks.zip",
+      "bucketKey": "8045/hooks.zip",
       "bucketName": "prod-liblab-api-stack-hooks"
     },
     "includeWatermark": false,
     "alwaysInitializeOptionals": true,
-    "additionalConstructorParameters": [
-      {
-        "name": "client_id",
-        "example": "client-id"
-      },
-      {
-        "name": "client_secret",
-        "example": "client-secret"
-      }
-    ],
     "pypiPackageName": "celitech-sdk",
     "githubRepoName": "CelitechSDKPython",
     "language": "python",
