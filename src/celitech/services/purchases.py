@@ -49,7 +49,7 @@ class PurchasesService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: ListPurchasesOkResponse
         """
 
@@ -77,7 +77,7 @@ class PurchasesService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return ListPurchasesOkResponse._unmap(response)
 
     @cast_models
@@ -91,7 +91,7 @@ class PurchasesService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: CreatePurchaseOkResponse
         """
 
@@ -105,7 +105,7 @@ class PurchasesService(BaseService):
             .set_body(request_body)
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return CreatePurchaseOkResponse._unmap(response)
 
     @cast_models
@@ -117,7 +117,7 @@ class PurchasesService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: TopUpEsimOkResponse
         """
 
@@ -131,7 +131,7 @@ class PurchasesService(BaseService):
             .set_body(request_body)
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return TopUpEsimOkResponse._unmap(response)
 
     @cast_models
@@ -145,7 +145,7 @@ class PurchasesService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: EditPurchaseOkResponse
         """
 
@@ -159,7 +159,7 @@ class PurchasesService(BaseService):
             .set_body(request_body)
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return EditPurchaseOkResponse._unmap(response)
 
     @cast_models
@@ -173,7 +173,7 @@ class PurchasesService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: GetPurchaseConsumptionOkResponse
         """
 
@@ -190,5 +190,5 @@ class PurchasesService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return GetPurchaseConsumptionOkResponse._unmap(response)
