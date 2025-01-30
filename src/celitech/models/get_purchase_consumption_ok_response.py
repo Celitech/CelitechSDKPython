@@ -12,7 +12,9 @@ class GetPurchaseConsumptionOkResponse(BaseModel):
     :type status: str, optional
     """
 
-    def __init__(self, data_usage_remaining_in_bytes: float = None, status: str = None):
+    def __init__(
+        self, data_usage_remaining_in_bytes: float = None, status: str = None, **kwargs
+    ):
         """GetPurchaseConsumptionOkResponse
 
         :param data_usage_remaining_in_bytes: Remaining balance of the package in bytes, defaults to None
@@ -26,3 +28,4 @@ class GetPurchaseConsumptionOkResponse(BaseModel):
             nullable=True,
         )
         self.status = self._define_str("status", status, nullable=True)
+        self._kwargs = kwargs

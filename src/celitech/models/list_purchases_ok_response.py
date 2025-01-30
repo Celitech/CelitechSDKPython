@@ -33,6 +33,7 @@ class Package(BaseModel):
         destination: str = None,
         destination_name: str = None,
         price_in_cents: float = None,
+        **kwargs
     ):
         """Package
 
@@ -58,6 +59,7 @@ class Package(BaseModel):
         self.price_in_cents = self._define_number(
             "price_in_cents", price_in_cents, nullable=True
         )
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -68,7 +70,7 @@ class PurchasesEsim(BaseModel):
     :type iccid: str, optional
     """
 
-    def __init__(self, iccid: str = None):
+    def __init__(self, iccid: str = None, **kwargs):
         """PurchasesEsim
 
         :param iccid: ID of the eSIM, defaults to None
@@ -77,6 +79,7 @@ class PurchasesEsim(BaseModel):
         self.iccid = self._define_str(
             "iccid", iccid, nullable=True, min_length=18, max_length=22
         )
+        self._kwargs = kwargs
 
 
 @JsonMap(
@@ -131,6 +134,7 @@ class Purchases(BaseModel):
         esim: PurchasesEsim = None,
         source: str = None,
         reference_id: str = None,
+        **kwargs
     ):
         """Purchases
 
@@ -172,6 +176,7 @@ class Purchases(BaseModel):
         self.reference_id = self._define_str(
             "reference_id", reference_id, nullable=True
         )
+        self._kwargs = kwargs
 
 
 @JsonMap({"after_cursor": "afterCursor"})
@@ -184,7 +189,9 @@ class ListPurchasesOkResponse(BaseModel):
     :type after_cursor: str, optional
     """
 
-    def __init__(self, purchases: List[Purchases] = None, after_cursor: str = None):
+    def __init__(
+        self, purchases: List[Purchases] = None, after_cursor: str = None, **kwargs
+    ):
         """ListPurchasesOkResponse
 
         :param purchases: purchases, defaults to None
@@ -196,3 +203,4 @@ class ListPurchasesOkResponse(BaseModel):
         self.after_cursor = self._define_str(
             "after_cursor", after_cursor, nullable=True
         )
+        self._kwargs = kwargs

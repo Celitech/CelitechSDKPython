@@ -21,7 +21,7 @@ class ESimService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: GetEsimOkResponse
         """
 
@@ -35,7 +35,7 @@ class ESimService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return GetEsimOkResponse._unmap(response)
 
     @cast_models
@@ -47,7 +47,7 @@ class ESimService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: GetEsimDeviceOkResponse
         """
 
@@ -63,7 +63,7 @@ class ESimService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return GetEsimDeviceOkResponse._unmap(response)
 
     @cast_models
@@ -75,7 +75,7 @@ class ESimService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: GetEsimHistoryOkResponse
         """
 
@@ -91,7 +91,7 @@ class ESimService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return GetEsimHistoryOkResponse._unmap(response)
 
     @cast_models
@@ -103,7 +103,7 @@ class ESimService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: GetEsimMacOkResponse
         """
 
@@ -119,5 +119,5 @@ class ESimService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return GetEsimMacOkResponse._unmap(response)

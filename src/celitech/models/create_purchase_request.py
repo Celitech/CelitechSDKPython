@@ -47,6 +47,7 @@ class CreatePurchaseRequest(BaseModel):
         network_brand: str = None,
         start_time: float = None,
         end_time: float = None,
+        **kwargs
     ):
         """CreatePurchaseRequest
 
@@ -82,3 +83,4 @@ class CreatePurchaseRequest(BaseModel):
         )
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
+        self._kwargs = kwargs

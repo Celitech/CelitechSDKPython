@@ -41,6 +41,7 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         created_date: str = None,
         start_time: float = None,
         end_time: float = None,
+        **kwargs
     ):
         """TopUpEsimOkResponsePurchase
 
@@ -68,6 +69,7 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         )
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -78,7 +80,7 @@ class TopUpEsimOkResponseProfile(BaseModel):
     :type iccid: str, optional
     """
 
-    def __init__(self, iccid: str = None):
+    def __init__(self, iccid: str = None, **kwargs):
         """TopUpEsimOkResponseProfile
 
         :param iccid: ID of the eSIM, defaults to None
@@ -87,6 +89,7 @@ class TopUpEsimOkResponseProfile(BaseModel):
         self.iccid = self._define_str(
             "iccid", iccid, nullable=True, min_length=18, max_length=22
         )
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -103,6 +106,7 @@ class TopUpEsimOkResponse(BaseModel):
         self,
         purchase: TopUpEsimOkResponsePurchase = None,
         profile: TopUpEsimOkResponseProfile = None,
+        **kwargs
     ):
         """TopUpEsimOkResponse
 
@@ -113,3 +117,4 @@ class TopUpEsimOkResponse(BaseModel):
         """
         self.purchase = self._define_object(purchase, TopUpEsimOkResponsePurchase)
         self.profile = self._define_object(profile, TopUpEsimOkResponseProfile)
+        self._kwargs = kwargs

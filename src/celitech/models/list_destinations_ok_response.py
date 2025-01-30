@@ -20,6 +20,7 @@ class Destinations(BaseModel):
         name: str = None,
         destination: str = None,
         supported_countries: List[str] = None,
+        **kwargs
     ):
         """Destinations
 
@@ -33,6 +34,7 @@ class Destinations(BaseModel):
         self.name = self._define_str("name", name, nullable=True)
         self.destination = self._define_str("destination", destination, nullable=True)
         self.supported_countries = supported_countries
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -43,10 +45,11 @@ class ListDestinationsOkResponse(BaseModel):
     :type destinations: List[Destinations], optional
     """
 
-    def __init__(self, destinations: List[Destinations] = None):
+    def __init__(self, destinations: List[Destinations] = None, **kwargs):
         """ListDestinationsOkResponse
 
         :param destinations: destinations, defaults to None
         :type destinations: List[Destinations], optional
         """
         self.destinations = self._define_list(destinations, Destinations)
+        self._kwargs = kwargs

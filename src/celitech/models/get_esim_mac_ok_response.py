@@ -21,6 +21,7 @@ class GetEsimMacOkResponseEsim(BaseModel):
         iccid: str = None,
         smdp_address: str = None,
         manual_activation_code: str = None,
+        **kwargs
     ):
         """GetEsimMacOkResponseEsim
 
@@ -40,6 +41,7 @@ class GetEsimMacOkResponseEsim(BaseModel):
         self.manual_activation_code = self._define_str(
             "manual_activation_code", manual_activation_code, nullable=True
         )
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -50,10 +52,11 @@ class GetEsimMacOkResponse(BaseModel):
     :type esim: GetEsimMacOkResponseEsim, optional
     """
 
-    def __init__(self, esim: GetEsimMacOkResponseEsim = None):
+    def __init__(self, esim: GetEsimMacOkResponseEsim = None, **kwargs):
         """GetEsimMacOkResponse
 
         :param esim: esim, defaults to None
         :type esim: GetEsimMacOkResponseEsim, optional
         """
         self.esim = self._define_object(esim, GetEsimMacOkResponseEsim)
+        self._kwargs = kwargs

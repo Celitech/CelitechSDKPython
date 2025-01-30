@@ -37,6 +37,7 @@ class Packages(BaseModel):
         min_days: float = None,
         max_days: float = None,
         price_in_cents: float = None,
+        **kwargs
     ):
         """Packages
 
@@ -63,6 +64,7 @@ class Packages(BaseModel):
         self.price_in_cents = self._define_number(
             "price_in_cents", price_in_cents, nullable=True
         )
+        self._kwargs = kwargs
 
 
 @JsonMap({"after_cursor": "afterCursor"})
@@ -75,7 +77,9 @@ class ListPackagesOkResponse(BaseModel):
     :type after_cursor: str, optional
     """
 
-    def __init__(self, packages: List[Packages] = None, after_cursor: str = None):
+    def __init__(
+        self, packages: List[Packages] = None, after_cursor: str = None, **kwargs
+    ):
         """ListPackagesOkResponse
 
         :param packages: packages, defaults to None
@@ -87,3 +91,4 @@ class ListPackagesOkResponse(BaseModel):
         self.after_cursor = self._define_str(
             "after_cursor", after_cursor, nullable=True
         )
+        self._kwargs = kwargs

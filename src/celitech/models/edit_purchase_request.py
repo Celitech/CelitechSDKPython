@@ -33,6 +33,7 @@ class EditPurchaseRequest(BaseModel):
         end_date: str,
         start_time: float = None,
         end_time: float = None,
+        **kwargs
     ):
         """EditPurchaseRequest
 
@@ -52,3 +53,4 @@ class EditPurchaseRequest(BaseModel):
         self.end_date = end_date
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
+        self._kwargs = kwargs

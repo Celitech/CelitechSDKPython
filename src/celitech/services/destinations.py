@@ -14,7 +14,7 @@ class DestinationsService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: ListDestinationsOkResponse
         """
 
@@ -25,5 +25,5 @@ class DestinationsService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return ListDestinationsOkResponse._unmap(response)

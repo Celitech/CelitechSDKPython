@@ -16,7 +16,7 @@ class History(BaseModel):
     """
 
     def __init__(
-        self, status: str = None, status_date: str = None, date_: float = None
+        self, status: str = None, status_date: str = None, date_: float = None, **kwargs
     ):
         """History
 
@@ -30,6 +30,7 @@ class History(BaseModel):
         self.status = self._define_str("status", status, nullable=True)
         self.status_date = self._define_str("status_date", status_date, nullable=True)
         self.date_ = self._define_number("date_", date_, nullable=True)
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -42,7 +43,7 @@ class GetEsimHistoryOkResponseEsim(BaseModel):
     :type history: List[History], optional
     """
 
-    def __init__(self, iccid: str = None, history: List[History] = None):
+    def __init__(self, iccid: str = None, history: List[History] = None, **kwargs):
         """GetEsimHistoryOkResponseEsim
 
         :param iccid: ID of the eSIM, defaults to None
@@ -54,6 +55,7 @@ class GetEsimHistoryOkResponseEsim(BaseModel):
             "iccid", iccid, nullable=True, min_length=18, max_length=22
         )
         self.history = self._define_list(history, History)
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -64,10 +66,11 @@ class GetEsimHistoryOkResponse(BaseModel):
     :type esim: GetEsimHistoryOkResponseEsim, optional
     """
 
-    def __init__(self, esim: GetEsimHistoryOkResponseEsim = None):
+    def __init__(self, esim: GetEsimHistoryOkResponseEsim = None, **kwargs):
         """GetEsimHistoryOkResponse
 
         :param esim: esim, defaults to None
         :type esim: GetEsimHistoryOkResponseEsim, optional
         """
         self.esim = self._define_object(esim, GetEsimHistoryOkResponseEsim)
+        self._kwargs = kwargs
