@@ -15,7 +15,11 @@ class GetAccessTokenOkResponse(BaseModel):
     """
 
     def __init__(
-        self, access_token: str = None, token_type: str = None, expires_in: int = None
+        self,
+        access_token: str = None,
+        token_type: str = None,
+        expires_in: int = None,
+        **kwargs
     ):
         """GetAccessTokenOkResponse
 
@@ -31,3 +35,4 @@ class GetAccessTokenOkResponse(BaseModel):
         )
         self.token_type = self._define_str("token_type", token_type, nullable=True)
         self.expires_in = self._define_number("expires_in", expires_in, nullable=True)
+        self._kwargs = kwargs

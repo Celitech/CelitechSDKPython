@@ -41,6 +41,7 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         created_date: str = None,
         start_time: float = None,
         end_time: float = None,
+        **kwargs
     ):
         """CreatePurchaseOkResponsePurchase
 
@@ -68,6 +69,7 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         )
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
+        self._kwargs = kwargs
 
 
 @JsonMap(
@@ -92,6 +94,7 @@ class CreatePurchaseOkResponseProfile(BaseModel):
         iccid: str = None,
         activation_code: str = None,
         manual_activation_code: str = None,
+        **kwargs
     ):
         """CreatePurchaseOkResponseProfile
 
@@ -115,6 +118,7 @@ class CreatePurchaseOkResponseProfile(BaseModel):
         self.manual_activation_code = self._define_str(
             "manual_activation_code", manual_activation_code, nullable=True
         )
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -131,6 +135,7 @@ class CreatePurchaseOkResponse(BaseModel):
         self,
         purchase: CreatePurchaseOkResponsePurchase = None,
         profile: CreatePurchaseOkResponseProfile = None,
+        **kwargs
     ):
         """CreatePurchaseOkResponse
 
@@ -141,3 +146,4 @@ class CreatePurchaseOkResponse(BaseModel):
         """
         self.purchase = self._define_object(purchase, CreatePurchaseOkResponsePurchase)
         self.profile = self._define_object(profile, CreatePurchaseOkResponseProfile)
+        self._kwargs = kwargs

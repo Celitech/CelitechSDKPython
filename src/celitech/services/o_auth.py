@@ -18,7 +18,7 @@ class OAuthService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: GetAccessTokenOkResponse
         """
 
@@ -31,5 +31,5 @@ class OAuthService(BaseService):
             .set_body(request_body, "application/x-www-form-urlencoded")
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return GetAccessTokenOkResponse._unmap(response)

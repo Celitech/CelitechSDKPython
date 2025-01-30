@@ -33,6 +33,7 @@ class EditPurchaseOkResponse(BaseModel):
         new_end_date: str = None,
         new_start_time: float = None,
         new_end_time: float = None,
+        **kwargs
     ):
         """EditPurchaseOkResponse
 
@@ -60,3 +61,4 @@ class EditPurchaseOkResponse(BaseModel):
         self.new_end_time = self._define_number(
             "new_end_time", new_end_time, nullable=True
         )
+        self._kwargs = kwargs

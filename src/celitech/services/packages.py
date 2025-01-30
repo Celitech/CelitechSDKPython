@@ -40,7 +40,7 @@ class PackagesService(BaseService):
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
-        :return: Successful Response
+        :return: The parsed response data.
         :rtype: ListPackagesOkResponse
         """
 
@@ -68,5 +68,5 @@ class PackagesService(BaseService):
             .set_scopes({})
         )
 
-        response = self.send_request(serialized_request)
+        response, _, _ = self.send_request(serialized_request)
         return ListPackagesOkResponse._unmap(response)

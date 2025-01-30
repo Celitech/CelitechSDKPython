@@ -22,6 +22,7 @@ class Device(BaseModel):
         hardware_name: str = None,
         hardware_model: str = None,
         eid: str = None,
+        **kwargs
     ):
         """Device
 
@@ -42,6 +43,7 @@ class Device(BaseModel):
             "hardware_model", hardware_model, nullable=True
         )
         self.eid = self._define_str("eid", eid, nullable=True)
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -52,10 +54,11 @@ class GetEsimDeviceOkResponse(BaseModel):
     :type device: Device, optional
     """
 
-    def __init__(self, device: Device = None):
+    def __init__(self, device: Device = None, **kwargs):
         """GetEsimDeviceOkResponse
 
         :param device: device, defaults to None
         :type device: Device, optional
         """
         self.device = self._define_object(device, Device)
+        self._kwargs = kwargs

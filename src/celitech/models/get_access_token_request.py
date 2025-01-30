@@ -38,6 +38,7 @@ class GetAccessTokenRequest(BaseModel):
         grant_type: GrantType = None,
         client_id: str = None,
         client_secret: str = None,
+        **kwargs
     ):
         """GetAccessTokenRequest
 
@@ -57,3 +58,4 @@ class GetAccessTokenRequest(BaseModel):
         self.client_secret = self._define_str(
             "client_secret", client_secret, nullable=True
         )
+        self._kwargs = kwargs

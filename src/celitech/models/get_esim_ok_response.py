@@ -24,6 +24,7 @@ class GetEsimOkResponseEsim(BaseModel):
         smdp_address: str = None,
         manual_activation_code: str = None,
         status: str = None,
+        **kwargs
     ):
         """GetEsimOkResponseEsim
 
@@ -46,6 +47,7 @@ class GetEsimOkResponseEsim(BaseModel):
             "manual_activation_code", manual_activation_code, nullable=True
         )
         self.status = self._define_str("status", status, nullable=True)
+        self._kwargs = kwargs
 
 
 @JsonMap({})
@@ -56,10 +58,11 @@ class GetEsimOkResponse(BaseModel):
     :type esim: GetEsimOkResponseEsim, optional
     """
 
-    def __init__(self, esim: GetEsimOkResponseEsim = None):
+    def __init__(self, esim: GetEsimOkResponseEsim = None, **kwargs):
         """GetEsimOkResponse
 
         :param esim: esim, defaults to None
         :type esim: GetEsimOkResponseEsim, optional
         """
         self.esim = self._define_object(esim, GetEsimOkResponseEsim)
+        self._kwargs = kwargs
