@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.34<a id="celitech-python-sdk-1334"></a>
+# Celitech Python SDK 1.3.36<a id="celitech-python-sdk-1336"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -7,7 +7,7 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 ## Versions<a id="versions"></a>
 
 - API version: `1.1.0`
-- SDK version: `1.3.34`
+- SDK version: `1.3.36`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -118,6 +118,7 @@ The SDK provides various services to interact with the API.
 | packages     |
 | purchases    |
 | e_sim        |
+| iframe       |
 
 </details>
 
@@ -146,6 +147,7 @@ The SDK includes several models that represent the data structures used in API r
 | GetEsimDeviceOkResponse          |             |
 | GetEsimHistoryOkResponse         |             |
 | GetEsimMacOkResponse             |             |
+| TokenOkResponse                  |             |
 
 </details>
 
