@@ -4,6 +4,7 @@ from .services.destinations import DestinationsService
 from .services.packages import PackagesService
 from .services.purchases import PurchasesService
 from .services.e_sim import ESimService
+from .services.iframe import IframeService
 from .net.environment import Environment
 from .net.oauth.token_manager import TokenManager
 
@@ -43,6 +44,9 @@ class Celitech:
         self.e_sim = ESimService(
             base_url=self._base_url, token_manager=self._token_manager
         )
+        self.iframe = IframeService(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
         self.set_client_id(client_id)
         self.set_client_secret(client_secret)
         self.set_timeout(timeout)
@@ -63,6 +67,7 @@ class Celitech:
         self.packages.set_base_url(self._base_url)
         self.purchases.set_base_url(self._base_url)
         self.e_sim.set_base_url(self._base_url)
+        self.iframe.set_base_url(self._base_url)
 
         return self
 
@@ -87,6 +92,7 @@ class Celitech:
         self.packages.set_timeout(timeout)
         self.purchases.set_timeout(timeout)
         self.e_sim.set_timeout(timeout)
+        self.iframe.set_timeout(timeout)
 
         return self
 
