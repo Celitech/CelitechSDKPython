@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.34
+# Celitech Python SDK 1.3.38
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -7,11 +7,11 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 ## Versions
 
 - API version: `1.1.0`
-- SDK version: `1.3.34`
+- SDK version: `1.3.38`
 
 ## About the API
 
-Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
+Welcome to the CELITECH API documentation!\n\nUseful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)\n
 
 ## Table of Contents
 
@@ -23,6 +23,7 @@ Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.
   - [Environment Variables](#environment-variables)
 - [Setting a Custom Timeout](#setting-a-custom-timeout)
 - [Sample Usage](#sample-usage)
+- [Async Usage](#async-usage)
 - [Services](#services)
 - [Models](#models)
 - [License](#license)
@@ -104,6 +105,27 @@ print(result)
 
 ```
 
+# Async Usage
+
+The SDK includes an Async Client for making asynchronous API requests. This is useful for applications that need non-blocking operations, like web servers or apps with a graphical user interface.
+
+```py
+import asyncio
+from celitech import CelitechAsync
+
+sdk = CelitechAsync(
+    client_id="CLIENT_ID",
+    client_secret="CLIENT_SECRET"
+)
+
+
+async def main():
+  result = await sdk.destinations.list_destinations()
+  print(result)
+
+asyncio.run(main())
+```
+
 ## Services
 
 The SDK provides various services to interact with the API.
@@ -118,6 +140,7 @@ The SDK provides various services to interact with the API.
 | [PackagesService](documentation/services/PackagesService.md)         |
 | [PurchasesService](documentation/services/PurchasesService.md)       |
 | [ESimService](documentation/services/ESimService.md)                 |
+| [IFrameService](documentation/services/IFrameService.md)             |
 
 </details>
 
@@ -146,6 +169,7 @@ The SDK includes several models that represent the data structures used in API r
 | [GetEsimDeviceOkResponse](documentation/models/GetEsimDeviceOkResponse.md)                   |             |
 | [GetEsimHistoryOkResponse](documentation/models/GetEsimHistoryOkResponse.md)                 |             |
 | [GetEsimMacOkResponse](documentation/models/GetEsimMacOkResponse.md)                         |             |
+| [TokenOkResponse](documentation/models/TokenOkResponse.md)                                   |             |
 
 </details>
 
