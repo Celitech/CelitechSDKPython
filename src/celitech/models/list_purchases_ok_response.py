@@ -115,7 +115,7 @@ class Purchases(BaseModel):
     :type package: Package, optional
     :param esim: esim, defaults to None
     :type esim: PurchasesEsim, optional
-    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page or promo-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
     :type source: str, optional
     :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
     :type reference_id: str, optional
@@ -156,7 +156,7 @@ class Purchases(BaseModel):
         :type package: Package, optional
         :param esim: esim, defaults to None
         :type esim: PurchasesEsim, optional
-        :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page or promo-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+        :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
         :type source: str, optional
         :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
         :type reference_id: str, optional
