@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.34<a id="celitech-python-sdk-1334"></a>
+# Celitech Python SDK 1.3.38<a id="celitech-python-sdk-1338"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -7,11 +7,11 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 ## Versions<a id="versions"></a>
 
 - API version: `1.1.0`
-- SDK version: `1.3.34`
+- SDK version: `1.3.38`
 
 ## About the API<a id="about-the-api"></a>
 
-Welcome to the CELITECH API documentation! Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
+Welcome to the CELITECH API documentation!\n\nUseful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)\n
 
 ## Table of Contents<a id="table-of-contents"></a>
 
@@ -104,6 +104,27 @@ print(result)
 
 ```
 
+# Async Usage<a id="async-usage"></a>
+
+The SDK includes an Async Client for making asynchronous API requests. This is useful for applications that need non-blocking operations, like web servers or apps with a graphical user interface.
+
+```py
+import asyncio
+from celitech import CelitechAsync
+
+sdk = CelitechAsync(
+    client_id="CLIENT_ID",
+    client_secret="CLIENT_SECRET"
+)
+
+
+async def main():
+  result = await sdk.destinations.list_destinations()
+  print(result)
+
+asyncio.run(main())
+```
+
 ## Services<a id="services"></a>
 
 The SDK provides various services to interact with the API.
@@ -118,6 +139,7 @@ The SDK provides various services to interact with the API.
 | packages     |
 | purchases    |
 | e_sim        |
+| i_frame      |
 
 </details>
 
@@ -146,6 +168,7 @@ The SDK includes several models that represent the data structures used in API r
 | GetEsimDeviceOkResponse          |             |
 | GetEsimHistoryOkResponse         |             |
 | GetEsimMacOkResponse             |             |
+| TokenOkResponse                  |             |
 
 </details>
 
