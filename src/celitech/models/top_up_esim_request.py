@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -39,10 +40,10 @@ class TopUpEsimRequest(BaseModel):
         data_limit_in_gb: float,
         start_date: str,
         end_date: str,
-        email: str = None,
-        reference_id: str = None,
-        start_time: float = None,
-        end_time: float = None,
+        email: str = SENTINEL,
+        reference_id: str = SENTINEL,
+        start_time: float = SENTINEL,
+        end_time: float = SENTINEL,
         **kwargs
     ):
         """TopUpEsimRequest

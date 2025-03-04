@@ -19,7 +19,9 @@ class DestinationsService(BaseService):
         """
 
         serialized_request = (
-            Serializer(f"{self.base_url}/destinations", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/destinations",
+            )
             .serialize()
             .set_method("GET")
             .set_scopes({})
