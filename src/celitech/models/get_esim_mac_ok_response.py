@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -18,9 +19,9 @@ class GetEsimMacOkResponseEsim(BaseModel):
 
     def __init__(
         self,
-        iccid: str = None,
-        smdp_address: str = None,
-        manual_activation_code: str = None,
+        iccid: str = SENTINEL,
+        smdp_address: str = SENTINEL,
+        manual_activation_code: str = SENTINEL,
         **kwargs
     ):
         """GetEsimMacOkResponseEsim
@@ -52,7 +53,7 @@ class GetEsimMacOkResponse(BaseModel):
     :type esim: GetEsimMacOkResponseEsim, optional
     """
 
-    def __init__(self, esim: GetEsimMacOkResponseEsim = None, **kwargs):
+    def __init__(self, esim: GetEsimMacOkResponseEsim = SENTINEL, **kwargs):
         """GetEsimMacOkResponse
 
         :param esim: esim, defaults to None

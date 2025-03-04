@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -34,13 +35,13 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
 
     def __init__(
         self,
-        id_: str = None,
-        package_id: str = None,
-        start_date: str = None,
-        end_date: str = None,
-        created_date: str = None,
-        start_time: float = None,
-        end_time: float = None,
+        id_: str = SENTINEL,
+        package_id: str = SENTINEL,
+        start_date: str = SENTINEL,
+        end_date: str = SENTINEL,
+        created_date: str = SENTINEL,
+        start_time: float = SENTINEL,
+        end_time: float = SENTINEL,
         **kwargs
     ):
         """CreatePurchaseOkResponsePurchase
@@ -91,9 +92,9 @@ class CreatePurchaseOkResponseProfile(BaseModel):
 
     def __init__(
         self,
-        iccid: str = None,
-        activation_code: str = None,
-        manual_activation_code: str = None,
+        iccid: str = SENTINEL,
+        activation_code: str = SENTINEL,
+        manual_activation_code: str = SENTINEL,
         **kwargs
     ):
         """CreatePurchaseOkResponseProfile
@@ -133,8 +134,8 @@ class CreatePurchaseOkResponse(BaseModel):
 
     def __init__(
         self,
-        purchase: CreatePurchaseOkResponsePurchase = None,
-        profile: CreatePurchaseOkResponseProfile = None,
+        purchase: CreatePurchaseOkResponsePurchase = SENTINEL,
+        profile: CreatePurchaseOkResponseProfile = SENTINEL,
         **kwargs
     ):
         """CreatePurchaseOkResponse

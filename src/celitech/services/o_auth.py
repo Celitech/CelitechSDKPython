@@ -25,7 +25,9 @@ class OAuthService(BaseService):
         Validator(GetAccessTokenRequest).validate(request_body)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/oauth2/token", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/oauth2/token",
+            )
             .serialize()
             .set_method("POST")
             .set_body(request_body, "application/x-www-form-urlencoded")

@@ -1,6 +1,7 @@
 from typing import List
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap({"status_date": "statusDate", "date_": "date"})
@@ -16,7 +17,11 @@ class History(BaseModel):
     """
 
     def __init__(
-        self, status: str = None, status_date: str = None, date_: float = None, **kwargs
+        self,
+        status: str = SENTINEL,
+        status_date: str = SENTINEL,
+        date_: float = SENTINEL,
+        **kwargs
     ):
         """History
 
@@ -43,7 +48,9 @@ class GetEsimHistoryOkResponseEsim(BaseModel):
     :type history: List[History], optional
     """
 
-    def __init__(self, iccid: str = None, history: List[History] = None, **kwargs):
+    def __init__(
+        self, iccid: str = SENTINEL, history: List[History] = SENTINEL, **kwargs
+    ):
         """GetEsimHistoryOkResponseEsim
 
         :param iccid: ID of the eSIM, defaults to None
@@ -66,7 +73,7 @@ class GetEsimHistoryOkResponse(BaseModel):
     :type esim: GetEsimHistoryOkResponseEsim, optional
     """
 
-    def __init__(self, esim: GetEsimHistoryOkResponseEsim = None, **kwargs):
+    def __init__(self, esim: GetEsimHistoryOkResponseEsim = SENTINEL, **kwargs):
         """GetEsimHistoryOkResponse
 
         :param esim: esim, defaults to None
