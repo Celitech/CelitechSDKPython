@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -28,11 +29,11 @@ class EditPurchaseOkResponse(BaseModel):
 
     def __init__(
         self,
-        purchase_id: str = None,
-        new_start_date: str = None,
-        new_end_date: str = None,
-        new_start_time: float = None,
-        new_end_time: float = None,
+        purchase_id: str = SENTINEL,
+        new_start_date: str = SENTINEL,
+        new_end_date: str = SENTINEL,
+        new_start_time: float = SENTINEL,
+        new_end_time: float = SENTINEL,
         **kwargs
     ):
         """EditPurchaseOkResponse

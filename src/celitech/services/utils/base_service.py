@@ -2,6 +2,7 @@ from typing import Any, Dict, Tuple, Generator
 from enum import Enum
 
 from .default_headers import DefaultHeaders, DefaultHeadersKeys
+
 from ...net.transport.request import Request
 from ...net.request_chain.request_chain import RequestChain
 from ...net.request_chain.handlers.hook_handler import HookHandler
@@ -103,9 +104,9 @@ class BaseService:
         """
         return (
             RequestChain()
-            .add_handler(RetryHandler())
             .add_handler(OauthHandler(self._token_manager))
             .add_handler(HookHandler())
+            .add_handler(RetryHandler())
             .add_handler(HttpHandler(self._timeout))
         )
 

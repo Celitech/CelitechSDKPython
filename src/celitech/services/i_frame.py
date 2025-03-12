@@ -19,7 +19,9 @@ class IFrameService(BaseService):
         """
 
         serialized_request = (
-            Serializer(f"{self.base_url}/iframe/token", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/iframe/token",
+            )
             .serialize()
             .set_method("POST")
             .set_scopes({})
