@@ -1,6 +1,7 @@
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
 from ..models import ListPackagesOkResponse
 
@@ -10,14 +11,14 @@ class PackagesService(BaseService):
     @cast_models
     def list_packages(
         self,
-        destination: str = None,
-        start_date: str = None,
-        end_date: str = None,
-        after_cursor: str = None,
-        limit: float = None,
-        start_time: int = None,
-        end_time: int = None,
-        duration: float = None,
+        destination: str = SENTINEL,
+        start_date: str = SENTINEL,
+        end_date: str = SENTINEL,
+        after_cursor: str = SENTINEL,
+        limit: float = SENTINEL,
+        start_time: int = SENTINEL,
+        end_time: int = SENTINEL,
+        duration: float = SENTINEL,
     ) -> ListPackagesOkResponse:
         """List Packages
 
@@ -54,7 +55,9 @@ class PackagesService(BaseService):
         Validator(float).is_optional().validate(duration)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/packages", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/packages",
+            )
             .add_query("destination", destination)
             .add_query("startDate", start_date)
             .add_query("endDate", end_date)

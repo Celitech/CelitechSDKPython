@@ -1,6 +1,7 @@
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
 from ..models import (
     CreatePurchaseOkResponse,
@@ -19,14 +20,14 @@ class PurchasesService(BaseService):
     @cast_models
     def list_purchases(
         self,
-        iccid: str = None,
-        after_date: str = None,
-        before_date: str = None,
-        reference_id: str = None,
-        after_cursor: str = None,
-        limit: float = None,
-        after: float = None,
-        before: float = None,
+        iccid: str = SENTINEL,
+        after_date: str = SENTINEL,
+        before_date: str = SENTINEL,
+        reference_id: str = SENTINEL,
+        after_cursor: str = SENTINEL,
+        limit: float = SENTINEL,
+        after: float = SENTINEL,
+        before: float = SENTINEL,
     ) -> ListPurchasesOkResponse:
         """This endpoint can be used to list all the successful purchases made between a given interval.
 
@@ -63,7 +64,9 @@ class PurchasesService(BaseService):
         Validator(float).is_optional().validate(before)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/purchases", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/purchases",
+            )
             .add_query("iccid", iccid)
             .add_query("afterDate", after_date)
             .add_query("beforeDate", before_date)
@@ -98,7 +101,9 @@ class PurchasesService(BaseService):
         Validator(CreatePurchaseRequest).validate(request_body)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/purchases", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/purchases",
+            )
             .serialize()
             .set_method("POST")
             .set_scopes({})
@@ -110,7 +115,7 @@ class PurchasesService(BaseService):
 
     @cast_models
     def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
-        """This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is not feasible for eSIMs in "DELETED" or "ERROR" state.
+        """This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is only feasible for eSIMs in "ENABLED" or "INSTALLED" state. You can check this state using the Get eSIM Status endpoint.
 
         :param request_body: The request body.
         :type request_body: TopUpEsimRequest
@@ -124,7 +129,9 @@ class PurchasesService(BaseService):
         Validator(TopUpEsimRequest).validate(request_body)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/purchases/topup", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/purchases/topup",
+            )
             .serialize()
             .set_method("POST")
             .set_scopes({})
@@ -152,7 +159,9 @@ class PurchasesService(BaseService):
         Validator(EditPurchaseRequest).validate(request_body)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/purchases/edit", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/purchases/edit",
+            )
             .serialize()
             .set_method("POST")
             .set_scopes({})
@@ -182,7 +191,6 @@ class PurchasesService(BaseService):
         serialized_request = (
             Serializer(
                 f"{self.base_url}/purchases/{{purchaseId}}/consumption",
-                self.get_default_headers(),
             )
             .add_path("purchaseId", purchase_id)
             .serialize()

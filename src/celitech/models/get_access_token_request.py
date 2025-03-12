@@ -1,6 +1,7 @@
 from enum import Enum
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 class GrantType(Enum):
@@ -35,9 +36,9 @@ class GetAccessTokenRequest(BaseModel):
 
     def __init__(
         self,
-        grant_type: GrantType = None,
-        client_id: str = None,
-        client_secret: str = None,
+        grant_type: GrantType = SENTINEL,
+        client_id: str = SENTINEL,
+        client_secret: str = SENTINEL,
         **kwargs
     ):
         """GetAccessTokenRequest
