@@ -28,7 +28,9 @@ class ESimService(BaseService):
         Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/esim", self.get_default_headers())
+            Serializer(
+                f"{self.base_url}/esim",
+            )
             .add_query("iccid", iccid)
             .serialize()
             .set_method("GET")
@@ -55,7 +57,7 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{self.base_url}/esim/{{iccid}}/device", self.get_default_headers()
+                f"{self.base_url}/esim/{{iccid}}/device",
             )
             .add_path("iccid", iccid)
             .serialize()
@@ -83,7 +85,7 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{self.base_url}/esim/{{iccid}}/history", self.get_default_headers()
+                f"{self.base_url}/esim/{{iccid}}/history",
             )
             .add_path("iccid", iccid)
             .serialize()
@@ -111,7 +113,7 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{self.base_url}/esim/{{iccid}}/mac", self.get_default_headers()
+                f"{self.base_url}/esim/{{iccid}}/mac",
             )
             .add_path("iccid", iccid)
             .serialize()

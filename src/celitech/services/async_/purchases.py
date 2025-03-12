@@ -1,6 +1,7 @@
 from typing import Awaitable
 from .utils.to_async import to_async
 from ..purchases import PurchasesService
+from ...models.utils.sentinel import SENTINEL
 from ...models import (
     ListPurchasesOkResponse,
     CreatePurchaseOkResponse,
@@ -20,14 +21,14 @@ class PurchasesServiceAsync(PurchasesService):
 
     def list_purchases(
         self,
-        iccid: str = None,
-        after_date: str = None,
-        before_date: str = None,
-        reference_id: str = None,
-        after_cursor: str = None,
-        limit: float = None,
-        after: float = None,
-        before: float = None,
+        iccid: str = SENTINEL,
+        after_date: str = SENTINEL,
+        before_date: str = SENTINEL,
+        reference_id: str = SENTINEL,
+        after_cursor: str = SENTINEL,
+        limit: float = SENTINEL,
+        after: float = SENTINEL,
+        before: float = SENTINEL,
     ) -> Awaitable[ListPurchasesOkResponse]:
         return to_async(super().list_purchases)(
             iccid,
