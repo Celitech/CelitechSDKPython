@@ -1,6 +1,8 @@
 from typing import List
+from typing import Union
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -31,12 +33,12 @@ class Packages(BaseModel):
 
     def __init__(
         self,
-        id_: str = None,
-        destination: str = None,
-        data_limit_in_bytes: float = None,
-        min_days: float = None,
-        max_days: float = None,
-        price_in_cents: float = None,
+        id_: str = SENTINEL,
+        destination: str = SENTINEL,
+        data_limit_in_bytes: float = SENTINEL,
+        min_days: float = SENTINEL,
+        max_days: float = SENTINEL,
+        price_in_cents: float = SENTINEL,
         **kwargs
     ):
         """Packages
@@ -78,7 +80,10 @@ class ListPackagesOkResponse(BaseModel):
     """
 
     def __init__(
-        self, packages: List[Packages] = None, after_cursor: str = None, **kwargs
+        self,
+        packages: List[Packages] = SENTINEL,
+        after_cursor: Union[str, None] = SENTINEL,
+        **kwargs
     ):
         """ListPackagesOkResponse
 

@@ -1,6 +1,7 @@
 from typing import Awaitable
 from .utils.to_async import to_async
 from ..packages import PackagesService
+from ...models.utils.sentinel import SENTINEL
 from ...models import ListPackagesOkResponse
 
 
@@ -11,14 +12,14 @@ class PackagesServiceAsync(PackagesService):
 
     def list_packages(
         self,
-        destination: str = None,
-        start_date: str = None,
-        end_date: str = None,
-        after_cursor: str = None,
-        limit: float = None,
-        start_time: int = None,
-        end_time: int = None,
-        duration: float = None,
+        destination: str = SENTINEL,
+        start_date: str = SENTINEL,
+        end_date: str = SENTINEL,
+        after_cursor: str = SENTINEL,
+        limit: float = SENTINEL,
+        start_time: int = SENTINEL,
+        end_time: int = SENTINEL,
+        duration: float = SENTINEL,
     ) -> Awaitable[ListPackagesOkResponse]:
         return to_async(super().list_packages)(
             destination,

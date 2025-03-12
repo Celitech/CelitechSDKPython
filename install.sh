@@ -19,7 +19,7 @@ fi
 
 pip install build
 python -m build --outdir dist .
-pip install dist/celitech_sdk-1.3.38-py3-none-any.whl --force-reinstall
+pip install dist/celitech_sdk-1.3.40-py3-none-any.whl --force-reinstall
 
 if [ "$USE_VENV" -eq 1 ]; then
     deactivate
