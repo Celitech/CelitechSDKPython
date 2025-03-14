@@ -9,6 +9,12 @@ from .create_purchase_ok_response import (
     CreatePurchaseOkResponsePurchase,
     CreatePurchaseOkResponseProfile,
 )
+from .create_purchase_v2_request import CreatePurchaseV2Request
+from .create_purchase_v2_ok_response import (
+    CreatePurchaseV2OkResponse,
+    CreatePurchaseV2OkResponsePurchase,
+    CreatePurchaseV2OkResponseProfile,
+)
 from .top_up_esim_request import TopUpEsimRequest
 from .top_up_esim_ok_response import (
     TopUpEsimOkResponse,
