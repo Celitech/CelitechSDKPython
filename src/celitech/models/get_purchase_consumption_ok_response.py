@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap({"data_usage_remaining_in_bytes": "dataUsageRemainingInBytes"})
@@ -13,7 +14,10 @@ class GetPurchaseConsumptionOkResponse(BaseModel):
     """
 
     def __init__(
-        self, data_usage_remaining_in_bytes: float = None, status: str = None, **kwargs
+        self,
+        data_usage_remaining_in_bytes: float = SENTINEL,
+        status: str = SENTINEL,
+        **kwargs
     ):
         """GetPurchaseConsumptionOkResponse
 

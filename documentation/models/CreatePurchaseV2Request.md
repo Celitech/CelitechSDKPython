@@ -1,0 +1,14 @@
+# CreatePurchaseV2Request
+
+**Properties**
+
+| Name             | Type  | Required | Description                                                                                                                                                             |
+| :--------------- | :---- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| destination      | str   | ✅       | ISO representation of the package's destination                                                                                                                         |
+| data_limit_in_gb | float | ✅       | Size of the package in GB. The available options are 1, 2, 3, 5, 8, 20GB                                                                                                |
+| start_date       | str   | ✅       | Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.                          |
+| end_date         | str   | ✅       | End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.                                                        |
+| quantity         | float | ✅       | Number of eSIMs to purchase.                                                                                                                                            |
+| email            | str   | ❌       | Email address where the purchase confirmation email will be sent (including QR Code & activation steps)                                                                 |
+| reference_id     | str   | ❌       | An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes.                                       |
+| network_brand    | str   | ❌       | Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters. |
