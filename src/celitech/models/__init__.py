@@ -2,6 +2,12 @@ from .get_access_token_request import GetAccessTokenRequest, GrantType
 from .get_access_token_ok_response import GetAccessTokenOkResponse
 from .list_destinations_ok_response import ListDestinationsOkResponse, Destinations
 from .list_packages_ok_response import ListPackagesOkResponse, Packages
+from .create_purchase_v2_request import CreatePurchaseV2Request
+from .create_purchase_v2_ok_response import (
+    CreatePurchaseV2OkResponse,
+    CreatePurchaseV2OkResponsePurchase,
+    CreatePurchaseV2OkResponseProfile,
+)
 from .list_purchases_ok_response import ListPurchasesOkResponse, Purchases
 from .create_purchase_request import CreatePurchaseRequest
 from .create_purchase_ok_response import (

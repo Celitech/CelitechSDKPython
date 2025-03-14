@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap({})
@@ -16,9 +17,9 @@ class GetAccessTokenOkResponse(BaseModel):
 
     def __init__(
         self,
-        access_token: str = None,
-        token_type: str = None,
-        expires_in: int = None,
+        access_token: str = SENTINEL,
+        token_type: str = SENTINEL,
+        expires_in: int = SENTINEL,
         **kwargs
     ):
         """GetAccessTokenOkResponse
