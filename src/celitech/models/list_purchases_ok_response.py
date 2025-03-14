@@ -1,6 +1,8 @@
 from typing import List
+from typing import Union
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -28,11 +30,11 @@ class Package(BaseModel):
 
     def __init__(
         self,
-        id_: str = None,
-        data_limit_in_bytes: float = None,
-        destination: str = None,
-        destination_name: str = None,
-        price_in_cents: float = None,
+        id_: str = SENTINEL,
+        data_limit_in_bytes: float = SENTINEL,
+        destination: str = SENTINEL,
+        destination_name: str = SENTINEL,
+        price_in_cents: float = SENTINEL,
         **kwargs
     ):
         """Package
@@ -70,7 +72,7 @@ class PurchasesEsim(BaseModel):
     :type iccid: str, optional
     """
 
-    def __init__(self, iccid: str = None, **kwargs):
+    def __init__(self, iccid: str = SENTINEL, **kwargs):
         """PurchasesEsim
 
         :param iccid: ID of the eSIM, defaults to None
@@ -115,7 +117,7 @@ class Purchases(BaseModel):
     :type package: Package, optional
     :param esim: esim, defaults to None
     :type esim: PurchasesEsim, optional
-    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page or promo-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
     :type source: str, optional
     :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
     :type reference_id: str, optional
@@ -123,17 +125,17 @@ class Purchases(BaseModel):
 
     def __init__(
         self,
-        id_: str = None,
-        start_date: str = None,
-        end_date: str = None,
-        created_date: str = None,
-        start_time: float = None,
-        end_time: float = None,
-        created_at: float = None,
-        package: Package = None,
-        esim: PurchasesEsim = None,
-        source: str = None,
-        reference_id: str = None,
+        id_: str = SENTINEL,
+        start_date: str = SENTINEL,
+        end_date: str = SENTINEL,
+        created_date: str = SENTINEL,
+        start_time: float = SENTINEL,
+        end_time: float = SENTINEL,
+        created_at: float = SENTINEL,
+        package: Package = SENTINEL,
+        esim: PurchasesEsim = SENTINEL,
+        source: str = SENTINEL,
+        reference_id: str = SENTINEL,
         **kwargs
     ):
         """Purchases
@@ -156,7 +158,7 @@ class Purchases(BaseModel):
         :type package: Package, optional
         :param esim: esim, defaults to None
         :type esim: PurchasesEsim, optional
-        :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page or promo-page. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+        :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
         :type source: str, optional
         :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
         :type reference_id: str, optional
@@ -190,7 +192,10 @@ class ListPurchasesOkResponse(BaseModel):
     """
 
     def __init__(
-        self, purchases: List[Purchases] = None, after_cursor: str = None, **kwargs
+        self,
+        purchases: List[Purchases] = SENTINEL,
+        after_cursor: Union[str, None] = SENTINEL,
+        **kwargs
     ):
         """ListPurchasesOkResponse
 
