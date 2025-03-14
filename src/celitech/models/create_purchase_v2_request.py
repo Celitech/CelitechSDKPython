@@ -10,12 +10,10 @@ from .utils.sentinel import SENTINEL
         "end_date": "endDate",
         "reference_id": "referenceId",
         "network_brand": "networkBrand",
-        "start_time": "startTime",
-        "end_time": "endTime",
     }
 )
-class CreatePurchaseRequest(BaseModel):
-    """CreatePurchaseRequest
+class CreatePurchaseV2Request(BaseModel):
+    """CreatePurchaseV2Request
 
     :param destination: ISO representation of the package's destination
     :type destination: str
@@ -31,10 +29,8 @@ class CreatePurchaseRequest(BaseModel):
     :type reference_id: str, optional
     :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters., defaults to None
     :type network_brand: str, optional
-    :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
-    :type start_time: float, optional
-    :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
-    :type end_time: float, optional
+    :param quantity: Number of eSIMs to purchase.
+    :type quantity: float
     """
 
     def __init__(
@@ -43,14 +39,13 @@ class CreatePurchaseRequest(BaseModel):
         data_limit_in_gb: float,
         start_date: str,
         end_date: str,
+        quantity: float,
         email: str = SENTINEL,
         reference_id: str = SENTINEL,
         network_brand: str = SENTINEL,
-        start_time: float = SENTINEL,
-        end_time: float = SENTINEL,
         **kwargs
     ):
-        """CreatePurchaseRequest
+        """CreatePurchaseV2Request
 
         :param destination: ISO representation of the package's destination
         :type destination: str
@@ -66,10 +61,8 @@ class CreatePurchaseRequest(BaseModel):
         :type reference_id: str, optional
         :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters., defaults to None
         :type network_brand: str, optional
-        :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
-        :type start_time: float, optional
-        :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
-        :type end_time: float, optional
+        :param quantity: Number of eSIMs to purchase.
+        :type quantity: float
         """
         self.destination = destination
         self.data_limit_in_gb = data_limit_in_gb
@@ -82,6 +75,5 @@ class CreatePurchaseRequest(BaseModel):
         self.network_brand = self._define_str(
             "network_brand", network_brand, nullable=True
         )
-        self.start_time = self._define_number("start_time", start_time, nullable=True)
-        self.end_time = self._define_number("end_time", end_time, nullable=True)
+        self.quantity = quantity
         self._kwargs = kwargs

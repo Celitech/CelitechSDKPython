@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.38
+# Celitech Python SDK 1.3.42
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 
 ## Versions
 
-- API version: `1.1.0`
-- SDK version: `1.3.38`
+- API version: `1.3.42`
+- SDK version: `1.3.42`
 
 ## About the API
 
@@ -160,6 +160,8 @@ The SDK includes several models that represent the data structures used in API r
 | [ListPurchasesOkResponse](documentation/models/ListPurchasesOkResponse.md)                   |             |
 | [CreatePurchaseRequest](documentation/models/CreatePurchaseRequest.md)                       |             |
 | [CreatePurchaseOkResponse](documentation/models/CreatePurchaseOkResponse.md)                 |             |
+| [CreatePurchaseV2Request](documentation/models/CreatePurchaseV2Request.md)                   |             |
+| [CreatePurchaseV2OkResponse](documentation/models/CreatePurchaseV2OkResponse.md)             |             |
 | [TopUpEsimRequest](documentation/models/TopUpEsimRequest.md)                                 |             |
 | [TopUpEsimOkResponse](documentation/models/TopUpEsimOkResponse.md)                           |             |
 | [EditPurchaseRequest](documentation/models/EditPurchaseRequest.md)                           |             |
