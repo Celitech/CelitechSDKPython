@@ -1,6 +1,7 @@
 from typing import List
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap({"supported_countries": "supportedCountries"})
@@ -17,9 +18,9 @@ class Destinations(BaseModel):
 
     def __init__(
         self,
-        name: str = None,
-        destination: str = None,
-        supported_countries: List[str] = None,
+        name: str = SENTINEL,
+        destination: str = SENTINEL,
+        supported_countries: List[str] = SENTINEL,
         **kwargs
     ):
         """Destinations
@@ -45,7 +46,7 @@ class ListDestinationsOkResponse(BaseModel):
     :type destinations: List[Destinations], optional
     """
 
-    def __init__(self, destinations: List[Destinations] = None, **kwargs):
+    def __init__(self, destinations: List[Destinations] = SENTINEL, **kwargs):
         """ListDestinationsOkResponse
 
         :param destinations: destinations, defaults to None

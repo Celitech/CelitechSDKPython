@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap({"hardware_name": "hardwareName", "hardware_model": "hardwareModel"})
@@ -18,10 +19,10 @@ class Device(BaseModel):
 
     def __init__(
         self,
-        oem: str = None,
-        hardware_name: str = None,
-        hardware_model: str = None,
-        eid: str = None,
+        oem: str = SENTINEL,
+        hardware_name: str = SENTINEL,
+        hardware_model: str = SENTINEL,
+        eid: str = SENTINEL,
         **kwargs
     ):
         """Device
@@ -54,7 +55,7 @@ class GetEsimDeviceOkResponse(BaseModel):
     :type device: Device, optional
     """
 
-    def __init__(self, device: Device = None, **kwargs):
+    def __init__(self, device: Device = SENTINEL, **kwargs):
         """GetEsimDeviceOkResponse
 
         :param device: device, defaults to None
