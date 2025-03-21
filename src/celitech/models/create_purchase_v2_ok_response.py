@@ -3,73 +3,39 @@ from .utils.base_model import BaseModel
 from .utils.sentinel import SENTINEL
 
 
-@JsonMap(
-    {
-        "id_": "id",
-        "package_id": "packageId",
-        "start_date": "startDate",
-        "end_date": "endDate",
-        "created_date": "createdDate",
-        "start_time": "startTime",
-        "end_time": "endTime",
-    }
-)
-class CreatePurchaseOkResponsePurchase(BaseModel):
-    """CreatePurchaseOkResponsePurchase
+@JsonMap({"id_": "id", "package_id": "packageId", "created_date": "createdDate"})
+class CreatePurchaseV2OkResponsePurchase(BaseModel):
+    """CreatePurchaseV2OkResponsePurchase
 
     :param id_: ID of the purchase, defaults to None
     :type id_: str, optional
     :param package_id: ID of the package, defaults to None
     :type package_id: str, optional
-    :param start_date: Start date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
-    :type start_date: str, optional
-    :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
-    :type end_date: str, optional
     :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
     :type created_date: str, optional
-    :param start_time: Epoch value representing the start time of the package's validity, defaults to None
-    :type start_time: float, optional
-    :param end_time: Epoch value representing the end time of the package's validity, defaults to None
-    :type end_time: float, optional
     """
 
     def __init__(
         self,
         id_: str = SENTINEL,
         package_id: str = SENTINEL,
-        start_date: str = SENTINEL,
-        end_date: str = SENTINEL,
         created_date: str = SENTINEL,
-        start_time: float = SENTINEL,
-        end_time: float = SENTINEL,
         **kwargs
     ):
-        """CreatePurchaseOkResponsePurchase
+        """CreatePurchaseV2OkResponsePurchase
 
         :param id_: ID of the purchase, defaults to None
         :type id_: str, optional
         :param package_id: ID of the package, defaults to None
         :type package_id: str, optional
-        :param start_date: Start date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
-        :type start_date: str, optional
-        :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
-        :type end_date: str, optional
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
         :type created_date: str, optional
-        :param start_time: Epoch value representing the start time of the package's validity, defaults to None
-        :type start_time: float, optional
-        :param end_time: Epoch value representing the end time of the package's validity, defaults to None
-        :type end_time: float, optional
         """
         self.id_ = self._define_str("id_", id_, nullable=True)
         self.package_id = self._define_str("package_id", package_id, nullable=True)
-        self.start_date = self._define_str("start_date", start_date, nullable=True)
-        self.end_date = self._define_str("end_date", end_date, nullable=True)
         self.created_date = self._define_str(
             "created_date", created_date, nullable=True
         )
-        self.start_time = self._define_number("start_time", start_time, nullable=True)
-        self.end_time = self._define_number("end_time", end_time, nullable=True)
         self._kwargs = kwargs
 
 
@@ -79,8 +45,8 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         "manual_activation_code": "manualActivationCode",
     }
 )
-class CreatePurchaseOkResponseProfile(BaseModel):
-    """CreatePurchaseOkResponseProfile
+class CreatePurchaseV2OkResponseProfile(BaseModel):
+    """CreatePurchaseV2OkResponseProfile
 
     :param iccid: ID of the eSIM, defaults to None
     :type iccid: str, optional
@@ -97,7 +63,7 @@ class CreatePurchaseOkResponseProfile(BaseModel):
         manual_activation_code: str = SENTINEL,
         **kwargs
     ):
-        """CreatePurchaseOkResponseProfile
+        """CreatePurchaseV2OkResponseProfile
 
         :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
@@ -123,28 +89,30 @@ class CreatePurchaseOkResponseProfile(BaseModel):
 
 
 @JsonMap({})
-class CreatePurchaseOkResponse(BaseModel):
-    """CreatePurchaseOkResponse
+class CreatePurchaseV2OkResponse(BaseModel):
+    """CreatePurchaseV2OkResponse
 
     :param purchase: purchase, defaults to None
-    :type purchase: CreatePurchaseOkResponsePurchase, optional
+    :type purchase: CreatePurchaseV2OkResponsePurchase, optional
     :param profile: profile, defaults to None
-    :type profile: CreatePurchaseOkResponseProfile, optional
+    :type profile: CreatePurchaseV2OkResponseProfile, optional
     """
 
     def __init__(
         self,
-        purchase: CreatePurchaseOkResponsePurchase = SENTINEL,
-        profile: CreatePurchaseOkResponseProfile = SENTINEL,
+        purchase: CreatePurchaseV2OkResponsePurchase = SENTINEL,
+        profile: CreatePurchaseV2OkResponseProfile = SENTINEL,
         **kwargs
     ):
-        """CreatePurchaseOkResponse
+        """CreatePurchaseV2OkResponse
 
         :param purchase: purchase, defaults to None
-        :type purchase: CreatePurchaseOkResponsePurchase, optional
+        :type purchase: CreatePurchaseV2OkResponsePurchase, optional
         :param profile: profile, defaults to None
-        :type profile: CreatePurchaseOkResponseProfile, optional
+        :type profile: CreatePurchaseV2OkResponseProfile, optional
         """
-        self.purchase = self._define_object(purchase, CreatePurchaseOkResponsePurchase)
-        self.profile = self._define_object(profile, CreatePurchaseOkResponseProfile)
+        self.purchase = self._define_object(
+            purchase, CreatePurchaseV2OkResponsePurchase
+        )
+        self.profile = self._define_object(profile, CreatePurchaseV2OkResponseProfile)
         self._kwargs = kwargs
