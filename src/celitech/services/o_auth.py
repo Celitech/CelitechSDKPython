@@ -1,6 +1,7 @@
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
 from ..models import GetAccessTokenOkResponse, GetAccessTokenRequest
 
@@ -25,7 +26,9 @@ class OAuthService(BaseService):
         Validator(GetAccessTokenRequest).validate(request_body)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/oauth2/token", self.get_default_headers())
+            Serializer(
+                f"{self.base_url or Environment.DEFAULT.url}/oauth2/token",
+            )
             .serialize()
             .set_method("POST")
             .set_body(request_body, "application/x-www-form-urlencoded")

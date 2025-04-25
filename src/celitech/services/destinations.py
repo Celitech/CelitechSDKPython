@@ -1,6 +1,7 @@
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
 from ..models import ListDestinationsOkResponse
 
@@ -19,10 +20,12 @@ class DestinationsService(BaseService):
         """
 
         serialized_request = (
-            Serializer(f"{self.base_url}/destinations", self.get_default_headers())
+            Serializer(
+                f"{self.base_url or Environment.DEFAULT.url}/destinations",
+            )
             .serialize()
             .set_method("GET")
-            .set_scopes({})
+            .set_scopes(set())
         )
 
         response, _, _ = self.send_request(serialized_request)
