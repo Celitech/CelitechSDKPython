@@ -18,7 +18,7 @@ class CelitechAsync(Celitech):
         self,
         client_id: str = None,
         client_secret: str = None,
-        base_url: Union[Environment, str] = Environment.DEFAULT,
+        base_url: Union[Environment, str, None] = None,
         timeout: int = 60000,
         base_oauth_url: str = None,
     ):

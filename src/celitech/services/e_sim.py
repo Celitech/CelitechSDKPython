@@ -1,6 +1,7 @@
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
 from ..models import (
     GetEsimDeviceOkResponse,
@@ -28,11 +29,13 @@ class ESimService(BaseService):
         Validator(str).min_length(18).max_length(22).validate(iccid)
 
         serialized_request = (
-            Serializer(f"{self.base_url}/esim", self.get_default_headers())
+            Serializer(
+                f"{self.base_url or Environment.DEFAULT.url}/esim",
+            )
             .add_query("iccid", iccid)
             .serialize()
             .set_method("GET")
-            .set_scopes({})
+            .set_scopes(set())
         )
 
         response, _, _ = self.send_request(serialized_request)
@@ -55,12 +58,12 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{self.base_url}/esim/{{iccid}}/device", self.get_default_headers()
+                f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/device",
             )
             .add_path("iccid", iccid)
             .serialize()
             .set_method("GET")
-            .set_scopes({})
+            .set_scopes(set())
         )
 
         response, _, _ = self.send_request(serialized_request)
@@ -83,12 +86,12 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{self.base_url}/esim/{{iccid}}/history", self.get_default_headers()
+                f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/history",
             )
             .add_path("iccid", iccid)
             .serialize()
             .set_method("GET")
-            .set_scopes({})
+            .set_scopes(set())
         )
 
         response, _, _ = self.send_request(serialized_request)
@@ -111,12 +114,12 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{self.base_url}/esim/{{iccid}}/mac", self.get_default_headers()
+                f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/mac",
             )
             .add_path("iccid", iccid)
             .serialize()
             .set_method("GET")
-            .set_scopes({})
+            .set_scopes(set())
         )
 
         response, _, _ = self.send_request(serialized_request)
