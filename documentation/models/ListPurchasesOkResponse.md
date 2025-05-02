@@ -16,6 +16,7 @@
 | id\_         | str           | ❌       | ID of the purchase                                                                                                                                                                                                        |
 | start_date   | str           | ❌       | Start date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ'                                                                                                                                                |
 | end_date     | str           | ❌       | End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ'                                                                                                                                                  |
+| duration     | float         | ❌       | It designates the number of days the eSIM is valid for within 90-day validity from issuance date.                                                                                                                         |
 | created_date | str           | ❌       | Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'                                                                                                                                                       |
 | start_time   | float         | ❌       | Epoch value representing the start time of the package's validity                                                                                                                                                         |
 | end_time     | float         | ❌       | Epoch value representing the end time of the package's validity                                                                                                                                                           |
@@ -29,13 +30,13 @@
 
 **Properties**
 
-| Name                | Type  | Required | Description                                     |
-| :------------------ | :---- | :------- | :---------------------------------------------- |
-| id\_                | str   | ❌       | ID of the package                               |
-| data_limit_in_bytes | float | ❌       | Size of the package in Bytes                    |
-| destination         | str   | ❌       | ISO representation of the package's destination |
-| destination_name    | str   | ❌       | Name of the package's destination               |
-| price_in_cents      | float | ❌       | Price of the package in cents                   |
+| Name                | Type  | Required | Description                                                                                                                                                             |
+| :------------------ | :---- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id\_                | str   | ❌       | ID of the package                                                                                                                                                       |
+| data_limit_in_bytes | float | ❌       | Size of the package in bytes. For "limited" packages, this field will return the data limit in bytes. For "unlimited" packages, it will return **-1** as an identifier. |
+| destination         | str   | ❌       | ISO representation of the package's destination                                                                                                                         |
+| destination_name    | str   | ❌       | Name of the package's destination                                                                                                                                       |
+| price_in_cents      | float | ❌       | Price of the package in cents                                                                                                                                           |
 
 # PurchasesEsim
 
