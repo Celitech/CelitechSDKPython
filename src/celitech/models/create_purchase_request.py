@@ -19,7 +19,7 @@ class CreatePurchaseRequest(BaseModel):
 
     :param destination: ISO representation of the package's destination
     :type destination: str
-    :param data_limit_in_gb: Size of the package in GB. The available options are 1, 2, 3, 5, 8, 20GB
+    :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20GB
     :type data_limit_in_gb: float
     :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
     :type start_date: str
@@ -54,7 +54,7 @@ class CreatePurchaseRequest(BaseModel):
 
         :param destination: ISO representation of the package's destination
         :type destination: str
-        :param data_limit_in_gb: Size of the package in GB. The available options are 1, 2, 3, 5, 8, 20GB
+        :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20GB
         :type data_limit_in_gb: float
         :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
         :type start_date: str
