@@ -18,12 +18,14 @@ class TopUpEsimRequest(BaseModel):
 
     :param iccid: ID of the eSIM
     :type iccid: str
-    :param data_limit_in_gb: Size of the package in GB. The available options are 1, 2, 3, 5, 8, 20GB
+    :param data_limit_in_gb: Size of the package in GB. - **Limited Packages (1, 2, 3, 5, 8, 20GB):** supports `duration` or `startDate` `endDate`. - **Unlimited Packages (Region-3 only)** support `duration` only. Use **-1** for unlimited.
     :type data_limit_in_gb: float
-    :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
-    :type start_date: str
-    :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.
-    :type end_date: str
+    :param start_date: Start date of the package validity in the format `yyyy-MM-dd`. This date can be set to the current day or any day within the enxt 12 months.  - **Required** if `duration` is **not** provided.   - **Optional** must not passed if `duration` is provided. , defaults to None
+    :type start_date: str, optional
+    :param end_date: End date of the package validity in the format `yyyy-MM-dd`. End date can be maximum 90 days after Start date.  - **Required** if `duration` is **not** provided.   - **Optional** must not passed if `duration` is provided. , defaults to None
+    :type end_date: str, optional
+    :param duration: Defines the number of days the eSIM package remains active. Available options: **1, 2, 7, 14, 30**  - **Required** if `startDate` and `endDate` are **not** provided.   - **Optional** must not passed if `startDate` and `endDate` are provided. , defaults to None
+    :type duration: float, optional
     :param email: Email address where the purchase confirmation email will be sent (excluding QR Code & activation steps), defaults to None
     :type email: str, optional
     :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
@@ -38,8 +40,9 @@ class TopUpEsimRequest(BaseModel):
         self,
         iccid: str,
         data_limit_in_gb: float,
-        start_date: str,
-        end_date: str,
+        start_date: str = SENTINEL,
+        end_date: str = SENTINEL,
+        duration: float = SENTINEL,
         email: str = SENTINEL,
         reference_id: str = SENTINEL,
         start_time: float = SENTINEL,
@@ -50,12 +53,14 @@ class TopUpEsimRequest(BaseModel):
 
         :param iccid: ID of the eSIM
         :type iccid: str
-        :param data_limit_in_gb: Size of the package in GB. The available options are 1, 2, 3, 5, 8, 20GB
+        :param data_limit_in_gb: Size of the package in GB. - **Limited Packages (1, 2, 3, 5, 8, 20GB):** supports `duration` or `startDate` `endDate`. - **Unlimited Packages (Region-3 only)** support `duration` only. Use **-1** for unlimited.
         :type data_limit_in_gb: float
-        :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
-        :type start_date: str
-        :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.
-        :type end_date: str
+        :param start_date: Start date of the package validity in the format `yyyy-MM-dd`. This date can be set to the current day or any day within the enxt 12 months.  - **Required** if `duration` is **not** provided.   - **Optional** must not passed if `duration` is provided. , defaults to None
+        :type start_date: str, optional
+        :param end_date: End date of the package validity in the format `yyyy-MM-dd`. End date can be maximum 90 days after Start date.  - **Required** if `duration` is **not** provided.   - **Optional** must not passed if `duration` is provided. , defaults to None
+        :type end_date: str, optional
+        :param duration: Defines the number of days the eSIM package remains active. Available options: **1, 2, 7, 14, 30**  - **Required** if `startDate` and `endDate` are **not** provided.   - **Optional** must not passed if `startDate` and `endDate` are provided. , defaults to None
+        :type duration: float, optional
         :param email: Email address where the purchase confirmation email will be sent (excluding QR Code & activation steps), defaults to None
         :type email: str, optional
         :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
@@ -67,8 +72,9 @@ class TopUpEsimRequest(BaseModel):
         """
         self.iccid = self._define_str("iccid", iccid, min_length=18, max_length=22)
         self.data_limit_in_gb = data_limit_in_gb
-        self.start_date = start_date
-        self.end_date = end_date
+        self.start_date = self._define_str("start_date", start_date, nullable=True)
+        self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.duration = self._define_number("duration", duration, nullable=True)
         self.email = self._define_str("email", email, nullable=True)
         self.reference_id = self._define_str(
             "reference_id", reference_id, nullable=True

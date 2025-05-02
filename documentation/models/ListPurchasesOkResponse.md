@@ -29,13 +29,13 @@
 
 **Properties**
 
-| Name                | Type  | Required | Description                                     |
-| :------------------ | :---- | :------- | :---------------------------------------------- |
-| id\_                | str   | ❌       | ID of the package                               |
-| data_limit_in_bytes | float | ❌       | Size of the package in Bytes                    |
-| destination         | str   | ❌       | ISO representation of the package's destination |
-| destination_name    | str   | ❌       | Name of the package's destination               |
-| price_in_cents      | float | ❌       | Price of the package in cents                   |
+| Name                | Type  | Required | Description                                                                                                                                                             |
+| :------------------ | :---- | :------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id\_                | str   | ❌       | ID of the package                                                                                                                                                       |
+| data_limit_in_bytes | float | ❌       | Size of the package in bytes. For "limited" packages, this field will return the data limit in bytes. For "unlimited" packages, it will return **-1** as an identifier. |
+| destination         | str   | ❌       | ISO representation of the package's destination                                                                                                                         |
+| destination_name    | str   | ❌       | Name of the package's destination                                                                                                                                       |
+| price_in_cents      | float | ❌       | Price of the package in cents                                                                                                                                           |
 
 # PurchasesEsim
 

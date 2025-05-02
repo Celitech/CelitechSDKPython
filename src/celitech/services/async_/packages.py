@@ -1,4 +1,4 @@
-from typing import Awaitable
+from typing import Awaitable, Union
 from .utils.to_async import to_async
 from ..packages import PackagesService
 from ...models.utils.sentinel import SENTINEL
@@ -15,6 +15,7 @@ class PackagesServiceAsync(PackagesService):
         destination: str = SENTINEL,
         start_date: str = SENTINEL,
         end_date: str = SENTINEL,
+        data_limit_in_gb: float = SENTINEL,
         after_cursor: str = SENTINEL,
         limit: float = SENTINEL,
         start_time: int = SENTINEL,
@@ -25,6 +26,7 @@ class PackagesServiceAsync(PackagesService):
             destination,
             start_date,
             end_date,
+            data_limit_in_gb,
             after_cursor,
             limit,
             start_time,
