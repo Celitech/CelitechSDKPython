@@ -18,7 +18,7 @@ class Package(BaseModel):
 
     :param id_: ID of the package, defaults to None
     :type id_: str, optional
-    :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
+    :param data_limit_in_bytes: Size of the package in bytes. For "limited" packages, this field will return the data limit in bytes. For "unlimited" packages, it will return **-1** as an identifier. , defaults to None
     :type data_limit_in_bytes: float, optional
     :param destination: ISO representation of the package's destination, defaults to None
     :type destination: str, optional
@@ -41,7 +41,7 @@ class Package(BaseModel):
 
         :param id_: ID of the package, defaults to None
         :type id_: str, optional
-        :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
+        :param data_limit_in_bytes: Size of the package in bytes. For "limited" packages, this field will return the data limit in bytes. For "unlimited" packages, it will return **-1** as an identifier. , defaults to None
         :type data_limit_in_bytes: float, optional
         :param destination: ISO representation of the package's destination, defaults to None
         :type destination: str, optional
