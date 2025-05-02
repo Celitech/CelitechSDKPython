@@ -152,27 +152,53 @@ The SDK includes several models that represent the data structures used in API r
 <details> 
 <summary>Below is a list of all available models:</summary>
 
-| Name                             | Description |
-| :------------------------------- | :---------- |
-| GetAccessTokenRequest            |             |
-| GetAccessTokenOkResponse         |             |
-| ListDestinationsOkResponse       |             |
-| ListPackagesOkResponse           |             |
-| CreatePurchaseV2Request          |             |
-| CreatePurchaseV2OkResponse       |             |
-| ListPurchasesOkResponse          |             |
-| CreatePurchaseRequest            |             |
-| CreatePurchaseOkResponse         |             |
-| TopUpEsimRequest                 |             |
-| TopUpEsimOkResponse              |             |
-| EditPurchaseRequest              |             |
-| EditPurchaseOkResponse           |             |
-| GetPurchaseConsumptionOkResponse |             |
-| GetEsimOkResponse                |             |
-| GetEsimDeviceOkResponse          |             |
-| GetEsimHistoryOkResponse         |             |
-| GetEsimMacOkResponse             |             |
-| TokenOkResponse                  |             |
+| Name                              | Description |
+| :-------------------------------- | :---------- |
+| GetAccessTokenRequest             |             |
+| GetAccessTokenOkResponse          |             |
+| ListDestinationsOkResponse        |             |
+| ListPackagesOkResponse            |             |
+| CreatePurchaseV2Request           |             |
+| CreatePurchaseV2OkResponse        |             |
+| ListPurchasesOkResponse           |             |
+| CreatePurchaseRequest             |             |
+| CreatePurchaseOkResponse          |             |
+| TopUpEsimRequest                  |             |
+| TopUpEsimOkResponse               |             |
+| EditPurchaseRequest               |             |
+| EditPurchaseOkResponse            |             |
+| GetPurchaseConsumptionOkResponse  |             |
+| GetEsimOkResponse                 |             |
+| GetEsimDeviceOkResponse           |             |
+| GetEsimHistoryOkResponse          |             |
+| GetEsimMacOkResponse              |             |
+| TokenOkResponse                   |             |
+| ListDestinations400Response       |             |
+| ListDestinations401Response       |             |
+| ListPackages400Response           |             |
+| ListPackages401Response           |             |
+| CreatePurchaseV2_400Response      |             |
+| CreatePurchaseV2_401Response      |             |
+| ListPurchases400Response          |             |
+| ListPurchases401Response          |             |
+| CreatePurchase400Response         |             |
+| CreatePurchase401Response         |             |
+| TopUpEsim400Response              |             |
+| TopUpEsim401Response              |             |
+| EditPurchase400Response           |             |
+| EditPurchase401Response           |             |
+| GetPurchaseConsumption400Response |             |
+| GetPurchaseConsumption401Response |             |
+| GetEsim400Response                |             |
+| GetEsim401Response                |             |
+| GetEsimDevice400Response          |             |
+| GetEsimDevice401Response          |             |
+| GetEsimHistory400Response         |             |
+| GetEsimHistory401Response         |             |
+| GetEsimMac400Response             |             |
+| GetEsimMac401Response             |             |
+| Token400Response                  |             |
+| Token401Response                  |             |
 
 </details>
 
