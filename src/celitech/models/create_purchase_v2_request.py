@@ -10,6 +10,7 @@ from .utils.sentinel import SENTINEL
         "end_date": "endDate",
         "reference_id": "referenceId",
         "network_brand": "networkBrand",
+        "email_brand": "emailBrand",
     }
 )
 class CreatePurchaseV2Request(BaseModel):
@@ -31,6 +32,8 @@ class CreatePurchaseV2Request(BaseModel):
     :type reference_id: str, optional
     :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters., defaults to None
     :type network_brand: str, optional
+    :param email_brand: Customize the email brand. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 25 characters., defaults to None
+    :type email_brand: str, optional
     """
 
     def __init__(
@@ -43,6 +46,7 @@ class CreatePurchaseV2Request(BaseModel):
         email: str = SENTINEL,
         reference_id: str = SENTINEL,
         network_brand: str = SENTINEL,
+        email_brand: str = SENTINEL,
         **kwargs
     ):
         """CreatePurchaseV2Request
@@ -63,6 +67,8 @@ class CreatePurchaseV2Request(BaseModel):
         :type reference_id: str, optional
         :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters., defaults to None
         :type network_brand: str, optional
+        :param email_brand: Customize the email brand. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 25 characters., defaults to None
+        :type email_brand: str, optional
         """
         self.destination = destination
         self.data_limit_in_gb = data_limit_in_gb
@@ -76,4 +82,5 @@ class CreatePurchaseV2Request(BaseModel):
         self.network_brand = self._define_str(
             "network_brand", network_brand, nullable=True
         )
+        self.email_brand = self._define_str("email_brand", email_brand, nullable=True)
         self._kwargs = kwargs
