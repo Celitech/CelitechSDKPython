@@ -10,6 +10,7 @@ from .utils.sentinel import SENTINEL
         "end_date": "endDate",
         "reference_id": "referenceId",
         "network_brand": "networkBrand",
+        "email_brand": "emailBrand",
         "start_time": "startTime",
         "end_time": "endTime",
     }
@@ -29,8 +30,10 @@ class CreatePurchaseRequest(BaseModel):
     :type email: str, optional
     :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
     :type reference_id: str, optional
-    :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters, defaults to None
+    :param network_brand: Customize the network brand of the issued eSIM. The `networkBrand` parameter cannot exceed 15 characters in length and must contain only letters and numbers. This feature is available to platforms with Diamond tier only., defaults to None
     :type network_brand: str, optional
+    :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
+    :type email_brand: str, optional
     :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
     :type start_time: float, optional
     :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
@@ -46,6 +49,7 @@ class CreatePurchaseRequest(BaseModel):
         email: str = SENTINEL,
         reference_id: str = SENTINEL,
         network_brand: str = SENTINEL,
+        email_brand: str = SENTINEL,
         start_time: float = SENTINEL,
         end_time: float = SENTINEL,
         **kwargs
@@ -64,8 +68,10 @@ class CreatePurchaseRequest(BaseModel):
         :type email: str, optional
         :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
         :type reference_id: str, optional
-        :param network_brand: Customize the network brand of the issued eSIM. This parameter is accessible to platforms with Diamond tier and requires an alphanumeric string of up to 15 characters, defaults to None
+        :param network_brand: Customize the network brand of the issued eSIM. The `networkBrand` parameter cannot exceed 15 characters in length and must contain only letters and numbers. This feature is available to platforms with Diamond tier only., defaults to None
         :type network_brand: str, optional
+        :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
+        :type email_brand: str, optional
         :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
         :type start_time: float, optional
         :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
@@ -82,6 +88,7 @@ class CreatePurchaseRequest(BaseModel):
         self.network_brand = self._define_str(
             "network_brand", network_brand, nullable=True
         )
+        self.email_brand = self._define_str("email_brand", email_brand, nullable=True)
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
         self._kwargs = kwargs
