@@ -1,4 +1,4 @@
-from typing import Awaitable, List
+from typing import Awaitable, List, Union
 from .utils.to_async import to_async
 from ..purchases import PurchasesService
 from ...models.utils.sentinel import SENTINEL
