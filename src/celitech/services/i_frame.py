@@ -1,9 +1,10 @@
+from typing import Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
-from ..models import TokenOkResponse
+from ..models import Token400Response, Token401Response, TokenOkResponse
 
 
 class IFrameService(BaseService):
@@ -23,10 +24,12 @@ class IFrameService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/iframe/token",
             )
+            .add_error(400, Token400Response)
+            .add_error(401, Token401Response)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return TokenOkResponse._unmap(response)
