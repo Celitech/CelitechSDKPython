@@ -1,4 +1,4 @@
-from typing import Awaitable
+from typing import Awaitable, Union
 from .utils.to_async import to_async
 from ..i_frame import IFrameService
 from ...models import TokenOkResponse
