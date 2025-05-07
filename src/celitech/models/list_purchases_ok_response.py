@@ -18,7 +18,7 @@ class Package(BaseModel):
 
     :param id_: ID of the package, defaults to None
     :type id_: str, optional
-    :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
+    :param data_limit_in_bytes: Size of the package in bytes. For "limited" packages, this field will return the data limit in bytes. For "unlimited" packages, it will return **-1** as an identifier. , defaults to None
     :type data_limit_in_bytes: float, optional
     :param destination: ISO representation of the package's destination, defaults to None
     :type destination: str, optional
@@ -41,7 +41,7 @@ class Package(BaseModel):
 
         :param id_: ID of the package, defaults to None
         :type id_: str, optional
-        :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
+        :param data_limit_in_bytes: Size of the package in bytes. For "limited" packages, this field will return the data limit in bytes. For "unlimited" packages, it will return **-1** as an identifier. , defaults to None
         :type data_limit_in_bytes: float, optional
         :param destination: ISO representation of the package's destination, defaults to None
         :type destination: str, optional
@@ -93,6 +93,7 @@ class PurchasesEsim(BaseModel):
         "start_time": "startTime",
         "end_time": "endTime",
         "created_at": "createdAt",
+        "purchase_type": "purchaseType",
         "reference_id": "referenceId",
     }
 )
@@ -105,6 +106,8 @@ class Purchases(BaseModel):
     :type start_date: str, optional
     :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
     :type end_date: str, optional
+    :param duration: It designates the number of days the eSIM is valid for within 90-day validity from issuance date., defaults to None
+    :type duration: float, optional
     :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
     :type created_date: str, optional
     :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -117,24 +120,28 @@ class Purchases(BaseModel):
     :type package: Package, optional
     :param esim: esim, defaults to None
     :type esim: PurchasesEsim, optional
-    :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+    :param source: The `source` indicates whether the purchase was made from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
     :type source: str, optional
-    :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
+    :param purchase_type: The `purchaseType` indicates whether this is the initial purchase that creates the eSIM (First Purchase) or a subsequent top-up on an existing eSIM (Top-up Purchase)., defaults to None
+    :type purchase_type: str, optional
+    :param reference_id: The `referenceId` that was provided by the partner during the purchase or top-up flow. This identifier can be used for analytics and debugging purposes., defaults to None
     :type reference_id: str, optional
     """
 
     def __init__(
         self,
         id_: str = SENTINEL,
-        start_date: str = SENTINEL,
-        end_date: str = SENTINEL,
+        start_date: Union[str, None] = SENTINEL,
+        end_date: Union[str, None] = SENTINEL,
+        duration: Union[float, None] = SENTINEL,
         created_date: str = SENTINEL,
-        start_time: float = SENTINEL,
-        end_time: float = SENTINEL,
+        start_time: Union[float, None] = SENTINEL,
+        end_time: Union[float, None] = SENTINEL,
         created_at: float = SENTINEL,
         package: Package = SENTINEL,
         esim: PurchasesEsim = SENTINEL,
         source: str = SENTINEL,
+        purchase_type: str = SENTINEL,
         reference_id: str = SENTINEL,
         **kwargs
     ):
@@ -146,6 +153,8 @@ class Purchases(BaseModel):
         :type start_date: str, optional
         :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
         :type end_date: str, optional
+        :param duration: It designates the number of days the eSIM is valid for within 90-day validity from issuance date., defaults to None
+        :type duration: float, optional
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
         :type created_date: str, optional
         :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -158,14 +167,17 @@ class Purchases(BaseModel):
         :type package: Package, optional
         :param esim: esim, defaults to None
         :type esim: PurchasesEsim, optional
-        :param source: The source indicates where the eSIM was purchased, which can be from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
+        :param source: The `source` indicates whether the purchase was made from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'., defaults to None
         :type source: str, optional
-        :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow. This identifier can be used for analytics and debugging purposes., defaults to None
+        :param purchase_type: The `purchaseType` indicates whether this is the initial purchase that creates the eSIM (First Purchase) or a subsequent top-up on an existing eSIM (Top-up Purchase)., defaults to None
+        :type purchase_type: str, optional
+        :param reference_id: The `referenceId` that was provided by the partner during the purchase or top-up flow. This identifier can be used for analytics and debugging purposes., defaults to None
         :type reference_id: str, optional
         """
         self.id_ = self._define_str("id_", id_, nullable=True)
         self.start_date = self._define_str("start_date", start_date, nullable=True)
         self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.duration = self._define_number("duration", duration, nullable=True)
         self.created_date = self._define_str(
             "created_date", created_date, nullable=True
         )
@@ -175,6 +187,9 @@ class Purchases(BaseModel):
         self.package = self._define_object(package, Package)
         self.esim = self._define_object(esim, PurchasesEsim)
         self.source = self._define_str("source", source, nullable=True)
+        self.purchase_type = self._define_str(
+            "purchase_type", purchase_type, nullable=True
+        )
         self.reference_id = self._define_str(
             "reference_id", reference_id, nullable=True
         )
