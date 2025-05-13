@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
@@ -6,14 +6,26 @@ from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
 from ..models import (
+    CreatePurchase400Response,
+    CreatePurchase401Response,
     CreatePurchaseOkResponse,
     CreatePurchaseRequest,
+    CreatePurchaseV2_400Response,
+    CreatePurchaseV2_401Response,
     CreatePurchaseV2OkResponse,
     CreatePurchaseV2Request,
+    EditPurchase400Response,
+    EditPurchase401Response,
     EditPurchaseOkResponse,
     EditPurchaseRequest,
+    GetPurchaseConsumption400Response,
+    GetPurchaseConsumption401Response,
     GetPurchaseConsumptionOkResponse,
+    ListPurchases400Response,
+    ListPurchases401Response,
     ListPurchasesOkResponse,
+    TopUpEsim400Response,
+    TopUpEsim401Response,
     TopUpEsimOkResponse,
     TopUpEsimRequest,
 )
@@ -25,7 +37,13 @@ class PurchasesService(BaseService):
     def create_purchase_v2(
         self, request_body: CreatePurchaseV2Request
     ) -> List[CreatePurchaseV2OkResponse]:
-        """This endpoint is used to purchase a new eSIM by providing the package details.
+        """This endpoint lets you purchase a new eSIM by providing the package details.
+        You must include **either**:
+          - Both `startDate` and `endDate` (to set a fixed date range),
+          **or**
+          - `duration` (to set how many days the eSIM will be active).
+
+        These options cannot be used together, only one of them should be provided.
 
         :param request_body: The request body.
         :type request_body: CreatePurchaseV2Request
@@ -42,13 +60,15 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/v2",
             )
+            .add_error(400, CreatePurchaseV2_400Response)
+            .add_error(401, CreatePurchaseV2_401Response)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
             .set_body(request_body)
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return [CreatePurchaseV2OkResponse._unmap(item) for item in response]
 
     @cast_models
@@ -109,12 +129,14 @@ class PurchasesService(BaseService):
             .add_query("limit", limit)
             .add_query("after", after)
             .add_query("before", before)
+            .add_error(400, ListPurchases400Response)
+            .add_error(401, ListPurchases401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return ListPurchasesOkResponse._unmap(response)
 
     @cast_models
@@ -138,18 +160,27 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases",
             )
+            .add_error(400, CreatePurchase400Response)
+            .add_error(401, CreatePurchase401Response)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
             .set_body(request_body)
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return CreatePurchaseOkResponse._unmap(response)
 
     @cast_models
     def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
-        """This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is only feasible for eSIMs in "ENABLED" or "INSTALLED" state. You can check this state using the Get eSIM Status endpoint.
+        """This endpoint lets you top up an existing eSIM by providing its ICCID and the new package details.   The destination must be the same as the one used in the original purchase.
+        Top-up is only allowed for eSIMs that are in the **"ENABLED"** or **"INSTALLED"** state.   You can check the current state using the **Get eSIM Status** endpoint.
+        You must include **either**:
+          - Both `startDate` and `endDate` (to set a fixed date range),
+          **or**
+          - `duration` (to set how many days the eSIM will be active).
+
+        These options cannot be used together — only one of them should be provided.
 
         :param request_body: The request body.
         :type request_body: TopUpEsimRequest
@@ -166,20 +197,22 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/topup",
             )
+            .add_error(400, TopUpEsim400Response)
+            .add_error(401, TopUpEsim401Response)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
             .set_body(request_body)
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return TopUpEsimOkResponse._unmap(response)
 
     @cast_models
     def edit_purchase(
         self, request_body: EditPurchaseRequest
     ) -> EditPurchaseOkResponse:
-        """This endpoint allows you to modify the dates of an existing package with a future activation start time. Editing can only be performed for packages that have not been activated, and it cannot change the package size. The modification must not change the package duration category to ensure pricing consistency.
+        """This endpoint allows you to modify the dates of an existing package with a future activation start time. Editing can only be performed for packages that have not been activated, and it cannot change the package size. The modification must not change the package duration category to ensure pricing consistency. Duration based packages cannot be edited.
 
         :param request_body: The request body.
         :type request_body: EditPurchaseRequest
@@ -196,13 +229,15 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/edit",
             )
+            .add_error(400, EditPurchase400Response)
+            .add_error(401, EditPurchase401Response)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
             .set_body(request_body)
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return EditPurchaseOkResponse._unmap(response)
 
     @cast_models
@@ -227,10 +262,12 @@ class PurchasesService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
             )
             .add_path("purchaseId", purchase_id)
+            .add_error(400, GetPurchaseConsumption400Response)
+            .add_error(401, GetPurchaseConsumption401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return GetPurchaseConsumptionOkResponse._unmap(response)
