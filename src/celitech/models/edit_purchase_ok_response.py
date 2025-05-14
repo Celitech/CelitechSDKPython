@@ -1,3 +1,4 @@
+from typing import Union
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
 from .utils.sentinel import SENTINEL
@@ -30,10 +31,10 @@ class EditPurchaseOkResponse(BaseModel):
     def __init__(
         self,
         purchase_id: str = SENTINEL,
-        new_start_date: str = SENTINEL,
-        new_end_date: str = SENTINEL,
-        new_start_time: float = SENTINEL,
-        new_end_time: float = SENTINEL,
+        new_start_date: Union[str, None] = SENTINEL,
+        new_end_date: Union[str, None] = SENTINEL,
+        new_start_time: Union[float, None] = SENTINEL,
+        new_end_time: Union[float, None] = SENTINEL,
         **kwargs
     ):
         """EditPurchaseOkResponse
