@@ -1,9 +1,14 @@
+from typing import Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
-from ..models import ListDestinationsOkResponse
+from ..models import (
+    ListDestinations400Response,
+    ListDestinations401Response,
+    ListDestinationsOkResponse,
+)
 
 
 class DestinationsService(BaseService):
@@ -23,10 +28,12 @@ class DestinationsService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/destinations",
             )
+            .add_error(400, ListDestinations400Response)
+            .add_error(401, ListDestinations401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return ListDestinationsOkResponse._unmap(response)

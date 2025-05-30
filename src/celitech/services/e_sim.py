@@ -1,11 +1,20 @@
+from typing import Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
 from ..models import (
+    GetEsim400Response,
+    GetEsim401Response,
+    GetEsimDevice400Response,
+    GetEsimDevice401Response,
     GetEsimDeviceOkResponse,
+    GetEsimHistory400Response,
+    GetEsimHistory401Response,
     GetEsimHistoryOkResponse,
+    GetEsimMac400Response,
+    GetEsimMac401Response,
     GetEsimMacOkResponse,
     GetEsimOkResponse,
 )
@@ -33,12 +42,14 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim",
             )
             .add_query("iccid", iccid)
+            .add_error(400, GetEsim400Response)
+            .add_error(401, GetEsim401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return GetEsimOkResponse._unmap(response)
 
     @cast_models
@@ -61,12 +72,14 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/device",
             )
             .add_path("iccid", iccid)
+            .add_error(400, GetEsimDevice400Response)
+            .add_error(401, GetEsimDevice401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return GetEsimDeviceOkResponse._unmap(response)
 
     @cast_models
@@ -89,12 +102,14 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/history",
             )
             .add_path("iccid", iccid)
+            .add_error(400, GetEsimHistory400Response)
+            .add_error(401, GetEsimHistory401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return GetEsimHistoryOkResponse._unmap(response)
 
     @cast_models
@@ -117,10 +132,12 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/mac",
             )
             .add_path("iccid", iccid)
+            .add_error(400, GetEsimMac400Response)
+            .add_error(401, GetEsimMac401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return GetEsimMacOkResponse._unmap(response)
