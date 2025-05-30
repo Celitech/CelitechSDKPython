@@ -1,10 +1,15 @@
+from typing import Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
-from ..models import ListPackagesOkResponse
+from ..models import (
+    ListPackages400Response,
+    ListPackages401Response,
+    ListPackagesOkResponse,
+)
 
 
 class PackagesService(BaseService):
@@ -15,6 +20,8 @@ class PackagesService(BaseService):
         destination: str = SENTINEL,
         start_date: str = SENTINEL,
         end_date: str = SENTINEL,
+        data_limit_in_gb: float = SENTINEL,
+        include_unlimited: bool = SENTINEL,
         after_cursor: str = SENTINEL,
         limit: float = SENTINEL,
         start_time: int = SENTINEL,
@@ -29,6 +36,14 @@ class PackagesService(BaseService):
         :type start_date: str, optional
         :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
         :type end_date: str, optional
+        :param data_limit_in_gb: Size of the package in GB.
+
+        For **limited packages**, the available options are: **0.5, 1, 2, 3, 5, 8, 20GB**.
+
+        For **unlimited packages** (available to Region-3), please use **-1** as an identifier., defaults to None
+        :type data_limit_in_gb: float, optional
+        :param include_unlimited: A boolean flag to include the **unlimited packages** in the response. The flag is false by default., defaults to None
+        :type include_unlimited: bool, optional
         :param after_cursor: To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data., defaults to None
         :type after_cursor: str, optional
         :param limit: Maximum number of packages to be returned in the response. The value must be greater than 0 and less than or equal to 160. If not provided, the default value is 20, defaults to None
@@ -49,6 +64,8 @@ class PackagesService(BaseService):
         Validator(str).is_optional().validate(destination)
         Validator(str).is_optional().validate(start_date)
         Validator(str).is_optional().validate(end_date)
+        Validator(float).is_optional().validate(data_limit_in_gb)
+        Validator(bool).is_optional().validate(include_unlimited)
         Validator(str).is_optional().validate(after_cursor)
         Validator(float).is_optional().validate(limit)
         Validator(int).is_optional().validate(start_time)
@@ -62,15 +79,19 @@ class PackagesService(BaseService):
             .add_query("destination", destination)
             .add_query("startDate", start_date)
             .add_query("endDate", end_date)
+            .add_query("dataLimitInGB", data_limit_in_gb)
+            .add_query("includeUnlimited", include_unlimited)
             .add_query("afterCursor", after_cursor)
             .add_query("limit", limit)
             .add_query("startTime", start_time)
             .add_query("endTime", end_time)
             .add_query("duration", duration)
+            .add_error(400, ListPackages400Response)
+            .add_error(401, ListPackages401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return ListPackagesOkResponse._unmap(response)
