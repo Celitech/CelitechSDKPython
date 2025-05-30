@@ -1,3 +1,4 @@
+from typing import Union
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
 from .utils.sentinel import SENTINEL
@@ -37,11 +38,11 @@ class CreatePurchaseOkResponsePurchase(BaseModel):
         self,
         id_: str = SENTINEL,
         package_id: str = SENTINEL,
-        start_date: str = SENTINEL,
-        end_date: str = SENTINEL,
+        start_date: Union[str, None] = SENTINEL,
+        end_date: Union[str, None] = SENTINEL,
         created_date: str = SENTINEL,
-        start_time: float = SENTINEL,
-        end_time: float = SENTINEL,
+        start_time: Union[float, None] = SENTINEL,
+        end_time: Union[float, None] = SENTINEL,
         **kwargs
     ):
         """CreatePurchaseOkResponsePurchase
