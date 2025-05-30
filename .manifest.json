@@ -1,6 +1,6 @@
 {
-  "liblabVersion": "2.25.10",
-  "date": "2025-04-25T16:42:35.217Z",
+  "liblabVersion": "2.25.23",
+  "date": "2025-05-30T16:13:13.613Z",
   "config": {
     "apiId": 1897,
     "sdkName": "Celitech",
@@ -33,11 +33,6 @@
           }
         },
         "responseHeaders": false,
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
         "environmentVariables": [
           {
             "name": "CLIENT_ID",
@@ -98,11 +93,19 @@
         "githubOrg": "Celitech"
       }
     },
+    "liblabConfigVersion": "1.0.0",
     "apiVersion": "1.3.42",
     "apiName": "Celitech",
     "specFilePath": "swagger.yaml",
+    "createDocs": false,
     "languageOptions": {
       "java": {
+        "githubRepoName": "CelitechSDKJava",
+        "homepage": "https://docs.celitech.com/",
+        "ignoreFiles": [],
+        "liblabVersion": "2",
+        "renameIllegalModelProperties": true,
+        "sdkVersion": "1.3.42",
         "groupId": "io.github.celitech",
         "artifactId": "celitech-sdk",
         "includeKotlinSnippets": false,
@@ -113,38 +116,43 @@
             "organization": "Celitech",
             "organizationUrl": "https://www.celitech.com"
           }
-        ],
-        "githubRepoName": "CelitechSDKJava",
-        "homepage": "https://docs.celitech.com/",
-        "liblabVersion": "2",
-        "sdkVersion": "1.3.42"
+        ]
       },
       "python": {
-        "alwaysInitializeOptionals": true,
-        "pypiPackageName": "celitech-sdk",
         "githubRepoName": "CelitechSDKPython",
+        "ignoreFiles": [],
         "liblabVersion": "2",
-        "sdkVersion": "1.3.42"
+        "renameIllegalModelProperties": true,
+        "sdkVersion": "1.3.42",
+        "alwaysInitializeOptionals": true,
+        "pypiPackageName": "celitech-sdk"
       },
       "php": {
-        "packageName": "celitech-sdk/sdk",
         "githubRepoName": "CelitechSDKPHP",
+        "ignoreFiles": [],
         "liblabVersion": "2",
-        "sdkVersion": "1.3.42"
+        "renameIllegalModelProperties": true,
+        "sdkVersion": "1.3.42",
+        "packageName": "celitech-sdk/sdk"
       },
       "typescript": {
-        "bundle": true,
-        "exportClassDefault": false,
-        "httpClient": "fetch",
-        "npmName": "celitech-sdk",
         "githubRepoName": "CelitechSDKTypeScript",
+        "ignoreFiles": [],
         "liblabVersion": "2",
+        "renameIllegalModelProperties": true,
         "sdkVersion": "1.3.42",
-        "generateEnumAs": "enum"
+        "bundle": true,
+        "denoteCommon": false,
+        "exportClassDefault": false,
+        "generateEnumAs": "enum",
+        "httpClient": "fetch",
+        "npmName": "celitech-sdk"
       }
     },
+    "validationsToIgnore": [],
     "publishing": {
-      "githubOrg": "Celitech"
+      "githubOrg": "Celitech",
+      "platform": "github"
     },
     "integrations": {
       "enhancedApiSpec": {
@@ -155,6 +163,10 @@
           "openapiPath": "swagger.yaml"
         }
       }
+    },
+    "analytics": {
+      "streaming": false,
+      "pagination": false
     },
     "authentication": {
       "oauth": {
@@ -175,8 +187,6 @@
     ],
     "generateEnv": true,
     "includeOptionalSnippetParameters": false,
-    "inferServiceNames": false,
-    "injectedModels": [],
     "license": {
       "type": "MIT",
       "name": "MIT",
@@ -184,7 +194,30 @@
       "path": "MIT.ejs"
     },
     "responseHeaders": false,
-    "generateMCP": false,
+    "buildAllModels": false,
+    "multiTenant": true,
+    "includeWatermark": false,
+    "githubRepoName": "CelitechSDKPython",
+    "ignoreFiles": [],
+    "renameIllegalModelProperties": true,
+    "alwaysInitializeOptionals": true,
+    "pypiPackageName": "celitech-sdk",
+    "language": "python",
+    "deliveryMethod": "zip",
+    "hooks": {
+      "enabled": false,
+      "sourceDir": ""
+    },
+    "usesFormData": false,
+    "fileOutput": "/tmp",
+    "inferServiceNames": false,
+    "httpLibrary": {
+      "name": "axios",
+      "packages": {
+        "axios": "^1.9.0"
+      },
+      "languages": ["typescript"]
+    },
     "retry": {
       "enabled": true,
       "maxAttempts": 3,
@@ -194,26 +227,6 @@
       "backOffFactor": 2,
       "httpCodesToRetry": [408, 429, 500, 502, 503, 504],
       "httpMethodsToRetry": ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"]
-    },
-    "multiTenant": true,
-    "includeWatermark": false,
-    "alwaysInitializeOptionals": true,
-    "pypiPackageName": "celitech-sdk",
-    "githubRepoName": "CelitechSDKPython",
-    "language": "python",
-    "deliveryMethod": "zip",
-    "hooks": {
-      "enabled": false,
-      "sourceDir": ""
-    },
-    "usesFormData": false,
-    "fileOutput": "/tmp",
-    "httpLibrary": {
-      "name": "axios",
-      "packages": {
-        "axios": "^1.7.9"
-      },
-      "languages": ["typescript"]
     },
     "customQueries": {
       "paths": [],
@@ -242,6 +255,7 @@
     "src/celitech/services/async_/utils/__init__.py",
     "src/celitech/net/transport/request.py",
     "src/celitech/net/transport/response.py",
+    "src/celitech/net/transport/api_error.py",
     "src/celitech/net/transport/request_error.py",
     "src/celitech/sdk.py",
     "src/celitech/net/transport/serializer.py",
@@ -274,7 +288,6 @@
     "documentation/snippets/packages-get.md",
     "documentation/snippets/purchases-v2-post.md",
     "documentation/snippets/purchases-get.md",
-    "documentation/snippets/purchases-post.md",
     "documentation/snippets/purchases-topup-post.md",
     "documentation/snippets/purchases-edit-post.md",
     "documentation/snippets/purchases-{purchaseId}-consumption-get.md",
@@ -291,6 +304,32 @@
     "documentation/models/EditPurchaseOkResponse.md",
     "documentation/models/GetPurchaseConsumptionOkResponse.md",
     "documentation/models/TokenOkResponse.md",
+    "documentation/models/ListDestinations400Response.md",
+    "documentation/models/ListDestinations401Response.md",
+    "documentation/models/ListPackages400Response.md",
+    "documentation/models/ListPackages401Response.md",
+    "documentation/models/CreatePurchaseV2_400Response.md",
+    "documentation/models/CreatePurchaseV2_401Response.md",
+    "documentation/models/ListPurchases400Response.md",
+    "documentation/models/ListPurchases401Response.md",
+    "documentation/models/CreatePurchase400Response.md",
+    "documentation/models/CreatePurchase401Response.md",
+    "documentation/models/TopUpEsim400Response.md",
+    "documentation/models/TopUpEsim401Response.md",
+    "documentation/models/EditPurchase400Response.md",
+    "documentation/models/EditPurchase401Response.md",
+    "documentation/models/GetPurchaseConsumption400Response.md",
+    "documentation/models/GetPurchaseConsumption401Response.md",
+    "documentation/models/GetEsim400Response.md",
+    "documentation/models/GetEsim401Response.md",
+    "documentation/models/GetEsimDevice400Response.md",
+    "documentation/models/GetEsimDevice401Response.md",
+    "documentation/models/GetEsimHistory400Response.md",
+    "documentation/models/GetEsimHistory401Response.md",
+    "documentation/models/GetEsimMac400Response.md",
+    "documentation/models/GetEsimMac401Response.md",
+    "documentation/models/Token400Response.md",
+    "documentation/models/Token401Response.md",
     "src/celitech/models/utils/one_of_base_model.py",
     "src/celitech/net/oauth/token_manager.py",
     "src/celitech/net/request_chain/handlers/oauth_handler.py",
@@ -330,15 +369,41 @@
     "src/celitech/models/get_purchase_consumption_ok_response.py",
     "src/celitech/models/token_ok_response.py",
     "documentation/models/ListPurchasesOkResponse.md",
+    "src/celitech/models/list_destinations_400_response.py",
+    "src/celitech/models/list_destinations_401_response.py",
+    "src/celitech/models/list_packages_400_response.py",
+    "src/celitech/models/list_packages_401_response.py",
+    "src/celitech/models/create_purchase_v2_400_response.py",
+    "src/celitech/models/create_purchase_v2_401_response.py",
+    "src/celitech/models/list_purchases_400_response.py",
+    "src/celitech/models/list_purchases_401_response.py",
+    "src/celitech/models/create_purchase_400_response.py",
+    "src/celitech/models/create_purchase_401_response.py",
+    "src/celitech/models/top_up_esim_400_response.py",
+    "src/celitech/models/top_up_esim_401_response.py",
+    "src/celitech/models/edit_purchase_400_response.py",
+    "src/celitech/models/edit_purchase_401_response.py",
+    "src/celitech/models/get_purchase_consumption_400_response.py",
+    "src/celitech/models/get_purchase_consumption_401_response.py",
+    "src/celitech/models/get_esim_400_response.py",
+    "src/celitech/models/get_esim_401_response.py",
+    "src/celitech/models/get_esim_device_400_response.py",
+    "src/celitech/models/get_esim_device_401_response.py",
+    "src/celitech/models/get_esim_history_400_response.py",
+    "src/celitech/models/get_esim_history_401_response.py",
+    "src/celitech/models/get_esim_mac_400_response.py",
+    "src/celitech/models/get_esim_mac_401_response.py",
+    "src/celitech/models/token_400_response.py",
+    "src/celitech/models/token_401_response.py",
     "documentation/services/ESimService.md",
     "src/celitech/models/get_access_token_request.py",
+    "documentation/services/PurchasesService.md",
     "src/celitech/models/list_destinations_ok_response.py",
     "src/celitech/models/list_packages_ok_response.py",
     "src/celitech/models/get_esim_ok_response.py",
     "src/celitech/models/get_esim_device_ok_response.py",
     "src/celitech/models/get_esim_mac_ok_response.py",
     "src/celitech/services/e_sim.py",
-    "documentation/services/PurchasesService.md",
     "src/celitech/models/create_purchase_v2_ok_response.py",
     "src/celitech/models/create_purchase_ok_response.py",
     "src/celitech/models/top_up_esim_ok_response.py",
