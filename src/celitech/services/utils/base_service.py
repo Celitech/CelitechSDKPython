@@ -7,7 +7,6 @@ from ...net.transport.request import Request
 from ...net.request_chain.request_chain import RequestChain
 from ...net.request_chain.handlers.hook_handler import HookHandler
 from ...net.request_chain.handlers.http_handler import HttpHandler
-from ...net.request_chain.handlers.retry_handler import RetryHandler
 from ...net.oauth.token_manager import TokenManager
 from ...net.request_chain.handlers.oauth_handler import OauthHandler
 
@@ -106,7 +105,6 @@ class BaseService:
             RequestChain()
             .add_handler(OauthHandler(self._token_manager))
             .add_handler(HookHandler())
-            .add_handler(RetryHandler())
             .add_handler(HttpHandler(self._timeout))
         )
 
