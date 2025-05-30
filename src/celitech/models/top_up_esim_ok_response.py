@@ -1,3 +1,4 @@
+from typing import Union
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
 from .utils.sentinel import SENTINEL
@@ -25,6 +26,8 @@ class TopUpEsimOkResponsePurchase(BaseModel):
     :type start_date: str, optional
     :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
     :type end_date: str, optional
+    :param duration: It designates the number of days the eSIM is valid for within 90-day validity from issuance date., defaults to None
+    :type duration: float, optional
     :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
     :type created_date: str, optional
     :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -37,11 +40,12 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         self,
         id_: str = SENTINEL,
         package_id: str = SENTINEL,
-        start_date: str = SENTINEL,
-        end_date: str = SENTINEL,
+        start_date: Union[str, None] = SENTINEL,
+        end_date: Union[str, None] = SENTINEL,
+        duration: Union[float, None] = SENTINEL,
         created_date: str = SENTINEL,
-        start_time: float = SENTINEL,
-        end_time: float = SENTINEL,
+        start_time: Union[float, None] = SENTINEL,
+        end_time: Union[float, None] = SENTINEL,
         **kwargs
     ):
         """TopUpEsimOkResponsePurchase
@@ -54,6 +58,8 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         :type start_date: str, optional
         :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
         :type end_date: str, optional
+        :param duration: It designates the number of days the eSIM is valid for within 90-day validity from issuance date., defaults to None
+        :type duration: float, optional
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ', defaults to None
         :type created_date: str, optional
         :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -65,6 +71,7 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         self.package_id = self._define_str("package_id", package_id, nullable=True)
         self.start_date = self._define_str("start_date", start_date, nullable=True)
         self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.duration = self._define_number("duration", duration, nullable=True)
         self.created_date = self._define_str(
             "created_date", created_date, nullable=True
         )
