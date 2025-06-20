@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.42
+# Celitech Python SDK 1.3.44
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 
 ## Versions
 
-- API version: `1.3.42`
-- SDK version: `1.3.42`
+- API version: `1.3.44`
+- SDK version: `1.3.44`
 
 ## About the API
 
@@ -153,27 +153,53 @@ The SDK includes several models that represent the data structures used in API r
 <details> 
 <summary>Below is a list of all available models with links to their detailed documentation:</summary>
 
-| Name                                                                                         | Description |
-| :------------------------------------------------------------------------------------------- | :---------- |
-| [GetAccessTokenRequest](documentation/models/GetAccessTokenRequest.md)                       |             |
-| [GetAccessTokenOkResponse](documentation/models/GetAccessTokenOkResponse.md)                 |             |
-| [ListDestinationsOkResponse](documentation/models/ListDestinationsOkResponse.md)             |             |
-| [ListPackagesOkResponse](documentation/models/ListPackagesOkResponse.md)                     |             |
-| [CreatePurchaseV2Request](documentation/models/CreatePurchaseV2Request.md)                   |             |
-| [CreatePurchaseV2OkResponse](documentation/models/CreatePurchaseV2OkResponse.md)             |             |
-| [ListPurchasesOkResponse](documentation/models/ListPurchasesOkResponse.md)                   |             |
-| [CreatePurchaseRequest](documentation/models/CreatePurchaseRequest.md)                       |             |
-| [CreatePurchaseOkResponse](documentation/models/CreatePurchaseOkResponse.md)                 |             |
-| [TopUpEsimRequest](documentation/models/TopUpEsimRequest.md)                                 |             |
-| [TopUpEsimOkResponse](documentation/models/TopUpEsimOkResponse.md)                           |             |
-| [EditPurchaseRequest](documentation/models/EditPurchaseRequest.md)                           |             |
-| [EditPurchaseOkResponse](documentation/models/EditPurchaseOkResponse.md)                     |             |
-| [GetPurchaseConsumptionOkResponse](documentation/models/GetPurchaseConsumptionOkResponse.md) |             |
-| [GetEsimOkResponse](documentation/models/GetEsimOkResponse.md)                               |             |
-| [GetEsimDeviceOkResponse](documentation/models/GetEsimDeviceOkResponse.md)                   |             |
-| [GetEsimHistoryOkResponse](documentation/models/GetEsimHistoryOkResponse.md)                 |             |
-| [GetEsimMacOkResponse](documentation/models/GetEsimMacOkResponse.md)                         |             |
-| [TokenOkResponse](documentation/models/TokenOkResponse.md)                                   |             |
+| Name                                                                                            | Description |
+| :---------------------------------------------------------------------------------------------- | :---------- |
+| [GetAccessTokenRequest](documentation/models/GetAccessTokenRequest.md)                          |             |
+| [GetAccessTokenOkResponse](documentation/models/GetAccessTokenOkResponse.md)                    |             |
+| [ListDestinationsOkResponse](documentation/models/ListDestinationsOkResponse.md)                |             |
+| [ListPackagesOkResponse](documentation/models/ListPackagesOkResponse.md)                        |             |
+| [CreatePurchaseV2Request](documentation/models/CreatePurchaseV2Request.md)                      |             |
+| [CreatePurchaseV2OkResponse](documentation/models/CreatePurchaseV2OkResponse.md)                |             |
+| [ListPurchasesOkResponse](documentation/models/ListPurchasesOkResponse.md)                      |             |
+| [CreatePurchaseRequest](documentation/models/CreatePurchaseRequest.md)                          |             |
+| [CreatePurchaseOkResponse](documentation/models/CreatePurchaseOkResponse.md)                    |             |
+| [TopUpEsimRequest](documentation/models/TopUpEsimRequest.md)                                    |             |
+| [TopUpEsimOkResponse](documentation/models/TopUpEsimOkResponse.md)                              |             |
+| [EditPurchaseRequest](documentation/models/EditPurchaseRequest.md)                              |             |
+| [EditPurchaseOkResponse](documentation/models/EditPurchaseOkResponse.md)                        |             |
+| [GetPurchaseConsumptionOkResponse](documentation/models/GetPurchaseConsumptionOkResponse.md)    |             |
+| [GetEsimOkResponse](documentation/models/GetEsimOkResponse.md)                                  |             |
+| [GetEsimDeviceOkResponse](documentation/models/GetEsimDeviceOkResponse.md)                      |             |
+| [GetEsimHistoryOkResponse](documentation/models/GetEsimHistoryOkResponse.md)                    |             |
+| [GetEsimMacOkResponse](documentation/models/GetEsimMacOkResponse.md)                            |             |
+| [TokenOkResponse](documentation/models/TokenOkResponse.md)                                      |             |
+| [ListDestinations_400Response](documentation/models/ListDestinations400Response.md)             |             |
+| [ListDestinations_401Response](documentation/models/ListDestinations401Response.md)             |             |
+| [ListPackages_400Response](documentation/models/ListPackages400Response.md)                     |             |
+| [ListPackages_401Response](documentation/models/ListPackages401Response.md)                     |             |
+| [CreatePurchaseV2_400Response](documentation/models/CreatePurchaseV2_400Response.md)            |             |
+| [CreatePurchaseV2_401Response](documentation/models/CreatePurchaseV2_401Response.md)            |             |
+| [ListPurchases_400Response](documentation/models/ListPurchases400Response.md)                   |             |
+| [ListPurchases_401Response](documentation/models/ListPurchases401Response.md)                   |             |
+| [CreatePurchase_400Response](documentation/models/CreatePurchase400Response.md)                 |             |
+| [CreatePurchase_401Response](documentation/models/CreatePurchase401Response.md)                 |             |
+| [TopUpEsim_400Response](documentation/models/TopUpEsim400Response.md)                           |             |
+| [TopUpEsim_401Response](documentation/models/TopUpEsim401Response.md)                           |             |
+| [EditPurchase_400Response](documentation/models/EditPurchase400Response.md)                     |             |
+| [EditPurchase_401Response](documentation/models/EditPurchase401Response.md)                     |             |
+| [GetPurchaseConsumption_400Response](documentation/models/GetPurchaseConsumption400Response.md) |             |
+| [GetPurchaseConsumption_401Response](documentation/models/GetPurchaseConsumption401Response.md) |             |
+| [GetEsim_400Response](documentation/models/GetEsim400Response.md)                               |             |
+| [GetEsim_401Response](documentation/models/GetEsim401Response.md)                               |             |
+| [GetEsimDevice_400Response](documentation/models/GetEsimDevice400Response.md)                   |             |
+| [GetEsimDevice_401Response](documentation/models/GetEsimDevice401Response.md)                   |             |
+| [GetEsimHistory_400Response](documentation/models/GetEsimHistory400Response.md)                 |             |
+| [GetEsimHistory_401Response](documentation/models/GetEsimHistory401Response.md)                 |             |
+| [GetEsimMac_400Response](documentation/models/GetEsimMac400Response.md)                         |             |
+| [GetEsimMac_401Response](documentation/models/GetEsimMac401Response.md)                         |             |
+| [Token_400Response](documentation/models/Token400Response.md)                                   |             |
+| [Token_401Response](documentation/models/Token401Response.md)                                   |             |
 
 </details>
 

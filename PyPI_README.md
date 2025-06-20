@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.42<a id="celitech-python-sdk-1342"></a>
+# Celitech Python SDK 1.3.44<a id="celitech-python-sdk-1344"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 
 ## Versions<a id="versions"></a>
 
-- API version: `1.3.42`
-- SDK version: `1.3.42`
+- API version: `1.3.44`
+- SDK version: `1.3.44`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -152,27 +152,53 @@ The SDK includes several models that represent the data structures used in API r
 <details> 
 <summary>Below is a list of all available models:</summary>
 
-| Name                             | Description |
-| :------------------------------- | :---------- |
-| GetAccessTokenRequest            |             |
-| GetAccessTokenOkResponse         |             |
-| ListDestinationsOkResponse       |             |
-| ListPackagesOkResponse           |             |
-| CreatePurchaseV2Request          |             |
-| CreatePurchaseV2OkResponse       |             |
-| ListPurchasesOkResponse          |             |
-| CreatePurchaseRequest            |             |
-| CreatePurchaseOkResponse         |             |
-| TopUpEsimRequest                 |             |
-| TopUpEsimOkResponse              |             |
-| EditPurchaseRequest              |             |
-| EditPurchaseOkResponse           |             |
-| GetPurchaseConsumptionOkResponse |             |
-| GetEsimOkResponse                |             |
-| GetEsimDeviceOkResponse          |             |
-| GetEsimHistoryOkResponse         |             |
-| GetEsimMacOkResponse             |             |
-| TokenOkResponse                  |             |
+| Name                              | Description |
+| :-------------------------------- | :---------- |
+| GetAccessTokenRequest             |             |
+| GetAccessTokenOkResponse          |             |
+| ListDestinationsOkResponse        |             |
+| ListPackagesOkResponse            |             |
+| CreatePurchaseV2Request           |             |
+| CreatePurchaseV2OkResponse        |             |
+| ListPurchasesOkResponse           |             |
+| CreatePurchaseRequest             |             |
+| CreatePurchaseOkResponse          |             |
+| TopUpEsimRequest                  |             |
+| TopUpEsimOkResponse               |             |
+| EditPurchaseRequest               |             |
+| EditPurchaseOkResponse            |             |
+| GetPurchaseConsumptionOkResponse  |             |
+| GetEsimOkResponse                 |             |
+| GetEsimDeviceOkResponse           |             |
+| GetEsimHistoryOkResponse          |             |
+| GetEsimMacOkResponse              |             |
+| TokenOkResponse                   |             |
+| ListDestinations400Response       |             |
+| ListDestinations401Response       |             |
+| ListPackages400Response           |             |
+| ListPackages401Response           |             |
+| CreatePurchaseV2_400Response      |             |
+| CreatePurchaseV2_401Response      |             |
+| ListPurchases400Response          |             |
+| ListPurchases401Response          |             |
+| CreatePurchase400Response         |             |
+| CreatePurchase401Response         |             |
+| TopUpEsim400Response              |             |
+| TopUpEsim401Response              |             |
+| EditPurchase400Response           |             |
+| EditPurchase401Response           |             |
+| GetPurchaseConsumption400Response |             |
+| GetPurchaseConsumption401Response |             |
+| GetEsim400Response                |             |
+| GetEsim401Response                |             |
+| GetEsimDevice400Response          |             |
+| GetEsimDevice401Response          |             |
+| GetEsimHistory400Response         |             |
+| GetEsimHistory401Response         |             |
+| GetEsimMac400Response             |             |
+| GetEsimMac401Response             |             |
+| Token400Response                  |             |
+| Token401Response                  |             |
 
 </details>
 

@@ -1,10 +1,15 @@
+from typing import Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
-from ..models import ListPackagesOkResponse
+from ..models import (
+    ListPackages400Response,
+    ListPackages401Response,
+    ListPackagesOkResponse,
+)
 
 
 class PackagesService(BaseService):
@@ -67,10 +72,12 @@ class PackagesService(BaseService):
             .add_query("startTime", start_time)
             .add_query("endTime", end_time)
             .add_query("duration", duration)
+            .add_error(400, ListPackages400Response)
+            .add_error(401, ListPackages401Response)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
         )
 
-        response, _, _ = self.send_request(serialized_request)
+        response, status, _ = self.send_request(serialized_request)
         return ListPackagesOkResponse._unmap(response)
