@@ -19,7 +19,7 @@ class Packages(BaseModel):
 
     :param id_: ID of the package, defaults to None
     :type id_: str, optional
-    :param destination: ISO representation of the package's destination, defaults to None
+    :param destination: ISO representation of the package's destination., defaults to None
     :type destination: str, optional
     :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
     :type data_limit_in_bytes: float, optional
@@ -45,7 +45,7 @@ class Packages(BaseModel):
 
         :param id_: ID of the package, defaults to None
         :type id_: str, optional
-        :param destination: ISO representation of the package's destination, defaults to None
+        :param destination: ISO representation of the package's destination., defaults to None
         :type destination: str, optional
         :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
         :type data_limit_in_bytes: float, optional
