@@ -16,7 +16,7 @@ from .utils.sentinel import SENTINEL
 class CreatePurchaseV2Request(BaseModel):
     """CreatePurchaseV2Request
 
-    :param destination: ISO representation of the package's destination.
+    :param destination: ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes.
     :type destination: str
     :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20GB
     :type data_limit_in_gb: float
@@ -51,7 +51,7 @@ class CreatePurchaseV2Request(BaseModel):
     ):
         """CreatePurchaseV2Request
 
-        :param destination: ISO representation of the package's destination.
+        :param destination: ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes.
         :type destination: str
         :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20GB
         :type data_limit_in_gb: float

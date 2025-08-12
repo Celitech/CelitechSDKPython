@@ -17,7 +17,7 @@ List Packages
 
 | Name         | Type  | Required | Description                                                                                                                                                                                                         |
 | :----------- | :---- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| destination  | str   | ❌       | ISO representation of the package's destination.                                                                                                                                                                    |
+| destination  | str   | ❌       | ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes.                                                                                              |
 | start_date   | str   | ❌       | Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.                                                                      |
 | end_date     | str   | ❌       | End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.                                                                                                    |
 | after_cursor | str   | ❌       | To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data. |
