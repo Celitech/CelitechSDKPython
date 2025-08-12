@@ -28,7 +28,7 @@ class PackagesService(BaseService):
     ) -> ListPackagesOkResponse:
         """List Packages
 
-        :param destination: ISO representation of the package's destination., defaults to None
+        :param destination: ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes., defaults to None
         :type destination: str, optional
         :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
         :type start_date: str, optional
