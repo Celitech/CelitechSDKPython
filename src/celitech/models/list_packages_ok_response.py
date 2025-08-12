@@ -8,6 +8,7 @@ from .utils.sentinel import SENTINEL
 @JsonMap(
     {
         "id_": "id",
+        "destination_iso2": "destinationISO2",
         "data_limit_in_bytes": "dataLimitInBytes",
         "min_days": "minDays",
         "max_days": "maxDays",
@@ -19,8 +20,10 @@ class Packages(BaseModel):
 
     :param id_: ID of the package, defaults to None
     :type id_: str, optional
-    :param destination: ISO representation of the package's destination., defaults to None
+    :param destination: ISO3 representation of the package's destination., defaults to None
     :type destination: str, optional
+    :param destination_iso2: ISO2 representation of the package's destination., defaults to None
+    :type destination_iso2: str, optional
     :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
     :type data_limit_in_bytes: float, optional
     :param min_days: Min number of days for the package, defaults to None
@@ -35,6 +38,7 @@ class Packages(BaseModel):
         self,
         id_: str = SENTINEL,
         destination: str = SENTINEL,
+        destination_iso2: str = SENTINEL,
         data_limit_in_bytes: float = SENTINEL,
         min_days: float = SENTINEL,
         max_days: float = SENTINEL,
@@ -45,8 +49,10 @@ class Packages(BaseModel):
 
         :param id_: ID of the package, defaults to None
         :type id_: str, optional
-        :param destination: ISO representation of the package's destination., defaults to None
+        :param destination: ISO3 representation of the package's destination., defaults to None
         :type destination: str, optional
+        :param destination_iso2: ISO2 representation of the package's destination., defaults to None
+        :type destination_iso2: str, optional
         :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
         :type data_limit_in_bytes: float, optional
         :param min_days: Min number of days for the package, defaults to None
@@ -58,6 +64,9 @@ class Packages(BaseModel):
         """
         self.id_ = self._define_str("id_", id_, nullable=True)
         self.destination = self._define_str("destination", destination, nullable=True)
+        self.destination_iso2 = self._define_str(
+            "destination_iso2", destination_iso2, nullable=True
+        )
         self.data_limit_in_bytes = self._define_number(
             "data_limit_in_bytes", data_limit_in_bytes, nullable=True
         )
