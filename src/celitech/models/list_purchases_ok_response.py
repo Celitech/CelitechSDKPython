@@ -9,6 +9,7 @@ from .utils.sentinel import SENTINEL
     {
         "id_": "id",
         "data_limit_in_bytes": "dataLimitInBytes",
+        "destination_iso2": "destinationISO2",
         "destination_name": "destinationName",
         "price_in_cents": "priceInCents",
     }
@@ -20,8 +21,10 @@ class Package(BaseModel):
     :type id_: str, optional
     :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
     :type data_limit_in_bytes: float, optional
-    :param destination: ISO representation of the package's destination., defaults to None
+    :param destination: ISO3 representation of the package's destination., defaults to None
     :type destination: str, optional
+    :param destination_iso2: ISO2 representation of the package's destination., defaults to None
+    :type destination_iso2: str, optional
     :param destination_name: Name of the package's destination, defaults to None
     :type destination_name: str, optional
     :param price_in_cents: Price of the package in cents, defaults to None
@@ -33,6 +36,7 @@ class Package(BaseModel):
         id_: str = SENTINEL,
         data_limit_in_bytes: float = SENTINEL,
         destination: str = SENTINEL,
+        destination_iso2: str = SENTINEL,
         destination_name: str = SENTINEL,
         price_in_cents: float = SENTINEL,
         **kwargs
@@ -43,8 +47,10 @@ class Package(BaseModel):
         :type id_: str, optional
         :param data_limit_in_bytes: Size of the package in Bytes, defaults to None
         :type data_limit_in_bytes: float, optional
-        :param destination: ISO representation of the package's destination., defaults to None
+        :param destination: ISO3 representation of the package's destination., defaults to None
         :type destination: str, optional
+        :param destination_iso2: ISO2 representation of the package's destination., defaults to None
+        :type destination_iso2: str, optional
         :param destination_name: Name of the package's destination, defaults to None
         :type destination_name: str, optional
         :param price_in_cents: Price of the package in cents, defaults to None
@@ -55,6 +61,9 @@ class Package(BaseModel):
             "data_limit_in_bytes", data_limit_in_bytes, nullable=True
         )
         self.destination = self._define_str("destination", destination, nullable=True)
+        self.destination_iso2 = self._define_str(
+            "destination_iso2", destination_iso2, nullable=True
+        )
         self.destination_name = self._define_str(
             "destination_name", destination_name, nullable=True
         )
