@@ -6,6 +6,7 @@ A list of all methods in the `PurchasesService` service. Click on the method nam
 | :---------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [create_purchase_v2](#create_purchase_v2)             | This endpoint is used to purchase a new eSIM by providing the package details.                                                                                                                                                                                                                                         |
 | [list_purchases](#list_purchases)                     | This endpoint can be used to list all the successful purchases made between a given interval.                                                                                                                                                                                                                          |
+| [create_purchase](#create_purchase)                   | This endpoint is used to purchase a new eSIM by providing the package details.                                                                                                                                                                                                                                         |
 | [top_up_esim](#top_up_esim)                           | This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is only feasible for eSIMs in "ENABLED" or "INSTALLED" state. You can check this state using the Get eSIM Status endpoint.                                       |
 | [edit_purchase](#edit_purchase)                       | This endpoint allows you to modify the dates of an existing package with a future activation start time. Editing can only be performed for packages that have not been activated, and it cannot change the package size. The modification must not change the package duration category to ensure pricing consistency. |
 | [get_purchase_consumption](#get_purchase_consumption) | This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages.                                                                                                                                       |
@@ -86,6 +87,46 @@ sdk = Celitech(
 )
 
 result = sdk.purchases.list_purchases()
+
+print(result)
+```
+
+## create_purchase
+
+This endpoint is used to purchase a new eSIM by providing the package details.
+
+- HTTP Method: `POST`
+- Endpoint: `/purchases`
+
+**Parameters**
+
+| Name         | Type                                                        | Required | Description       |
+| :----------- | :---------------------------------------------------------- | :------- | :---------------- |
+| request_body | [CreatePurchaseRequest](../models/CreatePurchaseRequest.md) | ✅       | The request body. |
+
+**Return Type**
+
+`CreatePurchaseOkResponse`
+
+**Example Usage Code Snippet**
+
+```python
+from celitech import Celitech
+from celitech.models import CreatePurchaseRequest
+
+sdk = Celitech(
+    client_id="CLIENT_ID",
+    client_secret="CLIENT_SECRET"
+)
+
+request_body = CreatePurchaseRequest(
+    destination="FRA",
+    data_limit_in_gb=1,
+    start_date="2023-11-01",
+    end_date="2023-11-20"
+)
+
+result = sdk.purchases.create_purchase(request_body=request_body)
 
 print(result)
 ```

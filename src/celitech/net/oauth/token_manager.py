@@ -47,7 +47,12 @@ class TokenManager:
         :return: The OAuth token
         :rtype: OauthToken
         """
-        if self._token and self._token.scopes.issuperset(scopes):
+        has_all_scopes = self._token and self._token.scopes.issuperset(scopes)
+        valid_token = self._token and (
+            self._token.expires_at is None
+            or (self._token.expires_at - int(time())) > 5000
+        )
+        if has_all_scopes and valid_token:
             return self._token
 
         if self._token:
