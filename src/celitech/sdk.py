@@ -1,5 +1,4 @@
 from typing import Union
-from .services.o_auth import OAuthService
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
 from .services.purchases import PurchasesService
@@ -28,9 +27,6 @@ class Celitech:
 
         self._base_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
-        )
-        self.o_auth = OAuthService(
-            base_url=self._base_url, token_manager=self._token_manager
         )
         self.destinations = DestinationsService(
             base_url=self._base_url, token_manager=self._token_manager
@@ -62,7 +58,6 @@ class Celitech:
             base_url.value if isinstance(base_url, Environment) else base_url
         )
 
-        self.o_auth.set_base_url(self._base_url)
         self.destinations.set_base_url(self._base_url)
         self.packages.set_base_url(self._base_url)
         self.purchases.set_base_url(self._base_url)
@@ -87,7 +82,6 @@ class Celitech:
         :param int timeout: The timeout (ms) to be set.
         :return: The SDK instance.
         """
-        self.o_auth.set_timeout(timeout)
         self.destinations.set_timeout(timeout)
         self.packages.set_timeout(timeout)
         self.purchases.set_timeout(timeout)
