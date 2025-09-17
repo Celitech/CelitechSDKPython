@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.53<a id="celitech-python-sdk-1353"></a>
+# Celitech Python SDK 1.3.54<a id="celitech-python-sdk-1354"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 
 ## Versions<a id="versions"></a>
 
-- API version: `1.3.53`
-- SDK version: `1.3.53`
+- API version: `1.3.54`
+- SDK version: `1.3.54`
 
 ## About the API<a id="about-the-api"></a>
 
