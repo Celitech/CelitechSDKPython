@@ -167,7 +167,7 @@ class PurchasesService(BaseService):
 
     @cast_models
     def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
-        """This endpoint is used to top-up an eSIM with the previously associated destination by providing an existing ICCID and the package details. The top-up is only feasible for eSIMs in "ENABLED" or "INSTALLED" state. You can check this state using the Get eSIM Status endpoint.
+        """This endpoint is used to top-up an existing eSIM with the previously associated destination by providing its ICCID and package details. To determine if an eSIM can be topped up, use the Get eSIM Status endpoint, which returns the `isTopUpAllowed` flag.
 
         :param request_body: The request body.
         :type request_body: TopUpEsimRequest
