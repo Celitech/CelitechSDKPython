@@ -148,7 +148,7 @@ class Purchases(BaseModel):
         esim: PurchasesEsim = SENTINEL,
         source: str = SENTINEL,
         purchase_type: str = SENTINEL,
-        reference_id: str = SENTINEL,
+        reference_id: Union[str, None] = SENTINEL,
         **kwargs
     ):
         """Purchases
