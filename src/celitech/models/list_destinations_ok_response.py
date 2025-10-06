@@ -1,7 +1,6 @@
 from typing import List
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
-from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -10,40 +9,38 @@ from .utils.sentinel import SENTINEL
 class Destinations(BaseModel):
     """Destinations
 
-    :param name: Name of the destination, defaults to None
-    :type name: str, optional
-    :param destination: ISO3 representation of the destination, defaults to None
-    :type destination: str, optional
-    :param destination_iso2: ISO2 representation of the destination, defaults to None
-    :type destination_iso2: str, optional
-    :param supported_countries: This array indicates the geographical area covered by a specific destination. If the destination represents a single country, the array will include that country. However, if the destination represents a broader regional scope, the array will be populated with the names of the countries belonging to that region., defaults to None
-    :type supported_countries: List[str], optional
+    :param name: Name of the destination
+    :type name: str
+    :param destination: ISO3 representation of the destination
+    :type destination: str
+    :param destination_iso2: ISO2 representation of the destination
+    :type destination_iso2: str
+    :param supported_countries: This array indicates the geographical area covered by a specific destination. If the destination represents a single country, the array will include that country. However, if the destination represents a broader regional scope, the array will be populated with the names of the countries belonging to that region.
+    :type supported_countries: List[str]
     """
 
     def __init__(
         self,
-        name: str = SENTINEL,
-        destination: str = SENTINEL,
-        destination_iso2: str = SENTINEL,
-        supported_countries: List[str] = SENTINEL,
+        name: str,
+        destination: str,
+        destination_iso2: str,
+        supported_countries: List[str],
         **kwargs
     ):
         """Destinations
 
-        :param name: Name of the destination, defaults to None
-        :type name: str, optional
-        :param destination: ISO3 representation of the destination, defaults to None
-        :type destination: str, optional
-        :param destination_iso2: ISO2 representation of the destination, defaults to None
-        :type destination_iso2: str, optional
-        :param supported_countries: This array indicates the geographical area covered by a specific destination. If the destination represents a single country, the array will include that country. However, if the destination represents a broader regional scope, the array will be populated with the names of the countries belonging to that region., defaults to None
-        :type supported_countries: List[str], optional
+        :param name: Name of the destination
+        :type name: str
+        :param destination: ISO3 representation of the destination
+        :type destination: str
+        :param destination_iso2: ISO2 representation of the destination
+        :type destination_iso2: str
+        :param supported_countries: This array indicates the geographical area covered by a specific destination. If the destination represents a single country, the array will include that country. However, if the destination represents a broader regional scope, the array will be populated with the names of the countries belonging to that region.
+        :type supported_countries: List[str]
         """
-        self.name = self._define_str("name", name, nullable=True)
-        self.destination = self._define_str("destination", destination, nullable=True)
-        self.destination_iso2 = self._define_str(
-            "destination_iso2", destination_iso2, nullable=True
-        )
+        self.name = name
+        self.destination = destination
+        self.destination_iso2 = destination_iso2
         self.supported_countries = supported_countries
         self._kwargs = kwargs
 
@@ -52,15 +49,15 @@ class Destinations(BaseModel):
 class ListDestinationsOkResponse(BaseModel):
     """ListDestinationsOkResponse
 
-    :param destinations: destinations, defaults to None
-    :type destinations: List[Destinations], optional
+    :param destinations: destinations
+    :type destinations: List[Destinations]
     """
 
-    def __init__(self, destinations: List[Destinations] = SENTINEL, **kwargs):
+    def __init__(self, destinations: List[Destinations], **kwargs):
         """ListDestinationsOkResponse
 
-        :param destinations: destinations, defaults to None
-        :type destinations: List[Destinations], optional
+        :param destinations: destinations
+        :type destinations: List[Destinations]
         """
         self.destinations = self._define_list(destinations, Destinations)
         self._kwargs = kwargs
