@@ -71,6 +71,7 @@ class PurchasesService(BaseService):
         iccid: str = SENTINEL,
         after_date: str = SENTINEL,
         before_date: str = SENTINEL,
+        email: str = SENTINEL,
         reference_id: str = SENTINEL,
         after_cursor: str = SENTINEL,
         limit: float = SENTINEL,
@@ -85,6 +86,8 @@ class PurchasesService(BaseService):
         :type after_date: str, optional
         :param before_date: End date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
         :type before_date: str, optional
+        :param email: Email associated to the purchase., defaults to None
+        :type email: str, optional
         :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow., defaults to None
         :type reference_id: str, optional
         :param after_cursor: To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data., defaults to None
@@ -105,6 +108,7 @@ class PurchasesService(BaseService):
         Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
         Validator(str).is_optional().validate(after_date)
         Validator(str).is_optional().validate(before_date)
+        Validator(str).is_optional().validate(email)
         Validator(str).is_optional().validate(reference_id)
         Validator(str).is_optional().validate(after_cursor)
         Validator(float).is_optional().validate(limit)
@@ -118,6 +122,7 @@ class PurchasesService(BaseService):
             .add_query("iccid", iccid)
             .add_query("afterDate", after_date)
             .add_query("beforeDate", before_date)
+            .add_query("email", email)
             .add_query("referenceId", reference_id)
             .add_query("afterCursor", after_cursor)
             .add_query("limit", limit)
