@@ -5,18 +5,12 @@ from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
 from ..models import (
-    GetEsim400Response,
-    GetEsim401Response,
-    GetEsimDevice400Response,
-    GetEsimDevice401Response,
+    BadRequest,
     GetEsimDeviceOkResponse,
-    GetEsimHistory400Response,
-    GetEsimHistory401Response,
     GetEsimHistoryOkResponse,
-    GetEsimMac400Response,
-    GetEsimMac401Response,
     GetEsimMacOkResponse,
     GetEsimOkResponse,
+    Unauthorized,
 )
 
 
@@ -42,8 +36,8 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim",
             )
             .add_query("iccid", iccid)
-            .add_error(400, GetEsim400Response)
-            .add_error(401, GetEsim401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -72,8 +66,8 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/device",
             )
             .add_path("iccid", iccid)
-            .add_error(400, GetEsimDevice400Response)
-            .add_error(401, GetEsimDevice401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -102,8 +96,8 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/history",
             )
             .add_path("iccid", iccid)
-            .add_error(400, GetEsimHistory400Response)
-            .add_error(401, GetEsimHistory401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -132,8 +126,8 @@ class ESimService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/mac",
             )
             .add_path("iccid", iccid)
-            .add_error(400, GetEsimMac400Response)
-            .add_error(401, GetEsimMac401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
