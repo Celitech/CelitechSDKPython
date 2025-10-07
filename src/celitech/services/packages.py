@@ -5,11 +5,7 @@ from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
-from ..models import (
-    ListPackages400Response,
-    ListPackages401Response,
-    ListPackagesOkResponse,
-)
+from ..models import BadRequest, ListPackagesOkResponse, Unauthorized
 
 
 class PackagesService(BaseService):
@@ -72,8 +68,8 @@ class PackagesService(BaseService):
             .add_query("startTime", start_time)
             .add_query("endTime", end_time)
             .add_query("duration", duration)
-            .add_error(400, ListPackages400Response)
-            .add_error(401, ListPackages401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
