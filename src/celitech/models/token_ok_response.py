@@ -1,21 +1,20 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
-from .utils.sentinel import SENTINEL
 
 
 @JsonMap({})
 class TokenOkResponse(BaseModel):
     """TokenOkResponse
 
-    :param token: The generated token, defaults to None
-    :type token: str, optional
+    :param token: The generated token
+    :type token: str
     """
 
-    def __init__(self, token: str = SENTINEL, **kwargs):
+    def __init__(self, token: str, **kwargs):
         """TokenOkResponse
 
-        :param token: The generated token, defaults to None
-        :type token: str, optional
+        :param token: The generated token
+        :type token: str
         """
-        self.token = self._define_str("token", token, nullable=True)
+        self.token = token
         self._kwargs = kwargs

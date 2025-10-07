@@ -4,11 +4,7 @@ from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
-from ..models import (
-    ListDestinations400Response,
-    ListDestinations401Response,
-    ListDestinationsOkResponse,
-)
+from ..models import BadRequest, ListDestinationsOkResponse, Unauthorized
 
 
 class DestinationsService(BaseService):
@@ -28,8 +24,8 @@ class DestinationsService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/destinations",
             )
-            .add_error(400, ListDestinations400Response)
-            .add_error(401, ListDestinations401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())

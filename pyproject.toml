@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "celitech-sdk"
-version = "1.3.55"
+version = "1.3.57"
 license = { text = "MIT" }
 description = """Welcome to the CELITECH API documentation!\n\nUseful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)\n"""
 readme = "PyPI_README.md"
