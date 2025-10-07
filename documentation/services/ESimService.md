@@ -4,14 +4,13 @@ A list of all methods in the `ESimService` service. Click on the method name to 
 
 | Methods                               | Description      |
 | :------------------------------------ | :--------------- |
-| [get_esim](#get_esim)                 | Get eSIM Status  |
+| [get_esim](#get_esim)                 | Get eSIM         |
 | [get_esim_device](#get_esim_device)   | Get eSIM Device  |
 | [get_esim_history](#get_esim_history) | Get eSIM History |
-| [get_esim_mac](#get_esim_mac)         | Get eSIM MAC     |
 
 ## get_esim
 
-Get eSIM Status
+Get eSIM
 
 - HTTP Method: `GET`
 - Endpoint: `/esim`
@@ -101,38 +100,6 @@ sdk = Celitech(
 )
 
 result = sdk.e_sim.get_esim_history(iccid="1111222233334444555000")
-
-print(result)
-```
-
-## get_esim_mac
-
-Get eSIM MAC
-
-- HTTP Method: `GET`
-- Endpoint: `/esim/{iccid}/mac`
-
-**Parameters**
-
-| Name  | Type | Required | Description    |
-| :---- | :--- | :------- | :------------- |
-| iccid | str  | ✅       | ID of the eSIM |
-
-**Return Type**
-
-`GetEsimMacOkResponse`
-
-**Example Usage Code Snippet**
-
-```python
-from celitech import Celitech
-
-sdk = Celitech(
-    client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
-)
-
-result = sdk.e_sim.get_esim_mac(iccid="1111222233334444555000")
 
 print(result)
 ```

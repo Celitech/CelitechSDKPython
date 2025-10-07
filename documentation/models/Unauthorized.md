@@ -1,4 +1,4 @@
-# Token_401Response
+# Unauthorized
 
 **Properties**
 
