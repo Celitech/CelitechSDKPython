@@ -4,15 +4,15 @@ from .utils.sentinel import SENTINEL
 
 
 @JsonMap({})
-class EditPurchase401Response(ApiError):
-    """EditPurchase401Response
+class BadRequest(ApiError):
+    """BadRequest
 
     :param message: Message of the error, defaults to None
     :type message: str, optional
     """
 
     def __init__(self, message: str = SENTINEL, **kwargs):
-        """EditPurchase401Response
+        """BadRequest
 
         :param message: Message of the error, defaults to None
         :type message: str, optional
