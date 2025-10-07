@@ -6,28 +6,18 @@ from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
 from ..models import (
-    CreatePurchase400Response,
-    CreatePurchase401Response,
+    BadRequest,
     CreatePurchaseOkResponse,
     CreatePurchaseRequest,
-    CreatePurchaseV2_400Response,
-    CreatePurchaseV2_401Response,
     CreatePurchaseV2OkResponse,
     CreatePurchaseV2Request,
-    EditPurchase400Response,
-    EditPurchase401Response,
     EditPurchaseOkResponse,
     EditPurchaseRequest,
-    GetPurchaseConsumption400Response,
-    GetPurchaseConsumption401Response,
     GetPurchaseConsumptionOkResponse,
-    ListPurchases400Response,
-    ListPurchases401Response,
     ListPurchasesOkResponse,
-    TopUpEsim400Response,
-    TopUpEsim401Response,
     TopUpEsimOkResponse,
     TopUpEsimRequest,
+    Unauthorized,
 )
 
 
@@ -54,8 +44,8 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/v2",
             )
-            .add_error(400, CreatePurchaseV2_400Response)
-            .add_error(401, CreatePurchaseV2_401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -71,6 +61,7 @@ class PurchasesService(BaseService):
         iccid: str = SENTINEL,
         after_date: str = SENTINEL,
         before_date: str = SENTINEL,
+        email: str = SENTINEL,
         reference_id: str = SENTINEL,
         after_cursor: str = SENTINEL,
         limit: float = SENTINEL,
@@ -85,6 +76,8 @@ class PurchasesService(BaseService):
         :type after_date: str, optional
         :param before_date: End date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
         :type before_date: str, optional
+        :param email: Email associated to the purchase., defaults to None
+        :type email: str, optional
         :param reference_id: The referenceId that was provided by the partner during the purchase or topup flow., defaults to None
         :type reference_id: str, optional
         :param after_cursor: To get the next batch of results, use this parameter. It tells the API where to start fetching data after the last item you received. It helps you avoid repeats and efficiently browse through large sets of data., defaults to None
@@ -105,6 +98,7 @@ class PurchasesService(BaseService):
         Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
         Validator(str).is_optional().validate(after_date)
         Validator(str).is_optional().validate(before_date)
+        Validator(str).is_optional().validate(email)
         Validator(str).is_optional().validate(reference_id)
         Validator(str).is_optional().validate(after_cursor)
         Validator(float).is_optional().validate(limit)
@@ -118,13 +112,14 @@ class PurchasesService(BaseService):
             .add_query("iccid", iccid)
             .add_query("afterDate", after_date)
             .add_query("beforeDate", before_date)
+            .add_query("email", email)
             .add_query("referenceId", reference_id)
             .add_query("afterCursor", after_cursor)
             .add_query("limit", limit)
             .add_query("after", after)
             .add_query("before", before)
-            .add_error(400, ListPurchases400Response)
-            .add_error(401, ListPurchases401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -154,8 +149,8 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases",
             )
-            .add_error(400, CreatePurchase400Response)
-            .add_error(401, CreatePurchase401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -184,8 +179,8 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/topup",
             )
-            .add_error(400, TopUpEsim400Response)
-            .add_error(401, TopUpEsim401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -199,7 +194,14 @@ class PurchasesService(BaseService):
     def edit_purchase(
         self, request_body: EditPurchaseRequest
     ) -> EditPurchaseOkResponse:
-        """This endpoint allows you to modify the dates of an existing package with a future activation start time. Editing can only be performed for packages that have not been activated, and it cannot change the package size. The modification must not change the package duration category to ensure pricing consistency.
+        """This endpoint allows you to modify the validity dates of an existing purchase.
+
+        **Behavior:**
+        - If the purchase has **not yet been activated**, both the start and end dates can be updated.
+        - If the purchase is **already active**, only the **end date** can be updated, while the **start date must remain unchanged** (and should be passed as originally set).
+        - Updates must comply with the same pricing structure; the modification cannot alter the package size or change its duration category.
+
+        The end date can be extended or shortened as long as it adheres to the same pricing category and does not exceed the allowed duration limits.
 
         :param request_body: The request body.
         :type request_body: EditPurchaseRequest
@@ -216,8 +218,8 @@ class PurchasesService(BaseService):
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/edit",
             )
-            .add_error(400, EditPurchase400Response)
-            .add_error(401, EditPurchase401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -249,8 +251,8 @@ class PurchasesService(BaseService):
                 f"{self.base_url or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
             )
             .add_path("purchaseId", purchase_id)
-            .add_error(400, GetPurchaseConsumption400Response)
-            .add_error(401, GetPurchaseConsumption401Response)
+            .add_error(400, BadRequest)
+            .add_error(401, Unauthorized)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
