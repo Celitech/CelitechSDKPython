@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.55<a id="celitech-python-sdk-1355"></a>
+# Celitech Python SDK 1.3.58<a id="celitech-python-sdk-1358"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 
 ## Versions<a id="versions"></a>
 
-- API version: `1.3.55`
-- SDK version: `1.3.55`
+- API version: `1.3.58`
+- SDK version: `1.3.58`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -29,18 +29,24 @@ Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:supp
 - [Models](#models)
 - [License](#license)
 
-## Setup & Configuration<a id="setup--configuration"></a>
+# Setup & Configuration<a id="setup--configuration"></a>
 
-### Supported Language Versions<a id="supported-language-versions"></a>
+## Supported Language Versions<a id="supported-language-versions"></a>
 
 This SDK is compatible with the following versions: `Python >= 3.7`
 
-### Installation<a id="installation"></a>
+## Installation<a id="installation"></a>
 
 To get started with the SDK, we recommend installing using `pip`:
 
 ```bash
 pip install celitech-sdk
+```
+
+If you are using Python 3, you can use `pip3` instead:
+
+```bash
+pip3 install celitech-sdk
 ```
 
 ## Authentication<a id="authentication"></a>
@@ -152,53 +158,28 @@ The SDK includes several models that represent the data structures used in API r
 <details> 
 <summary>Below is a list of all available models:</summary>
 
-| Name                              | Description |
-| :-------------------------------- | :---------- |
-| GetAccessTokenRequest             |             |
-| GetAccessTokenOkResponse          |             |
-| ListDestinationsOkResponse        |             |
-| ListPackagesOkResponse            |             |
-| CreatePurchaseV2Request           |             |
-| CreatePurchaseV2OkResponse        |             |
-| ListPurchasesOkResponse           |             |
-| CreatePurchaseRequest             |             |
-| CreatePurchaseOkResponse          |             |
-| TopUpEsimRequest                  |             |
-| TopUpEsimOkResponse               |             |
-| EditPurchaseRequest               |             |
-| EditPurchaseOkResponse            |             |
-| GetPurchaseConsumptionOkResponse  |             |
-| GetEsimOkResponse                 |             |
-| GetEsimDeviceOkResponse           |             |
-| GetEsimHistoryOkResponse          |             |
-| GetEsimMacOkResponse              |             |
-| TokenOkResponse                   |             |
-| ListDestinations400Response       |             |
-| ListDestinations401Response       |             |
-| ListPackages400Response           |             |
-| ListPackages401Response           |             |
-| CreatePurchaseV2_400Response      |             |
-| CreatePurchaseV2_401Response      |             |
-| ListPurchases400Response          |             |
-| ListPurchases401Response          |             |
-| CreatePurchase400Response         |             |
-| CreatePurchase401Response         |             |
-| TopUpEsim400Response              |             |
-| TopUpEsim401Response              |             |
-| EditPurchase400Response           |             |
-| EditPurchase401Response           |             |
-| GetPurchaseConsumption400Response |             |
-| GetPurchaseConsumption401Response |             |
-| GetEsim400Response                |             |
-| GetEsim401Response                |             |
-| GetEsimDevice400Response          |             |
-| GetEsimDevice401Response          |             |
-| GetEsimHistory400Response         |             |
-| GetEsimHistory401Response         |             |
-| GetEsimMac400Response             |             |
-| GetEsimMac401Response             |             |
-| Token400Response                  |             |
-| Token401Response                  |             |
+| Name                             | Description |
+| :------------------------------- | :---------- |
+| GetAccessTokenRequest            |             |
+| GetAccessTokenOkResponse         |             |
+| ListDestinationsOkResponse       |             |
+| ListPackagesOkResponse           |             |
+| CreatePurchaseV2Request          |             |
+| CreatePurchaseV2OkResponse       |             |
+| ListPurchasesOkResponse          |             |
+| CreatePurchaseRequest            |             |
+| CreatePurchaseOkResponse         |             |
+| TopUpEsimRequest                 |             |
+| TopUpEsimOkResponse              |             |
+| EditPurchaseRequest              |             |
+| EditPurchaseOkResponse           |             |
+| GetPurchaseConsumptionOkResponse |             |
+| GetEsimOkResponse                |             |
+| GetEsimDeviceOkResponse          |             |
+| GetEsimHistoryOkResponse         |             |
+| TokenOkResponse                  |             |
+| BadRequest                       |             |
+| Unauthorized                     |             |
 
 </details>
 
