@@ -4,15 +4,15 @@ from .utils.sentinel import SENTINEL
 
 
 @JsonMap({})
-class GetPurchaseConsumption400Response(ApiError):
-    """GetPurchaseConsumption400Response
+class Unauthorized(ApiError):
+    """Unauthorized
 
     :param message: Message of the error, defaults to None
     :type message: str, optional
     """
 
     def __init__(self, message: str = SENTINEL, **kwargs):
-        """GetPurchaseConsumption400Response
+        """Unauthorized
 
         :param message: Message of the error, defaults to None
         :type message: str, optional

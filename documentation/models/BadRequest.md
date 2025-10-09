@@ -1,4 +1,4 @@
-# GetEsimHistory_401Response
+# BadRequest
 
 **Properties**
 
