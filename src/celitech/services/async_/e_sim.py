@@ -5,7 +5,6 @@ from ...models import (
     GetEsimOkResponse,
     GetEsimDeviceOkResponse,
     GetEsimHistoryOkResponse,
-    GetEsimMacOkResponse,
 )
 
 
@@ -22,6 +21,3 @@ class ESimServiceAsync(ESimService):
 
     def get_esim_history(self, iccid: str) -> Awaitable[GetEsimHistoryOkResponse]:
         return to_async(super().get_esim_history)(iccid)
-
-    def get_esim_mac(self, iccid: str) -> Awaitable[GetEsimMacOkResponse]:
-        return to_async(super().get_esim_mac)(iccid)
