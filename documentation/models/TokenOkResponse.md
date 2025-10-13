@@ -4,4 +4,4 @@
 
 | Name  | Type | Required | Description         |
 | :---- | :--- | :------- | :------------------ |
-| token | str  | ❌       | The generated token |
+| token | str  | ✅       | The generated token |
