@@ -142,7 +142,6 @@ The SDK provides various services to interact with the API.
 
 | Name         |
 | :----------- |
-| o_auth       |
 | destinations |
 | packages     |
 | purchases    |
@@ -160,8 +159,6 @@ The SDK includes several models that represent the data structures used in API r
 
 | Name                             | Description |
 | :------------------------------- | :---------- |
-| GetAccessTokenRequest            |             |
-| GetAccessTokenOkResponse         |             |
 | ListDestinationsOkResponse       |             |
 | ListPackagesOkResponse           |             |
 | CreatePurchaseV2Request          |             |

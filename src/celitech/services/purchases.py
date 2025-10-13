@@ -67,6 +67,7 @@ class PurchasesService(BaseService):
         limit: float = SENTINEL,
         after: float = SENTINEL,
         before: float = SENTINEL,
+        purchase_id: str = SENTINEL,
     ) -> ListPurchasesOkResponse:
         """This endpoint can be used to list all the successful purchases made between a given interval.
 
@@ -88,6 +89,8 @@ class PurchasesService(BaseService):
         :type after: float, optional
         :param before: Epoch value representing the end of the time interval for filtering purchases, defaults to None
         :type before: float, optional
+        :param purchase_id: The id of a specific purchase., defaults to None
+        :type purchase_id: str, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -104,6 +107,7 @@ class PurchasesService(BaseService):
         Validator(float).is_optional().validate(limit)
         Validator(float).is_optional().validate(after)
         Validator(float).is_optional().validate(before)
+        Validator(str).is_optional().validate(purchase_id)
 
         serialized_request = (
             Serializer(
@@ -118,6 +122,7 @@ class PurchasesService(BaseService):
             .add_query("limit", limit)
             .add_query("after", after)
             .add_query("before", before)
+            .add_query("purchaseId", purchase_id)
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
             .serialize()

@@ -37,6 +37,7 @@ class PurchasesServiceAsync(PurchasesService):
         limit: float = SENTINEL,
         after: float = SENTINEL,
         before: float = SENTINEL,
+        purchase_id: str = SENTINEL,
     ) -> Awaitable[ListPurchasesOkResponse]:
         return to_async(super().list_purchases)(
             iccid,
@@ -48,6 +49,7 @@ class PurchasesServiceAsync(PurchasesService):
             limit,
             after,
             before,
+            purchase_id,
         )
 
     def create_purchase(
