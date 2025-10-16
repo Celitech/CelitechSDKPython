@@ -1,4 +1,4 @@
-# Celitech Python SDK 1.3.59<a id="celitech-python-sdk-1359"></a>
+# Celitech Python SDK 1.3.60<a id="celitech-python-sdk-1360"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
@@ -6,8 +6,8 @@ Welcome to the Celitech SDK documentation. This guide will help you get started 
 
 ## Versions<a id="versions"></a>
 
-- API version: `1.3.59`
-- SDK version: `1.3.59`
+- API version: `1.3.60`
+- SDK version: `1.3.60`
 
 ## About the API<a id="about-the-api"></a>
 
@@ -142,7 +142,6 @@ The SDK provides various services to interact with the API.
 
 | Name         |
 | :----------- |
-| o_auth       |
 | destinations |
 | packages     |
 | purchases    |
@@ -160,8 +159,6 @@ The SDK includes several models that represent the data structures used in API r
 
 | Name                             | Description |
 | :------------------------------- | :---------- |
-| GetAccessTokenRequest            |             |
-| GetAccessTokenOkResponse         |             |
 | ListDestinationsOkResponse       |             |
 | ListPackagesOkResponse           |             |
 | CreatePurchaseV2Request          |             |
