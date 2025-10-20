@@ -63,6 +63,7 @@ This endpoint can be used to list all the successful purchases made between a gi
 
 | Name         | Type  | Required | Description                                                                                                                                                                                                         |
 | :----------- | :---- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| purchase_id  | str   | ❌       | ID of the purchase                                                                                                                                                                                                  |
 | iccid        | str   | ❌       | ID of the eSIM                                                                                                                                                                                                      |
 | after_date   | str   | ❌       | Start date of the interval for filtering purchases in the format 'yyyy-MM-dd'                                                                                                                                       |
 | before_date  | str   | ❌       | End date of the interval for filtering purchases in the format 'yyyy-MM-dd'                                                                                                                                         |
@@ -72,7 +73,6 @@ This endpoint can be used to list all the successful purchases made between a gi
 | limit        | float | ❌       | Maximum number of purchases to be returned in the response. The value must be greater than 0 and less than or equal to 100. If not provided, the default value is 20                                                |
 | after        | float | ❌       | Epoch value representing the start of the time interval for filtering purchases                                                                                                                                     |
 | before       | float | ❌       | Epoch value representing the end of the time interval for filtering purchases                                                                                                                                       |
-| purchase_id  | str   | ❌       | The id of a specific purchase.                                                                                                                                                                                      |
 
 **Return Type**
 
