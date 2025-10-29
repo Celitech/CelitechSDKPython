@@ -1,5 +1,6 @@
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
+from .utils.sentinel import SENTINEL
 
 
 @JsonMap(
@@ -7,6 +8,7 @@ from .utils.base_model import BaseModel
         "smdp_address": "smdpAddress",
         "activation_code": "activationCode",
         "manual_activation_code": "manualActivationCode",
+        "connectivity_status": "connectivityStatus",
         "is_top_up_allowed": "isTopUpAllowed",
     }
 )
@@ -23,6 +25,8 @@ class GetEsimOkResponseEsim(BaseModel):
     :type manual_activation_code: str
     :param status: Status of the eSIM, possible values are 'RELEASED', 'DOWNLOADED', 'INSTALLED', 'ENABLED', 'DELETED', or 'ERROR'
     :type status: str
+    :param connectivity_status: Status of the eSIM connectivity, possible values are 'ACTIVE' or 'NOT_ACTIVE', defaults to None
+    :type connectivity_status: str, optional
     :param is_top_up_allowed: Indicates whether the eSIM is currently eligible for a top-up. This flag should be checked before attempting a top-up request.
     :type is_top_up_allowed: bool
     """
@@ -35,6 +39,7 @@ class GetEsimOkResponseEsim(BaseModel):
         manual_activation_code: str,
         status: str,
         is_top_up_allowed: bool,
+        connectivity_status: str = SENTINEL,
         **kwargs
     ):
         """GetEsimOkResponseEsim
@@ -49,6 +54,8 @@ class GetEsimOkResponseEsim(BaseModel):
         :type manual_activation_code: str
         :param status: Status of the eSIM, possible values are 'RELEASED', 'DOWNLOADED', 'INSTALLED', 'ENABLED', 'DELETED', or 'ERROR'
         :type status: str
+        :param connectivity_status: Status of the eSIM connectivity, possible values are 'ACTIVE' or 'NOT_ACTIVE', defaults to None
+        :type connectivity_status: str, optional
         :param is_top_up_allowed: Indicates whether the eSIM is currently eligible for a top-up. This flag should be checked before attempting a top-up request.
         :type is_top_up_allowed: bool
         """
@@ -59,6 +66,9 @@ class GetEsimOkResponseEsim(BaseModel):
         )
         self.manual_activation_code = manual_activation_code
         self.status = status
+        self.connectivity_status = self._define_str(
+            "connectivity_status", connectivity_status, nullable=True
+        )
         self.is_top_up_allowed = is_top_up_allowed
         self._kwargs = kwargs
 
