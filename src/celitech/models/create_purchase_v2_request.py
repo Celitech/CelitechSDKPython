@@ -20,10 +20,12 @@ class CreatePurchaseV2Request(BaseModel):
     :type destination: str
     :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20GB
     :type data_limit_in_gb: float
-    :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
-    :type start_date: str
-    :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.
-    :type end_date: str
+    :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
+    :type start_date: str, optional
+    :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
+    :type end_date: str, optional
+    :param duration: Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration., defaults to None
+    :type duration: float, optional
     :param quantity: Number of eSIMs to purchase.
     :type quantity: float
     :param email: Email address where the purchase confirmation email will be sent (including QR Code & activation steps), defaults to None
@@ -40,9 +42,10 @@ class CreatePurchaseV2Request(BaseModel):
         self,
         destination: str,
         data_limit_in_gb: float,
-        start_date: str,
-        end_date: str,
         quantity: float,
+        start_date: str = SENTINEL,
+        end_date: str = SENTINEL,
+        duration: float = SENTINEL,
         email: str = SENTINEL,
         reference_id: str = SENTINEL,
         network_brand: str = SENTINEL,
@@ -55,10 +58,12 @@ class CreatePurchaseV2Request(BaseModel):
         :type destination: str
         :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20GB
         :type data_limit_in_gb: float
-        :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.
-        :type start_date: str
-        :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.
-        :type end_date: str
+        :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
+        :type start_date: str, optional
+        :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
+        :type end_date: str, optional
+        :param duration: Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration., defaults to None
+        :type duration: float, optional
         :param quantity: Number of eSIMs to purchase.
         :type quantity: float
         :param email: Email address where the purchase confirmation email will be sent (including QR Code & activation steps), defaults to None
@@ -72,8 +77,9 @@ class CreatePurchaseV2Request(BaseModel):
         """
         self.destination = destination
         self.data_limit_in_gb = data_limit_in_gb
-        self.start_date = start_date
-        self.end_date = end_date
+        self.start_date = self._define_str("start_date", start_date, nullable=True)
+        self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.duration = self._define_number("duration", duration, nullable=True)
         self.quantity = self._define_number("quantity", quantity, ge=1, le=5)
         self.email = self._define_str("email", email, nullable=True)
         self.reference_id = self._define_str(

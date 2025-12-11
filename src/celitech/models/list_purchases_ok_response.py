@@ -105,6 +105,8 @@ class Purchases(BaseModel):
     :type start_date: str
     :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ'
     :type end_date: str
+    :param duration: Duration of the package in days. Possible values are 1, 2, 7, 14, 30, or 90., defaults to None
+    :type duration: float, optional
     :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'
     :type created_date: str
     :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -135,6 +137,7 @@ class Purchases(BaseModel):
         esim: PurchasesEsim,
         source: str,
         purchase_type: str,
+        duration: Union[float, None] = SENTINEL,
         start_time: Union[float, None] = SENTINEL,
         end_time: Union[float, None] = SENTINEL,
         created_at: float = SENTINEL,
@@ -149,6 +152,8 @@ class Purchases(BaseModel):
         :type start_date: str
         :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ'
         :type end_date: str
+        :param duration: Duration of the package in days. Possible values are 1, 2, 7, 14, 30, or 90., defaults to None
+        :type duration: float, optional
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'
         :type created_date: str
         :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -171,6 +176,7 @@ class Purchases(BaseModel):
         self.id_ = id_
         self.start_date = self._define_str("start_date", start_date, nullable=True)
         self.end_date = self._define_str("end_date", end_date, nullable=True)
+        self.duration = self._define_number("duration", duration, nullable=True)
         self.created_date = created_date
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
