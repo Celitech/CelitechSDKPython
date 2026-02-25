@@ -22,6 +22,11 @@ from ..models import (
 
 
 class PurchasesService(BaseService):
+    """
+    Service class for PurchasesService operations.
+    Provides methods to interact with PurchasesService-related API endpoints.
+    Inherits common functionality from BaseService including authentication and request handling.
+    """
 
     @cast_models
     def create_purchase_v2(
@@ -58,6 +63,7 @@ class PurchasesService(BaseService):
     @cast_models
     def list_purchases(
         self,
+        purchase_id: str = SENTINEL,
         iccid: str = SENTINEL,
         after_date: str = SENTINEL,
         before_date: str = SENTINEL,
@@ -67,10 +73,11 @@ class PurchasesService(BaseService):
         limit: float = SENTINEL,
         after: float = SENTINEL,
         before: float = SENTINEL,
-        purchase_id: str = SENTINEL,
     ) -> ListPurchasesOkResponse:
         """This endpoint can be used to list all the successful purchases made between a given interval.
 
+        :param purchase_id: ID of the purchase, defaults to None
+        :type purchase_id: str, optional
         :param iccid: ID of the eSIM, defaults to None
         :type iccid: str, optional
         :param after_date: Start date of the interval for filtering purchases in the format 'yyyy-MM-dd', defaults to None
@@ -89,8 +96,6 @@ class PurchasesService(BaseService):
         :type after: float, optional
         :param before: Epoch value representing the end of the time interval for filtering purchases, defaults to None
         :type before: float, optional
-        :param purchase_id: The id of a specific purchase., defaults to None
-        :type purchase_id: str, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -98,6 +103,7 @@ class PurchasesService(BaseService):
         :rtype: ListPurchasesOkResponse
         """
 
+        Validator(str).is_optional().validate(purchase_id)
         Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
         Validator(str).is_optional().validate(after_date)
         Validator(str).is_optional().validate(before_date)
@@ -107,12 +113,12 @@ class PurchasesService(BaseService):
         Validator(float).is_optional().validate(limit)
         Validator(float).is_optional().validate(after)
         Validator(float).is_optional().validate(before)
-        Validator(str).is_optional().validate(purchase_id)
 
         serialized_request = (
             Serializer(
                 f"{self.base_url or Environment.DEFAULT.url}/purchases",
             )
+            .add_query("purchaseId", purchase_id)
             .add_query("iccid", iccid)
             .add_query("afterDate", after_date)
             .add_query("beforeDate", before_date)
@@ -122,7 +128,6 @@ class PurchasesService(BaseService):
             .add_query("limit", limit)
             .add_query("after", after)
             .add_query("before", before)
-            .add_query("purchaseId", purchase_id)
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
             .serialize()
@@ -167,7 +172,7 @@ class PurchasesService(BaseService):
 
     @cast_models
     def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
-        """This endpoint is used to top-up an existing eSIM with the previously associated destination by providing its ICCID and package details. To determine if an eSIM can be topped up, use the Get eSIM Status endpoint, which returns the `isTopUpAllowed` flag.
+        """This endpoint is used to top-up an existing eSIM with the previously associated destination by providing its ICCID and package details. To determine if an eSIM can be topped up, use the Get eSIM endpoint, which returns the `isTopUpAllowed` flag.
 
         :param request_body: The request body.
         :type request_body: TopUpEsimRequest

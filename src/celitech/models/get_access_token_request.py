@@ -50,10 +50,8 @@ class GetAccessTokenRequest(BaseModel):
         :param client_secret: client_secret, defaults to None
         :type client_secret: str, optional
         """
-        self.grant_type = (
-            self._enum_matching(grant_type, GrantType.list(), "grant_type")
-            if grant_type
-            else None
+        self.grant_type = self._enum_matching(
+            grant_type, GrantType.list(), "grant_type", nullable=True
         )
         self.client_id = self._define_str("client_id", client_id, nullable=True)
         self.client_secret = self._define_str(

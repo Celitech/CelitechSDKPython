@@ -9,6 +9,11 @@ from ..models import BadRequest, ListPackagesOkResponse, Unauthorized
 
 
 class PackagesService(BaseService):
+    """
+    Service class for PackagesService operations.
+    Provides methods to interact with PackagesService-related API endpoints.
+    Inherits common functionality from BaseService including authentication and request handling.
+    """
 
     @cast_models
     def list_packages(
@@ -20,7 +25,6 @@ class PackagesService(BaseService):
         limit: float = SENTINEL,
         start_time: int = SENTINEL,
         end_time: int = SENTINEL,
-        duration: float = SENTINEL,
     ) -> ListPackagesOkResponse:
         """List Packages
 
@@ -38,8 +42,6 @@ class PackagesService(BaseService):
         :type start_time: int, optional
         :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time, defaults to None
         :type end_time: int, optional
-        :param duration: Duration in seconds for the package's validity. If this parameter is present, it will override the startTime and endTime parameters. The maximum duration for a package's validity period is 90 days, defaults to None
-        :type duration: float, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -54,7 +56,6 @@ class PackagesService(BaseService):
         Validator(float).is_optional().validate(limit)
         Validator(int).is_optional().validate(start_time)
         Validator(int).is_optional().validate(end_time)
-        Validator(float).is_optional().validate(duration)
 
         serialized_request = (
             Serializer(
@@ -67,7 +68,6 @@ class PackagesService(BaseService):
             .add_query("limit", limit)
             .add_query("startTime", start_time)
             .add_query("endTime", end_time)
-            .add_query("duration", duration)
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
             .serialize()

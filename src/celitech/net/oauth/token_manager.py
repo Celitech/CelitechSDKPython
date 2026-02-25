@@ -3,14 +3,42 @@ from time import time
 
 
 class OauthToken:
+    """
+    Represents an OAuth access token with associated metadata.
+
+    :ivar str access_token: The OAuth access token string.
+    :ivar Set[str] scopes: The set of scopes granted to this token.
+    :ivar int expires_at: Unix timestamp when the token expires (None if no expiration).
+    """
+
     def __init__(self, access_token: str, scopes: Set[str], expires_at: int):
+        """
+        Initialize an OauthToken instance.
+
+        :param access_token: The OAuth access token string.
+        :param scopes: The set of scopes granted to this token.
+        :param expires_at: Unix timestamp when the token expires.
+        """
         self.access_token = access_token
         self.scopes = scopes
         self.expires_at = expires_at
 
 
 class TokenManager:
+    """
+    Manages OAuth token lifecycle including acquisition, caching, and refresh.
+    Handles token scoping and automatic refresh when tokens expire.
+
+    :ivar str _base_oauth_url: The base URL for OAuth token requests.
+    :ivar OauthToken _token: The currently cached OAuth token (None if not yet acquired).
+    """
+
     def __init__(self, base_oauth_url: str):
+        """
+        Initialize a TokenManager instance.
+
+        :param base_oauth_url: The base URL for OAuth token requests.
+        """
         self._base_oauth_url = base_oauth_url
         self._token = None
         self.client_id = None
@@ -83,8 +111,12 @@ class TokenManager:
         service = OAuthService(base_url=self._base_oauth_url, token_manager=self)
         return service.get_access_token(
             request_body={
-                "grant_type": "client_credentials",
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
+                k: v
+                for k, v in {
+                    "grant_type": "client_credentials",
+                    "client_id": self.client_id,
+                    "client_secret": self.client_secret,
+                }.items()
+                if v is not None
             }
         )

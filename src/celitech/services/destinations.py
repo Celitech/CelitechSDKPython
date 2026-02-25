@@ -8,6 +8,11 @@ from ..models import BadRequest, ListDestinationsOkResponse, Unauthorized
 
 
 class DestinationsService(BaseService):
+    """
+    Service class for DestinationsService operations.
+    Provides methods to interact with DestinationsService-related API endpoints.
+    Inherits common functionality from BaseService including authentication and request handling.
+    """
 
     @cast_models
     def list_destinations(self) -> ListDestinationsOkResponse:

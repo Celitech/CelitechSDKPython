@@ -50,7 +50,7 @@ class EditPurchaseOkResponse(BaseModel):
         :param new_end_time: Epoch value representing the new end time of the package's validity, defaults to None
         :type new_end_time: float, optional
         """
-        self.purchase_id = purchase_id
+        self.purchase_id = self._define_str("purchase_id", purchase_id)
         self.new_start_date = self._define_str(
             "new_start_date", new_start_date, nullable=True
         )
