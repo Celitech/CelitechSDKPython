@@ -62,11 +62,11 @@ class TopUpEsimOkResponsePurchase(BaseModel):
         :param end_time: Epoch value representing the end time of the package's validity, defaults to None
         :type end_time: float, optional
         """
-        self.id_ = id_
-        self.package_id = package_id
+        self.id_ = self._define_str("id_", id_)
+        self.package_id = self._define_str("package_id", package_id)
         self.start_date = self._define_str("start_date", start_date, nullable=True)
         self.end_date = self._define_str("end_date", end_date, nullable=True)
-        self.created_date = created_date
+        self.created_date = self._define_str("created_date", created_date)
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
         self._kwargs = kwargs

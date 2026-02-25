@@ -24,9 +24,9 @@ class CreatePurchaseV2OkResponsePurchase(BaseModel):
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'
         :type created_date: str
         """
-        self.id_ = id_
-        self.package_id = package_id
-        self.created_date = created_date
+        self.id_ = self._define_str("id_", id_)
+        self.package_id = self._define_str("package_id", package_id)
+        self.created_date = self._define_str("created_date", created_date)
         self._kwargs = kwargs
 
 
@@ -63,7 +63,9 @@ class CreatePurchaseV2OkResponseProfile(BaseModel):
         self.activation_code = self._define_str(
             "activation_code", activation_code, min_length=1000, max_length=8000
         )
-        self.manual_activation_code = manual_activation_code
+        self.manual_activation_code = self._define_str(
+            "manual_activation_code", manual_activation_code
+        )
         self._kwargs = kwargs
 
 

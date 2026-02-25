@@ -9,6 +9,12 @@ from .net.oauth.token_manager import TokenManager
 
 
 class Celitech:
+    """
+    Main SDK client class for Celitech.
+    Provides centralized configuration and access to all service endpoints.
+    Supports authentication, environment management, and global timeout settings.
+    """
+
     def __init__(
         self,
         client_id: str = None,
