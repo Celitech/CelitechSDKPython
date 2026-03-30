@@ -14,6 +14,11 @@ from ..models import (
 
 
 class ESimService(BaseService):
+    """
+    Service class for ESimService operations.
+    Provides methods to interact with ESimService-related API endpoints.
+    Inherits common functionality from BaseService including authentication and request handling.
+    """
 
     @cast_models
     def get_esim(self, iccid: str) -> GetEsimOkResponse:

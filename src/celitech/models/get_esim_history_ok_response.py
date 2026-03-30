@@ -28,8 +28,8 @@ class History(BaseModel):
         :param date_: Epoch value representing the date when the eSIM status changed, defaults to None
         :type date_: float, optional
         """
-        self.status = status
-        self.status_date = status_date
+        self.status = self._define_str("status", status)
+        self.status_date = self._define_str("status_date", status_date)
         self.date_ = self._define_number("date_", date_, nullable=True)
         self._kwargs = kwargs
 

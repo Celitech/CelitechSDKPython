@@ -30,10 +30,10 @@ class Device(BaseModel):
         :param eid: Serial Number of the eSIM
         :type eid: str
         """
-        self.oem = oem
-        self.hardware_name = hardware_name
-        self.hardware_model = hardware_model
-        self.eid = eid
+        self.oem = self._define_str("oem", oem)
+        self.hardware_name = self._define_str("hardware_name", hardware_name)
+        self.hardware_model = self._define_str("hardware_model", hardware_model)
+        self.eid = self._define_str("eid", eid)
         self._kwargs = kwargs
 
 

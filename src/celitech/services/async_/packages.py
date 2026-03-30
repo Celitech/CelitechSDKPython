@@ -19,15 +19,7 @@ class PackagesServiceAsync(PackagesService):
         limit: float = SENTINEL,
         start_time: int = SENTINEL,
         end_time: int = SENTINEL,
-        duration: float = SENTINEL,
     ) -> Awaitable[ListPackagesOkResponse]:
         return to_async(super().list_packages)(
-            destination,
-            start_date,
-            end_date,
-            after_cursor,
-            limit,
-            start_time,
-            end_time,
-            duration,
+            destination, start_date, end_date, after_cursor, limit, start_time, end_time
         )
