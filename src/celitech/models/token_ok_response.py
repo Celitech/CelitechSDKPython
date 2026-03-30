@@ -16,5 +16,5 @@ class TokenOkResponse(BaseModel):
         :param token: The generated token
         :type token: str
         """
-        self.token = token
+        self.token = self._define_str("token", token)
         self._kwargs = kwargs

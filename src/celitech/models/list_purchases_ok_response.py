@@ -56,12 +56,14 @@ class Package(BaseModel):
         :param price_in_cents: Price of the package in cents
         :type price_in_cents: float
         """
-        self.id_ = id_
-        self.data_limit_in_bytes = data_limit_in_bytes
-        self.destination = destination
-        self.destination_iso2 = destination_iso2
-        self.destination_name = destination_name
-        self.price_in_cents = price_in_cents
+        self.id_ = self._define_str("id_", id_)
+        self.data_limit_in_bytes = self._define_number(
+            "data_limit_in_bytes", data_limit_in_bytes
+        )
+        self.destination = self._define_str("destination", destination)
+        self.destination_iso2 = self._define_str("destination_iso2", destination_iso2)
+        self.destination_name = self._define_str("destination_name", destination_name)
+        self.price_in_cents = self._define_number("price_in_cents", price_in_cents)
         self._kwargs = kwargs
 
 
@@ -105,6 +107,8 @@ class Purchases(BaseModel):
     :type start_date: str
     :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ'
     :type end_date: str
+    :param duration: Duration of the package in days. Possible values are 1, 2, 7, 14, 30, or 90., defaults to None
+    :type duration: float, optional
     :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'
     :type created_date: str
     :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -135,6 +139,7 @@ class Purchases(BaseModel):
         esim: PurchasesEsim,
         source: str,
         purchase_type: str,
+        duration: Union[float, None] = SENTINEL,
         start_time: Union[float, None] = SENTINEL,
         end_time: Union[float, None] = SENTINEL,
         created_at: float = SENTINEL,
@@ -149,6 +154,8 @@ class Purchases(BaseModel):
         :type start_date: str
         :param end_date: End date of the package's validity in the format 'yyyy-MM-ddThh:mm:ssZZ'
         :type end_date: str
+        :param duration: Duration of the package in days. Possible values are 1, 2, 7, 14, 30, or 90., defaults to None
+        :type duration: float, optional
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'
         :type created_date: str
         :param start_time: Epoch value representing the start time of the package's validity, defaults to None
@@ -168,17 +175,18 @@ class Purchases(BaseModel):
         :param reference_id: The `referenceId` that was provided by the partner during the purchase or top-up flow. This identifier can be used for analytics and debugging purposes., defaults to None
         :type reference_id: str, optional
         """
-        self.id_ = id_
+        self.id_ = self._define_str("id_", id_)
         self.start_date = self._define_str("start_date", start_date, nullable=True)
         self.end_date = self._define_str("end_date", end_date, nullable=True)
-        self.created_date = created_date
+        self.duration = self._define_number("duration", duration, nullable=True)
+        self.created_date = self._define_str("created_date", created_date)
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
         self.created_at = self._define_number("created_at", created_at, nullable=True)
         self.package = self._define_object(package, Package)
         self.esim = self._define_object(esim, PurchasesEsim)
-        self.source = source
-        self.purchase_type = purchase_type
+        self.source = self._define_str("source", source)
+        self.purchase_type = self._define_str("purchase_type", purchase_type)
         self.reference_id = self._define_str(
             "reference_id", reference_id, nullable=True
         )

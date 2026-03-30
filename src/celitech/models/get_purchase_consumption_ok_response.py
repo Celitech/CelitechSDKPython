@@ -20,6 +20,8 @@ class GetPurchaseConsumptionOkResponse(BaseModel):
         :param status: Status of the connectivity, possible values are 'ACTIVE' or 'NOT_ACTIVE'
         :type status: str
         """
-        self.data_usage_remaining_in_bytes = data_usage_remaining_in_bytes
-        self.status = status
+        self.data_usage_remaining_in_bytes = self._define_number(
+            "data_usage_remaining_in_bytes", data_usage_remaining_in_bytes
+        )
+        self.status = self._define_str("status", status)
         self._kwargs = kwargs
