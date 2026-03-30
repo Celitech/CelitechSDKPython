@@ -7,6 +7,11 @@ from ..models import GetAccessTokenOkResponse, GetAccessTokenRequest
 
 
 class OAuthService(BaseService):
+    """
+    Service class for OAuthService operations.
+    Provides methods to interact with OAuthService-related API endpoints.
+    Inherits common functionality from BaseService including authentication and request handling.
+    """
 
     @cast_models
     def get_access_token(

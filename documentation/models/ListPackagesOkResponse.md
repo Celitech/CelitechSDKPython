@@ -17,6 +17,7 @@
 | destination         | str   | ✅       | ISO3 representation of the package's destination. |
 | destination_iso2    | str   | ✅       | ISO2 representation of the package's destination. |
 | data_limit_in_bytes | float | ✅       | Size of the package in Bytes                      |
+| data_limit_in_gb    | float | ✅       | Size of the package in GB                         |
 | min_days            | float | ✅       | Min number of days for the package                |
 | max_days            | float | ✅       | Max number of days for the package                |
 | price_in_cents      | float | ✅       | Price of the package in cents                     |

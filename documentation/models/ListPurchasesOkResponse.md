@@ -21,6 +21,7 @@
 | esim          | PurchasesEsim | ✅       |                                                                                                                                                                                                                |
 | source        | str           | ✅       | The `source` indicates whether the purchase was made from the API, dashboard, landing-page, promo-page or iframe. For purchases made before September 8, 2023, the value will be displayed as 'Not available'. |
 | purchase_type | str           | ✅       | The `purchaseType` indicates whether this is the initial purchase that creates the eSIM (First Purchase) or a subsequent top-up on an existing eSIM (Top-up Purchase).                                         |
+| duration      | float         | ❌       | Duration of the package in days. Possible values are 1, 2, 7, 14, 30, or 90.                                                                                                                                   |
 | start_time    | float         | ❌       | Epoch value representing the start time of the package's validity                                                                                                                                              |
 | end_time      | float         | ❌       | Epoch value representing the end time of the package's validity                                                                                                                                                |
 | created_at    | float         | ❌       | Epoch value representing the date of creation of the purchase                                                                                                                                                  |
@@ -34,6 +35,7 @@
 | :------------------ | :---- | :------- | :------------------------------------------------ |
 | id\_                | str   | ✅       | ID of the package                                 |
 | data_limit_in_bytes | float | ✅       | Size of the package in Bytes                      |
+| data_limit_in_gb    | float | ✅       | Size of the package in GB                         |
 | destination         | str   | ✅       | ISO3 representation of the package's destination. |
 | destination_iso2    | str   | ✅       | ISO2 representation of the package's destination. |
 | destination_name    | str   | ✅       | Name of the package's destination                 |
