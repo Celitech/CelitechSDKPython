@@ -9,6 +9,7 @@ from .utils.base_model import BaseModel
         "id_": "id",
         "destination_iso2": "destinationISO2",
         "data_limit_in_bytes": "dataLimitInBytes",
+        "data_limit_in_gb": "dataLimitInGB",
         "min_days": "minDays",
         "max_days": "maxDays",
         "price_in_cents": "priceInCents",
@@ -25,6 +26,8 @@ class Packages(BaseModel):
     :type destination_iso2: str
     :param data_limit_in_bytes: Size of the package in Bytes
     :type data_limit_in_bytes: float
+    :param data_limit_in_gb: Size of the package in GB
+    :type data_limit_in_gb: float
     :param min_days: Min number of days for the package
     :type min_days: float
     :param max_days: Max number of days for the package
@@ -39,6 +42,7 @@ class Packages(BaseModel):
         destination: str,
         destination_iso2: str,
         data_limit_in_bytes: float,
+        data_limit_in_gb: float,
         min_days: float,
         max_days: float,
         price_in_cents: float,
@@ -54,6 +58,8 @@ class Packages(BaseModel):
         :type destination_iso2: str
         :param data_limit_in_bytes: Size of the package in Bytes
         :type data_limit_in_bytes: float
+        :param data_limit_in_gb: Size of the package in GB
+        :type data_limit_in_gb: float
         :param min_days: Min number of days for the package
         :type min_days: float
         :param max_days: Max number of days for the package
@@ -61,13 +67,18 @@ class Packages(BaseModel):
         :param price_in_cents: Price of the package in cents
         :type price_in_cents: float
         """
-        self.id_ = id_
-        self.destination = destination
-        self.destination_iso2 = destination_iso2
-        self.data_limit_in_bytes = data_limit_in_bytes
-        self.min_days = min_days
-        self.max_days = max_days
-        self.price_in_cents = price_in_cents
+        self.id_ = self._define_str("id_", id_)
+        self.destination = self._define_str("destination", destination)
+        self.destination_iso2 = self._define_str("destination_iso2", destination_iso2)
+        self.data_limit_in_bytes = self._define_number(
+            "data_limit_in_bytes", data_limit_in_bytes
+        )
+        self.data_limit_in_gb = self._define_number(
+            "data_limit_in_gb", data_limit_in_gb
+        )
+        self.min_days = self._define_number("min_days", min_days)
+        self.max_days = self._define_number("max_days", max_days)
+        self.price_in_cents = self._define_number("price_in_cents", price_in_cents)
         self._kwargs = kwargs
 
 
