@@ -24,9 +24,9 @@ class CreatePurchaseV2OkResponsePurchase(BaseModel):
         :param created_date: Creation date of the purchase in the format 'yyyy-MM-ddThh:mm:ssZZ'
         :type created_date: str
         """
-        self.id_ = id_
-        self.package_id = package_id
-        self.created_date = created_date
+        self.id_ = self._define_str("id_", id_)
+        self.package_id = self._define_str("package_id", package_id)
+        self.created_date = self._define_str("created_date", created_date)
         self._kwargs = kwargs
 
 
@@ -34,6 +34,8 @@ class CreatePurchaseV2OkResponsePurchase(BaseModel):
     {
         "activation_code": "activationCode",
         "manual_activation_code": "manualActivationCode",
+        "ios_activation_link": "iosActivationLink",
+        "android_activation_link": "androidActivationLink",
     }
 )
 class CreatePurchaseV2OkResponseProfile(BaseModel):
@@ -45,10 +47,20 @@ class CreatePurchaseV2OkResponseProfile(BaseModel):
     :type activation_code: str
     :param manual_activation_code: Manual Activation Code of the eSIM
     :type manual_activation_code: str
+    :param ios_activation_link: iOS Activation Link of the eSIM
+    :type ios_activation_link: str
+    :param android_activation_link: Android Activation Link of the eSIM
+    :type android_activation_link: str
     """
 
     def __init__(
-        self, iccid: str, activation_code: str, manual_activation_code: str, **kwargs
+        self,
+        iccid: str,
+        activation_code: str,
+        manual_activation_code: str,
+        ios_activation_link: str,
+        android_activation_link: str,
+        **kwargs
     ):
         """CreatePurchaseV2OkResponseProfile
 
@@ -58,12 +70,24 @@ class CreatePurchaseV2OkResponseProfile(BaseModel):
         :type activation_code: str
         :param manual_activation_code: Manual Activation Code of the eSIM
         :type manual_activation_code: str
+        :param ios_activation_link: iOS Activation Link of the eSIM
+        :type ios_activation_link: str
+        :param android_activation_link: Android Activation Link of the eSIM
+        :type android_activation_link: str
         """
         self.iccid = self._define_str("iccid", iccid, min_length=18, max_length=22)
         self.activation_code = self._define_str(
             "activation_code", activation_code, min_length=1000, max_length=8000
         )
-        self.manual_activation_code = manual_activation_code
+        self.manual_activation_code = self._define_str(
+            "manual_activation_code", manual_activation_code
+        )
+        self.ios_activation_link = self._define_str(
+            "ios_activation_link", ios_activation_link
+        )
+        self.android_activation_link = self._define_str(
+            "android_activation_link", android_activation_link
+        )
         self._kwargs = kwargs
 
 
