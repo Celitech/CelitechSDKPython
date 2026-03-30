@@ -65,6 +65,7 @@ class BaseService:
         :rtype: Tuple[Dict, int, str]
         """
         response = self._request_handler.send(request)
+        self._last_response = response
         return (
             response.body,
             response.status,

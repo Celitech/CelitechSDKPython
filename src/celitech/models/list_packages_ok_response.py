@@ -61,13 +61,15 @@ class Packages(BaseModel):
         :param price_in_cents: Price of the package in cents
         :type price_in_cents: float
         """
-        self.id_ = id_
-        self.destination = destination
-        self.destination_iso2 = destination_iso2
-        self.data_limit_in_bytes = data_limit_in_bytes
-        self.min_days = min_days
-        self.max_days = max_days
-        self.price_in_cents = price_in_cents
+        self.id_ = self._define_str("id_", id_)
+        self.destination = self._define_str("destination", destination)
+        self.destination_iso2 = self._define_str("destination_iso2", destination_iso2)
+        self.data_limit_in_bytes = self._define_number(
+            "data_limit_in_bytes", data_limit_in_bytes
+        )
+        self.min_days = self._define_number("min_days", min_days)
+        self.max_days = self._define_number("max_days", max_days)
+        self.price_in_cents = self._define_number("price_in_cents", price_in_cents)
         self._kwargs = kwargs
 
 

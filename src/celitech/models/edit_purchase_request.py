@@ -49,9 +49,9 @@ class EditPurchaseRequest(BaseModel):
         :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
         :type end_time: float, optional
         """
-        self.purchase_id = purchase_id
-        self.start_date = start_date
-        self.end_date = end_date
+        self.purchase_id = self._define_str("purchase_id", purchase_id)
+        self.start_date = self._define_str("start_date", start_date)
+        self.end_date = self._define_str("end_date", end_date)
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
         self._kwargs = kwargs
