@@ -36,10 +36,17 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
-result = sdk.packages.list_packages()
+result = sdk.packages.list_packages(
+    destination="FRA",
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
+    limit=20
+)
 
 print(result)
 ```

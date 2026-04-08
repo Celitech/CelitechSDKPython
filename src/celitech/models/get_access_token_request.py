@@ -1,10 +1,10 @@
 from enum import Enum
-from .utils.json_map import JsonMap
+from pydantic import Field
+from typing import Optional
 from .utils.base_model import BaseModel
-from .utils.sentinel import SENTINEL
 
 
-class GrantType(Enum):
+class GrantType(str, Enum):
     """An enumeration representing different categories.
 
     :cvar CLIENTCREDENTIALS: "client_credentials"
@@ -13,16 +13,16 @@ class GrantType(Enum):
 
     CLIENTCREDENTIALS = "client_credentials"
 
+    @staticmethod
     def list():
-        """Lists all category values.
+        """Lists all enum values.
 
-        :return: A list of all category values.
+        :return: A list of all enum values.
         :rtype: list
         """
         return list(map(lambda x: x.value, GrantType._member_map_.values()))
 
 
-@JsonMap({})
 class GetAccessTokenRequest(BaseModel):
     """GetAccessTokenRequest
 
@@ -34,27 +34,6 @@ class GetAccessTokenRequest(BaseModel):
     :type client_secret: str, optional
     """
 
-    def __init__(
-        self,
-        grant_type: GrantType = SENTINEL,
-        client_id: str = SENTINEL,
-        client_secret: str = SENTINEL,
-        **kwargs
-    ):
-        """GetAccessTokenRequest
-
-        :param grant_type: grant_type, defaults to None
-        :type grant_type: GrantType, optional
-        :param client_id: client_id, defaults to None
-        :type client_id: str, optional
-        :param client_secret: client_secret, defaults to None
-        :type client_secret: str, optional
-        """
-        self.grant_type = self._enum_matching(
-            grant_type, GrantType.list(), "grant_type", nullable=True
-        )
-        self.client_id = self._define_str("client_id", client_id, nullable=True)
-        self.client_secret = self._define_str(
-            "client_secret", client_secret, nullable=True
-        )
-        self._kwargs = kwargs
+    grant_type: Optional[GrantType] = Field(default=None)
+    client_id: Optional[str] = Field(default=None)
+    client_secret: Optional[str] = Field(default=None)

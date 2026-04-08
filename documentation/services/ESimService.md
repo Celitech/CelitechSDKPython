@@ -32,7 +32,8 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 result = sdk.e_sim.get_esim(iccid="1111222233334444555000")
@@ -64,7 +65,8 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 result = sdk.e_sim.get_esim_device(iccid="1111222233334444555000")
@@ -96,7 +98,8 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 result = sdk.e_sim.get_esim_history(iccid="1111222233334444555000")
