@@ -1,0 +1,40 @@
+{
+  "endpoints": {
+    "/destinations": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.destinations.list_destinations()\n\nprint(result)\n"
+    },
+    "/packages": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.packages.list_packages(\n    destination=\"FRA\",\n    start_date=\"2023-11-01\",\n    end_date=\"2023-11-20\",\n    after_cursor=\"Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA\",\n    limit=20\n)\n\nprint(result)\n"
+    },
+    "/purchases/v2": {
+      "post": "from celitech import Celitech\nfrom celitech.models import CreatePurchaseV2Request\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nrequest_body = CreatePurchaseV2Request(\n    destination=\"FRA\",\n    data_limit_in_gb=1,\n    start_date=\"2023-11-01\",\n    end_date=\"2023-11-20\",\n    duration=30,\n    quantity=1,\n    email=\"example@domain.com\",\n    reference_id=\"abc111222333444\",\n    network_brand=\"CELITECH\",\n    email_brand=\"CELITECH\"\n)\n\nresult = sdk.purchases.create_purchase_v2(request_body=request_body)\n\nprint(result)\n"
+    },
+    "/purchases": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.purchases.list_purchases(\n    purchase_id=\"4973fa15-6979-4daa-9cf3-672620df819c\",\n    iccid=\"1111222233334444555000\",\n    after_date=\"2023-11-01\",\n    before_date=\"2023-11-20\",\n    email=\"example@gmail.com\",\n    reference_id=\"abc111222333444\",\n    after_cursor=\"Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA\",\n    limit=20\n)\n\nprint(result)\n",
+      "post": "from celitech import Celitech\nfrom celitech.models import CreatePurchaseRequest\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nrequest_body = CreatePurchaseRequest(\n    destination=\"FRA\",\n    data_limit_in_gb=1,\n    start_date=\"2023-11-01\",\n    end_date=\"2023-11-20\",\n    email=\"example@domain.com\",\n    reference_id=\"abc111222333444\",\n    network_brand=\"CELITECH\",\n    email_brand=\"CELITECH\"\n)\n\nresult = sdk.purchases.create_purchase(request_body=request_body)\n\nprint(result)\n"
+    },
+    "/purchases/topup": {
+      "post": "from celitech import Celitech\nfrom celitech.models import TopUpEsimRequest\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nrequest_body = TopUpEsimRequest(\n    iccid=\"1111222233334444555000\",\n    data_limit_in_gb=1,\n    start_date=\"2023-11-01\",\n    end_date=\"2023-11-20\",\n    duration=30,\n    email=\"example@domain.com\",\n    reference_id=\"abc111222333444\",\n    email_brand=\"CELITECH\"\n)\n\nresult = sdk.purchases.top_up_esim(request_body=request_body)\n\nprint(result)\n"
+    },
+    "/purchases/edit": {
+      "post": "from celitech import Celitech\nfrom celitech.models import EditPurchaseRequest\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nrequest_body = EditPurchaseRequest(\n    purchase_id=\"ae471106-c8b4-42cf-b83a-b061291f2922\",\n    start_date=\"2023-11-01\",\n    end_date=\"2023-11-20\"\n)\n\nresult = sdk.purchases.edit_purchase(request_body=request_body)\n\nprint(result)\n"
+    },
+    "/purchases/{purchaseId}/consumption": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.purchases.get_purchase_consumption(purchase_id=\"4973fa15-6979-4daa-9cf3-672620df819c\")\n\nprint(result)\n"
+    },
+    "/esim": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.e_sim.get_esim(iccid=\"1111222233334444555000\")\n\nprint(result)\n"
+    },
+    "/esim/{iccid}/device": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.e_sim.get_esim_device(iccid=\"1111222233334444555000\")\n\nprint(result)\n"
+    },
+    "/esim/{iccid}/history": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.e_sim.get_esim_history(iccid=\"1111222233334444555000\")\n\nprint(result)\n"
+    },
+    "/iframe/token": {
+      "post": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.i_frame.token()\n\nprint(result)\n"
+    }
+  },
+  "example": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\",\n    timeout=10000\n)\n\nresult = sdk.destinations.list_destinations()\n\nprint(result)\n",
+  "authentication": {}
+}

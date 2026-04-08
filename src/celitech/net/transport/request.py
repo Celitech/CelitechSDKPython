@@ -1,5 +1,8 @@
-from typing import Any, Set
+from typing import Any, Set, TYPE_CHECKING
 from .utils import extract_original_data
+
+if TYPE_CHECKING:
+    from .sdk_config import SdkConfig
 
 
 class Request:
@@ -27,6 +30,7 @@ class Request:
     :ivar Any body: Request body.
     :ivar Set[str] scopes: List of scopes to include in the request.
     :ivar dict errors: Dictionary of HTTP status codes to error models.
+    :ivar SdkConfig config: Configuration dictionary for the request.
     """
 
     def __init__(self):
@@ -36,6 +40,7 @@ class Request:
         self.body = None
         self.scopes = None
         self.errors = None
+        self.config: "SdkConfig" = None
 
     def set_url(self, url: str) -> "Request":
         """
@@ -103,6 +108,17 @@ class Request:
         :rtype: Request
         """
         self.errors = errors
+        return self
+
+    def set_config(self, config: "SdkConfig") -> "Request":
+        """
+        Set the configuration for the request.
+
+        :param SdkConfig config: Configuration dictionary for the request.
+        :return: The updated Request object.
+        :rtype: Request
+        """
+        self.config = config
         return self
 
     def __str__(self) -> str:

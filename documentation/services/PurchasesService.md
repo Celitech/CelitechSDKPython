@@ -36,13 +36,21 @@ from celitech.models import CreatePurchaseV2Request
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 request_body = CreatePurchaseV2Request(
     destination="FRA",
     data_limit_in_gb=1,
-    quantity=1
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    duration=30,
+    quantity=1,
+    email="example@domain.com",
+    reference_id="abc111222333444",
+    network_brand="CELITECH",
+    email_brand="CELITECH"
 )
 
 result = sdk.purchases.create_purchase_v2(request_body=request_body)
@@ -83,10 +91,20 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
-result = sdk.purchases.list_purchases()
+result = sdk.purchases.list_purchases(
+    purchase_id="4973fa15-6979-4daa-9cf3-672620df819c",
+    iccid="1111222233334444555000",
+    after_date="2023-11-01",
+    before_date="2023-11-20",
+    email="example@gmail.com",
+    reference_id="abc111222333444",
+    after_cursor="Y3JlYXRlZEF0OjE1OTk0OTMwOTgsZGVzdGluYXRpb246QVVTLG1pbkRheXM6MCxkYXRhTGltaXRJbkJ5dGVzOjUzNjg3MDkxMjA",
+    limit=20
+)
 
 print(result)
 ```
@@ -116,14 +134,19 @@ from celitech.models import CreatePurchaseRequest
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 request_body = CreatePurchaseRequest(
     destination="FRA",
     data_limit_in_gb=1,
     start_date="2023-11-01",
-    end_date="2023-11-20"
+    end_date="2023-11-20",
+    email="example@domain.com",
+    reference_id="abc111222333444",
+    network_brand="CELITECH",
+    email_brand="CELITECH"
 )
 
 result = sdk.purchases.create_purchase(request_body=request_body)
@@ -156,12 +179,19 @@ from celitech.models import TopUpEsimRequest
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 request_body = TopUpEsimRequest(
     iccid="1111222233334444555000",
-    data_limit_in_gb=1
+    data_limit_in_gb=1,
+    start_date="2023-11-01",
+    end_date="2023-11-20",
+    duration=30,
+    email="example@domain.com",
+    reference_id="abc111222333444",
+    email_brand="CELITECH"
 )
 
 result = sdk.purchases.top_up_esim(request_body=request_body)
@@ -194,7 +224,8 @@ from celitech.models import EditPurchaseRequest
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 request_body = EditPurchaseRequest(
@@ -232,7 +263,8 @@ from celitech import Celitech
 
 sdk = Celitech(
     client_id="CLIENT_ID",
-    client_secret="CLIENT_SECRET"
+    client_secret="CLIENT_SECRET",
+    timeout=10000
 )
 
 result = sdk.purchases.get_purchase_consumption(purchase_id="4973fa15-6979-4daa-9cf3-672620df819c")
