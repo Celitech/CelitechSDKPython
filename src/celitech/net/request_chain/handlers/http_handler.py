@@ -36,11 +36,14 @@ class HttpHandler(BaseHandler):
         try:
             request_args = self._get_request_data(request)
 
+            # Get timeout from config if available, otherwise use default
+            timeout = self._get_timeout_from_config(request)
+
             result = requests.request(
                 request.method,
                 request.url,
                 headers=request.headers,
-                timeout=self._timeout_in_seconds,
+                timeout=timeout,
                 **request_args,
             )
             response = Response(result)
@@ -83,11 +86,14 @@ class HttpHandler(BaseHandler):
         try:
             request_args = self._get_request_data(request)
 
+            # Get timeout from config if available, otherwise use default
+            timeout = self._get_timeout_from_config(request)
+
             result = requests.request(
                 request.method,
                 request.url,
                 headers=request.headers,
-                timeout=self._timeout_in_seconds,
+                timeout=timeout,
                 stream=True,
                 **request_args,
             )
@@ -140,3 +146,15 @@ class HttpHandler(BaseHandler):
             return {"files": files, "data": form_data}
 
         return {"data": data}
+
+    def _get_timeout_from_config(self, request: Request) -> float:
+        """
+        Get the timeout for the request from config or use default.
+
+        :param Request request: The request object.
+        :return: The timeout in seconds.
+        :rtype: float
+        """
+        if request.config and "timeout" in request.config:
+            return request.config["timeout"] / 1000
+        return self._timeout_in_seconds
