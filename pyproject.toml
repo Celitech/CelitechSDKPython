@@ -10,5 +10,6 @@ description = """Welcome to the CELITECH API documentation!\n\nUseful links: [Ho
 readme = "PyPI_README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "requests>=2.31.0"
+    "requests>=2.31.0",
+    "pydantic>=2.0.0,<3.0.0"
 ]

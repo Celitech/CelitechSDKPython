@@ -1,15 +1,17 @@
-from typing import Any, Dict, Tuple, Generator
+from typing import Any, Dict, Tuple, Generator, TYPE_CHECKING
 from enum import Enum
 
 from .default_headers import DefaultHeaders, DefaultHeadersKeys
 
 from ...net.transport.request import Request
 from ...net.request_chain.request_chain import RequestChain
-from ...net.request_chain.handlers.hook_handler import HookHandler
 from ...net.request_chain.handlers.http_handler import HttpHandler
 from ...net.request_chain.handlers.retry_handler import RetryHandler
 from ...net.oauth.token_manager import TokenManager
 from ...net.request_chain.handlers.oauth_handler import OauthHandler
+
+if TYPE_CHECKING:
+    from ...net.sdk_config import SdkConfig
 
 
 class BaseService:
@@ -29,6 +31,7 @@ class BaseService:
         self.base_url = base_url
         self._default_headers = DefaultHeaders()
         self._timeout = 60000
+        self._service_config: "SdkConfig" = {}
 
         self._token_manager = token_manager
 
@@ -55,6 +58,74 @@ class BaseService:
         self.base_url = base_url
 
         return self
+
+    def set_config(self, config: "SdkConfig"):
+        """
+        Sets service-level configuration that applies to all methods in this service.
+
+        :param SdkConfig config: Configuration dictionary to override SDK-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._service_config = config
+        return self
+
+    @staticmethod
+    def _deep_merge(base: dict, override: dict) -> dict:
+        """
+        Recursively merges two dictionaries. Nested dicts are merged key-by-key so
+        that a partial override (e.g. ``{"retry": {"attempts": 5}}``) only overwrites
+        the keys it specifies instead of replacing the entire nested dict.
+
+        Every dict value from ``override`` is recursed into (creating a fresh dict),
+        so override sources are never shared by reference in the result. Unoverridden
+        nested values from ``base`` are shallow-copied at the top level via ``dict(base)``;
+        configs are consumed read-only downstream so this is intentional.
+
+        :param dict base: The base dictionary.
+        :param dict override: Values to merge on top of base.
+        :return: A new merged dictionary.
+        :rtype: dict
+        """
+        merged = dict(base)
+        for key, value in override.items():
+            if isinstance(value, dict):
+                base_node = merged.get(key)
+                merged[key] = BaseService._deep_merge(
+                    base_node if isinstance(base_node, dict) else {}, value
+                )
+            else:
+                merged[key] = value
+        return merged
+
+    def _get_resolved_config(
+        self, method_config: "SdkConfig" = None, request_config: "SdkConfig" = None
+    ) -> "SdkConfig":
+        """
+        Resolves configuration overrides from the hierarchy: request_config > method_config > service_config.
+        Merges override configs into a single dictionary using deep merge so that partial
+        overrides for nested dicts (e.g. ``retry``) only replace the specified keys.
+        SDK defaults are used as fallbacks where these overrides are not provided.
+
+        :param SdkConfig method_config: Method-level configuration override.
+        :param SdkConfig request_config: Request-level configuration override.
+        :return: Merged configuration with all overrides applied.
+        :rtype: SdkConfig
+        """
+        resolved: "SdkConfig" = {}
+
+        # Apply service config
+        if self._service_config:
+            resolved = BaseService._deep_merge(resolved, self._service_config)
+
+        # Apply method config
+        if method_config:
+            resolved = BaseService._deep_merge(resolved, method_config)
+
+        # Apply request config
+        if request_config:
+            resolved = BaseService._deep_merge(resolved, request_config)
+
+        return resolved
 
     def send_request(self, request: Request) -> Tuple[Dict, int, str]:
         """
@@ -106,7 +177,6 @@ class BaseService:
         return (
             RequestChain()
             .add_handler(OauthHandler(self._token_manager))
-            .add_handler(HookHandler())
             .add_handler(RetryHandler())
             .add_handler(HttpHandler(self._timeout))
         )
