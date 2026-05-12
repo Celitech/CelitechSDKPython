@@ -1,6 +1,39 @@
+from enum import Enum
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
 from .utils.sentinel import SENTINEL
+
+
+class CreatePurchaseRequestLanguage(Enum):
+    """An enumeration representing different categories.
+
+    :cvar EN: "en"
+    :vartype EN: str
+    :cvar ES: "es"
+    :vartype ES: str
+    :cvar FR: "fr"
+    :vartype FR: str
+    :cvar DE: "de"
+    :vartype DE: str
+    :cvar PTBR: "pt-br"
+    :vartype PTBR: str
+    """
+
+    EN = "en"
+    ES = "es"
+    FR = "fr"
+    DE = "de"
+    PTBR = "pt-br"
+
+    def list():
+        """Lists all category values.
+
+        :return: A list of all category values.
+        :rtype: list
+        """
+        return list(
+            map(lambda x: x.value, CreatePurchaseRequestLanguage._member_map_.values())
+        )
 
 
 @JsonMap(
@@ -34,6 +67,8 @@ class CreatePurchaseRequest(BaseModel):
     :type network_brand: str, optional
     :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
     :type email_brand: str, optional
+    :param language: Language of the confirmation email sent to the customer., defaults to None
+    :type language: CreatePurchaseRequestLanguage, optional
     :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
     :type start_time: float, optional
     :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
@@ -50,6 +85,7 @@ class CreatePurchaseRequest(BaseModel):
         reference_id: str = SENTINEL,
         network_brand: str = SENTINEL,
         email_brand: str = SENTINEL,
+        language: CreatePurchaseRequestLanguage = SENTINEL,
         start_time: float = SENTINEL,
         end_time: float = SENTINEL,
         **kwargs
@@ -72,6 +108,8 @@ class CreatePurchaseRequest(BaseModel):
         :type network_brand: str, optional
         :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
         :type email_brand: str, optional
+        :param language: Language of the confirmation email sent to the customer., defaults to None
+        :type language: CreatePurchaseRequestLanguage, optional
         :param start_time: Epoch value representing the start time of the package's validity. This timestamp can be set to the current time or any time within the next 12 months., defaults to None
         :type start_time: float, optional
         :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time., defaults to None
@@ -91,6 +129,9 @@ class CreatePurchaseRequest(BaseModel):
             "network_brand", network_brand, nullable=True
         )
         self.email_brand = self._define_str("email_brand", email_brand, nullable=True)
+        self.language = self._enum_matching(
+            language, CreatePurchaseRequestLanguage.list(), "language", nullable=True
+        )
         self.start_time = self._define_number("start_time", start_time, nullable=True)
         self.end_time = self._define_number("end_time", end_time, nullable=True)
         self._kwargs = kwargs
