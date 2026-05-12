@@ -13,4 +13,4 @@ $PYTHON_CMD -m venv .venv
 . .venv/bin/activate
 $PYTHON_CMD -m pip install build
 $PYTHON_CMD -m build --outdir dist ../
-$PYTHON_CMD -m pip install dist/celitech_sdk-1.3.63-py3-none-any.whl --force-reinstall
+$PYTHON_CMD -m pip install dist/celitech_sdk-1.3.64-py3-none-any.whl --force-reinstall
