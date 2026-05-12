@@ -1,6 +1,41 @@
+from enum import Enum
 from .utils.json_map import JsonMap
 from .utils.base_model import BaseModel
 from .utils.sentinel import SENTINEL
+
+
+class CreatePurchaseV2RequestLanguage(Enum):
+    """An enumeration representing different categories.
+
+    :cvar EN: "en"
+    :vartype EN: str
+    :cvar ES: "es"
+    :vartype ES: str
+    :cvar FR: "fr"
+    :vartype FR: str
+    :cvar DE: "de"
+    :vartype DE: str
+    :cvar PTBR: "pt-br"
+    :vartype PTBR: str
+    """
+
+    EN = "en"
+    ES = "es"
+    FR = "fr"
+    DE = "de"
+    PTBR = "pt-br"
+
+    def list():
+        """Lists all category values.
+
+        :return: A list of all category values.
+        :rtype: list
+        """
+        return list(
+            map(
+                lambda x: x.value, CreatePurchaseV2RequestLanguage._member_map_.values()
+            )
+        )
 
 
 @JsonMap(
@@ -36,6 +71,8 @@ class CreatePurchaseV2Request(BaseModel):
     :type network_brand: str, optional
     :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
     :type email_brand: str, optional
+    :param language: Language of the confirmation email sent to the customer., defaults to None
+    :type language: CreatePurchaseV2RequestLanguage, optional
     """
 
     def __init__(
@@ -50,6 +87,7 @@ class CreatePurchaseV2Request(BaseModel):
         reference_id: str = SENTINEL,
         network_brand: str = SENTINEL,
         email_brand: str = SENTINEL,
+        language: CreatePurchaseV2RequestLanguage = SENTINEL,
         **kwargs
     ):
         """CreatePurchaseV2Request
@@ -74,6 +112,8 @@ class CreatePurchaseV2Request(BaseModel):
         :type network_brand: str, optional
         :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
         :type email_brand: str, optional
+        :param language: Language of the confirmation email sent to the customer., defaults to None
+        :type language: CreatePurchaseV2RequestLanguage, optional
         """
         self.destination = self._define_str("destination", destination)
         self.data_limit_in_gb = self._define_number(
@@ -91,4 +131,7 @@ class CreatePurchaseV2Request(BaseModel):
             "network_brand", network_brand, nullable=True
         )
         self.email_brand = self._define_str("email_brand", email_brand, nullable=True)
+        self.language = self._enum_matching(
+            language, CreatePurchaseV2RequestLanguage.list(), "language", nullable=True
+        )
         self._kwargs = kwargs
