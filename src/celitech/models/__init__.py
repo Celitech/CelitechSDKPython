@@ -39,3 +39,36 @@ from .get_esim_history_ok_response import (
 from .token_ok_response import TokenOkResponse
 from .bad_request import BadRequest
 from .unauthorized import Unauthorized
+
+# Rebuild models to resolve circular forward references
+# This ensures Pydantic can properly validate models that reference each other
+GetAccessTokenRequest.model_rebuild()
+GetAccessTokenOkResponse.model_rebuild()
+ListDestinationsOkResponse.model_rebuild()
+Destinations.model_rebuild()
+ListPackagesOkResponse.model_rebuild()
+Packages.model_rebuild()
+CreatePurchaseV2Request.model_rebuild()
+CreatePurchaseV2OkResponse.model_rebuild()
+CreatePurchaseV2OkResponsePurchase.model_rebuild()
+CreatePurchaseV2OkResponseProfile.model_rebuild()
+ListPurchasesOkResponse.model_rebuild()
+Purchases.model_rebuild()
+CreatePurchaseRequest.model_rebuild()
+CreatePurchaseOkResponse.model_rebuild()
+CreatePurchaseOkResponsePurchase.model_rebuild()
+CreatePurchaseOkResponseProfile.model_rebuild()
+TopUpEsimRequest.model_rebuild()
+TopUpEsimOkResponse.model_rebuild()
+TopUpEsimOkResponsePurchase.model_rebuild()
+TopUpEsimOkResponseProfile.model_rebuild()
+EditPurchaseRequest.model_rebuild()
+EditPurchaseOkResponse.model_rebuild()
+GetPurchaseConsumptionOkResponse.model_rebuild()
+GetEsimOkResponse.model_rebuild()
+GetEsimOkResponseEsim.model_rebuild()
+GetEsimDeviceOkResponse.model_rebuild()
+Device.model_rebuild()
+GetEsimHistoryOkResponse.model_rebuild()
+GetEsimHistoryOkResponseEsim.model_rebuild()
+TokenOkResponse.model_rebuild()
