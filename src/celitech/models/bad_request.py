@@ -1,21 +1,26 @@
-from .utils.json_map import JsonMap
-from ..net.transport.api_error import ApiError
-from .utils.sentinel import SENTINEL
+from pydantic import Field
+from typing import Optional
+from .utils.base_error import BaseError
+from .utils.base_model import BaseModel
 
 
-@JsonMap({})
-class BadRequest(ApiError):
+# Pydantic validation model for BadRequest
+class BadRequestData(BaseModel):
     """BadRequest
 
     :param message: Message of the error, defaults to None
     :type message: str, optional
     """
 
-    def __init__(self, message: str = SENTINEL, **kwargs):
-        """BadRequest
+    message: Optional[str] = Field(default=None, description="Message of the error")
 
-        :param message: Message of the error, defaults to None
-        :type message: str, optional
-        """
-        self.message = self._define_str("message", message, nullable=True)
-        self._kwargs = kwargs
+
+# Error exception class
+class BadRequest(BaseError):
+    """BadRequest
+
+    :param message: Message of the error, defaults to None
+    :type message: str, optional
+    """
+
+    _model_class = BadRequestData

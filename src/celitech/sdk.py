@@ -31,9 +31,10 @@ class Celitech:
         )
         self._token_manager = TokenManager(base_oauth_url=self.base_oauth_url)
 
-        self._base_url = (
+        _resolved_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
+        self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
         self.destinations = DestinationsService(
             base_url=self._base_url, token_manager=self._token_manager
         )
@@ -60,9 +61,10 @@ class Celitech:
         :param Union[Environment, str] base_url: The base URL to be set.
         :return: The SDK instance.
         """
-        self._base_url = (
+        _resolved_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
+        self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
 
         self.destinations.set_base_url(self._base_url)
         self.packages.set_base_url(self._base_url)
