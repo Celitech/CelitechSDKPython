@@ -77,8 +77,7 @@ class TokenManager:
         """
         has_all_scopes = self._token and self._token.scopes.issuperset(scopes)
         valid_token = self._token and (
-            self._token.expires_at is None
-            or (self._token.expires_at - int(time())) > 5000
+            self._token.expires_at is None or (self._token.expires_at - int(time())) > 5
         )
         if has_all_scopes and valid_token:
             return self._token
@@ -92,7 +91,7 @@ class TokenManager:
             scopes=scopes,
             expires_at=(
                 response.expires_in + int(time())
-                if hasattr(response, "expires_in")
+                if getattr(response, "expires_in", None) is not None
                 else None
             ),
         )

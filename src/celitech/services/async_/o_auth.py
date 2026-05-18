@@ -1,6 +1,7 @@
-from typing import Awaitable
+from typing import Awaitable, Optional
 from .utils.to_async import to_async
 from ..o_auth import OAuthService
+from ...net.sdk_config import SdkConfig
 from ...models import GetAccessTokenOkResponse, GetAccessTokenRequest
 
 
@@ -10,6 +11,11 @@ class OAuthServiceAsync(OAuthService):
     """
 
     def get_access_token(
-        self, request_body: GetAccessTokenRequest
+        self,
+        request_body: GetAccessTokenRequest,
+        *,
+        request_config: Optional[SdkConfig] = None,
     ) -> Awaitable[GetAccessTokenOkResponse]:
-        return to_async(super().get_access_token)(request_body)
+        return to_async(super().get_access_token)(
+            request_body, request_config=request_config
+        )
