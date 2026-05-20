@@ -1,0 +1,76 @@
+{
+  "endpoints": {
+    "/destinations": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.destinations.list_destinations(accept=\"application/json\")\n\nprint(result)\n"
+    },
+    "/packages": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.packages.list_packages(accept=\"application/json\")\n\nprint(result)\n"
+    },
+    "/purchases/v2": {
+      "post": "from celitech import Celitech\nfrom celitech.models import CreatePurchaseV2Request\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nrequest_body = CreatePurchaseV2Request(\n    \n)\n\nresult = sdk.v2.create_purchase_v2(\n    request_body=request_body,\n    accept=\"application/json\"\n)\n\nprint(result)\n"
+    },
+    "/purchases/topup": {
+      "post": "from celitech import Celitech\nfrom celitech.models import TopUpESimRequest\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nrequest_body = TopUpESimRequest(\n    \n)\n\nresult = sdk.topup.top_up_e_sim(\n    request_body=request_body,\n    accept=\"application/json\"\n)\n\nprint(result)\n"
+    },
+    "/purchases/edit": {
+      "post": "from celitech import Celitech\nfrom celitech.models import EditPurchaseRequest\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nrequest_body = EditPurchaseRequest(\n    \n)\n\nresult = sdk.edit.edit_purchase(\n    request_body=request_body,\n    accept=\"application/json\"\n)\n\nprint(result)\n"
+    },
+    "/purchases/{purchaseId}/consumption": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.consumption.get_purchase_consumption(\n    purchase_id=\"purchaseId\",\n    accept=\"application/json\"\n)\n\nprint(result)\n"
+    },
+    "/purchases": {
+      "post": "from celitech import Celitech\nfrom celitech.models import CreatePurchaseRequest\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nrequest_body = CreatePurchaseRequest(\n    \n)\n\nresult = sdk.purchases.create_purchase(\n    request_body=request_body,\n    accept=\"application/json\"\n)\n\nprint(result)\n",
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.purchases.list_purchases(accept=\"application/json\")\n\nprint(result)\n"
+    },
+    "/esim/{iccid}/device": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.device.get_e_sim_device(\n    iccid=\"iccid\",\n    accept=\"application/json\"\n)\n\nprint(result)\n"
+    },
+    "/esim/{iccid}/history": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.history.get_e_sim_history(\n    iccid=\"iccid\",\n    accept=\"application/json\"\n)\n\nprint(result)\n"
+    },
+    "/esim": {
+      "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.esim.get_e_sim(accept=\"application/json\")\n\nprint(result)\n"
+    },
+    "/iframe/token": {
+      "post": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.token.generate_token(accept=\"application/json\")\n\nprint(result)\n"
+    }
+  },
+  "methodResponses": {
+    "/destinations": {
+      "get": "print(result)"
+    },
+    "/packages": {
+      "get": "print(result)"
+    },
+    "/purchases/v2": {
+      "post": "print(result)"
+    },
+    "/purchases/topup": {
+      "post": "print(result)"
+    },
+    "/purchases/edit": {
+      "post": "print(result)"
+    },
+    "/purchases/{purchaseId}/consumption": {
+      "get": "print(result)"
+    },
+    "/purchases": {
+      "post": "print(result)",
+      "get": "print(result)"
+    },
+    "/esim/{iccid}/device": {
+      "get": "print(result)"
+    },
+    "/esim/{iccid}/history": {
+      "get": "print(result)"
+    },
+    "/esim": {
+      "get": "print(result)"
+    },
+    "/iframe/token": {
+      "post": "print(result)"
+    }
+  },
+  "example": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.destinations.list_destinations(accept=\"application/json\")\n\nprint(result)\n",
+  "authentication": {}
+}
