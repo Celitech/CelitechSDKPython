@@ -13,9 +13,15 @@ List Destinations
 - HTTP Method: `GET`
 - Endpoint: `/destinations`
 
+**Parameters**
+
+| Name   | Type | Required | Description |
+| :----- | :--- | :------- | :---------- |
+| accept | str  | ✅       |             |
+
 **Return Type**
 
-`ListDestinationsOkResponse`
+`Any`
 
 **Example Usage Code Snippet**
 
@@ -27,7 +33,7 @@ sdk = Celitech(
     client_secret="CLIENT_SECRET"
 )
 
-result = sdk.destinations.list_destinations()
+result = sdk.destinations.list_destinations(accept="application/json")
 
 print(result)
 ```
