@@ -1,9 +1,15 @@
 from typing import Union
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
+from .services.v2 import V2Service
+from .services.topup import TopupService
+from .services.edit import EditService
+from .services.consumption import ConsumptionService
 from .services.purchases import PurchasesService
-from .services.e_sim import ESimService
-from .services.i_frame import IFrameService
+from .services.device import DeviceService
+from .services.history import HistoryService
+from .services.esim import EsimService
+from .services.token import TokenService
 from .net.environment import Environment
 from .net.oauth.token_manager import TokenManager
 
@@ -31,22 +37,39 @@ class Celitech:
         )
         self._token_manager = TokenManager(base_oauth_url=self.base_oauth_url)
 
-        self._base_url = (
+        _resolved_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
+        self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
         self.destinations = DestinationsService(
             base_url=self._base_url, token_manager=self._token_manager
         )
         self.packages = PackagesService(
             base_url=self._base_url, token_manager=self._token_manager
         )
+        self.v2 = V2Service(base_url=self._base_url, token_manager=self._token_manager)
+        self.topup = TopupService(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
+        self.edit = EditService(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
+        self.consumption = ConsumptionService(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
         self.purchases = PurchasesService(
             base_url=self._base_url, token_manager=self._token_manager
         )
-        self.e_sim = ESimService(
+        self.device = DeviceService(
             base_url=self._base_url, token_manager=self._token_manager
         )
-        self.i_frame = IFrameService(
+        self.history = HistoryService(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
+        self.esim = EsimService(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
+        self.token = TokenService(
             base_url=self._base_url, token_manager=self._token_manager
         )
         self.set_client_id(client_id)
@@ -60,15 +83,22 @@ class Celitech:
         :param Union[Environment, str] base_url: The base URL to be set.
         :return: The SDK instance.
         """
-        self._base_url = (
+        _resolved_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
+        self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
 
         self.destinations.set_base_url(self._base_url)
         self.packages.set_base_url(self._base_url)
+        self.v2.set_base_url(self._base_url)
+        self.topup.set_base_url(self._base_url)
+        self.edit.set_base_url(self._base_url)
+        self.consumption.set_base_url(self._base_url)
         self.purchases.set_base_url(self._base_url)
-        self.e_sim.set_base_url(self._base_url)
-        self.i_frame.set_base_url(self._base_url)
+        self.device.set_base_url(self._base_url)
+        self.history.set_base_url(self._base_url)
+        self.esim.set_base_url(self._base_url)
+        self.token.set_base_url(self._base_url)
 
         return self
 
@@ -90,9 +120,15 @@ class Celitech:
         """
         self.destinations.set_timeout(timeout)
         self.packages.set_timeout(timeout)
+        self.v2.set_timeout(timeout)
+        self.topup.set_timeout(timeout)
+        self.edit.set_timeout(timeout)
+        self.consumption.set_timeout(timeout)
         self.purchases.set_timeout(timeout)
-        self.e_sim.set_timeout(timeout)
-        self.i_frame.set_timeout(timeout)
+        self.device.set_timeout(timeout)
+        self.history.set_timeout(timeout)
+        self.esim.set_timeout(timeout)
+        self.token.set_timeout(timeout)
 
         return self
 
