@@ -1,12 +1,12 @@
 from typing import Union
 from .net.environment import Environment
 from .sdk import Celitech
-from .services.async_.o_auth import OAuthServiceAsync
 from .services.async_.destinations import DestinationsServiceAsync
 from .services.async_.packages import PackagesServiceAsync
 from .services.async_.purchases import PurchasesServiceAsync
 from .services.async_.e_sim import ESimServiceAsync
 from .services.async_.i_frame import IFrameServiceAsync
+from .services.async_.o_auth import OAuthServiceAsync
 
 
 class CelitechAsync(Celitech):
@@ -30,9 +30,6 @@ class CelitechAsync(Celitech):
             base_oauth_url=base_oauth_url,
         )
 
-        self.o_auth = OAuthServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
         self.destinations = DestinationsServiceAsync(
             base_url=self._base_url, token_manager=self._token_manager
         )
@@ -46,5 +43,8 @@ class CelitechAsync(Celitech):
             base_url=self._base_url, token_manager=self._token_manager
         )
         self.i_frame = IFrameServiceAsync(
+            base_url=self._base_url, token_manager=self._token_manager
+        )
+        self.o_auth = OAuthServiceAsync(
             base_url=self._base_url, token_manager=self._token_manager
         )
