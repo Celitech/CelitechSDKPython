@@ -1,9 +1,8 @@
-from ...models.utils.base_model import BaseModel
 from .response import Response
 from typing import Optional
 
 
-class ApiError(BaseModel, Exception):
+class ApiError(Exception):
     """
     Class representing an API Error.
 
