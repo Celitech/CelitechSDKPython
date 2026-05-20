@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any, List, Optional, TYPE_CHECKING
 from urllib.parse import quote
 
 from .request import Request
@@ -6,6 +6,9 @@ from .utils import extract_original_data
 from ...models.utils.sentinel import was_value_set
 from ...net.headers.base_header import BaseHeader
 from ...net.transport.api_error import ApiError
+
+if TYPE_CHECKING:
+    from ...net.sdk_config import SdkConfig
 
 
 class Serializer:
@@ -18,14 +21,21 @@ class Serializer:
     :ivar dict[str, str] path: A dictionary containing path parameters for the request.
     :ivar list[str] query: A list containing query parameters for the request.
     :ivar dict[int, ApiError] errors: A dictionary of HTTP status codes to error models.
+    :ivar SdkConfig config: Configuration dictionary for the request.
     """
 
-    def __init__(self, url: str, default_headers: List[BaseHeader] = []):
+    def __init__(
+        self,
+        url: str,
+        default_headers: List[BaseHeader] = [],
+        config: Optional["SdkConfig"] = None,
+    ):
         """
-        Initializes a Serializer instance with the base URL.
+        Initializes a Serializer instance with the base URL and configuration.
 
         :param str url: The base URL to be serialized.
-        :param list[BaseHeader] default_headers: A list of default headers to be added to the request. Defaults to an empty list.
+        :param list[BaseHeader] default_headers: A list of default headers to be added to the request (with config overrides already applied). Defaults to an empty list.
+        :param SdkConfig config: Configuration dictionary for timeout and other non-auth settings.
         """
         self.url: str = url
         self.headers: dict[str, str] = {}
@@ -33,7 +43,13 @@ class Serializer:
         self.path: dict[str, str] = {}
         self.query: list[str] = []
         self.errors: dict[int, ApiError] = {}
+        self.config: Optional["SdkConfig"] = config
 
+        self.headers["User-Agent"] = (
+            "postman-codegen/1.1.2 celitech-sdk/1.3.63 (python)"
+        )
+
+        # Apply default headers
         for header in default_headers:
             for key, value in header.get_headers().items():
                 self.add_header(key, value)
@@ -219,6 +235,7 @@ class Serializer:
             .set_url(final_url)
             .set_headers(self.headers)
             .set_errors(self.errors)
+            .set_config(self.config)
         )
 
     def _define_url(self) -> str:
