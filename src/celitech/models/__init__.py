@@ -1,5 +1,3 @@
-from .get_access_token_request import GetAccessTokenRequest, GrantType
-from .get_access_token_ok_response import GetAccessTokenOkResponse
 from .list_destinations_ok_response import ListDestinationsOkResponse, Destinations
 from .list_packages_ok_response import ListPackagesOkResponse, Packages
 from .create_purchase_v2_request import (
@@ -37,5 +35,41 @@ from .get_esim_history_ok_response import (
     GetEsimHistoryOkResponseEsim,
 )
 from .token_ok_response import TokenOkResponse
+from .o_auth_token_request import OAuthTokenRequest
+from .o_auth_token_response import OAuthTokenResponse
+from .grant_type import GrantType
 from .bad_request import BadRequest
 from .unauthorized import Unauthorized
+
+# Rebuild models to resolve circular forward references
+# This ensures Pydantic can properly validate models that reference each other
+ListDestinationsOkResponse.model_rebuild()
+Destinations.model_rebuild()
+ListPackagesOkResponse.model_rebuild()
+Packages.model_rebuild()
+CreatePurchaseV2Request.model_rebuild()
+CreatePurchaseV2OkResponse.model_rebuild()
+CreatePurchaseV2OkResponsePurchase.model_rebuild()
+CreatePurchaseV2OkResponseProfile.model_rebuild()
+ListPurchasesOkResponse.model_rebuild()
+Purchases.model_rebuild()
+CreatePurchaseRequest.model_rebuild()
+CreatePurchaseOkResponse.model_rebuild()
+CreatePurchaseOkResponsePurchase.model_rebuild()
+CreatePurchaseOkResponseProfile.model_rebuild()
+TopUpEsimRequest.model_rebuild()
+TopUpEsimOkResponse.model_rebuild()
+TopUpEsimOkResponsePurchase.model_rebuild()
+TopUpEsimOkResponseProfile.model_rebuild()
+EditPurchaseRequest.model_rebuild()
+EditPurchaseOkResponse.model_rebuild()
+GetPurchaseConsumptionOkResponse.model_rebuild()
+GetEsimOkResponse.model_rebuild()
+GetEsimOkResponseEsim.model_rebuild()
+GetEsimDeviceOkResponse.model_rebuild()
+Device.model_rebuild()
+GetEsimHistoryOkResponse.model_rebuild()
+GetEsimHistoryOkResponseEsim.model_rebuild()
+TokenOkResponse.model_rebuild()
+OAuthTokenRequest.model_rebuild()
+OAuthTokenResponse.model_rebuild()
