@@ -1,8 +1,8 @@
-from .utils.json_map import JsonMap
+from pydantic import Field
+from typing import Optional
 from .utils.base_model import BaseModel
 
 
-@JsonMap({})
 class TokenOkResponse(BaseModel):
     """TokenOkResponse
 
@@ -10,11 +10,4 @@ class TokenOkResponse(BaseModel):
     :type token: str
     """
 
-    def __init__(self, token: str, **kwargs):
-        """TokenOkResponse
-
-        :param token: The generated token
-        :type token: str
-        """
-        self.token = self._define_str("token", token)
-        self._kwargs = kwargs
+    token: str = Field(description="The generated token")

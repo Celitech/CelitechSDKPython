@@ -1,7 +1,8 @@
-from typing import List, Union
+from typing import Any, Optional, List, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
@@ -28,9 +29,82 @@ class PurchasesService(BaseService):
     Inherits common functionality from BaseService including authentication and request handling.
     """
 
+    def __init__(self, *args, **kwargs):
+        """Initialize the service and method-level configurations."""
+        super().__init__(*args, **kwargs)
+        self._create_purchase_v2_config: SdkConfig = {}
+        self._list_purchases_config: SdkConfig = {}
+        self._create_purchase_config: SdkConfig = {}
+        self._top_up_esim_config: SdkConfig = {}
+        self._edit_purchase_config: SdkConfig = {}
+        self._get_purchase_consumption_config: SdkConfig = {}
+
+    def set_create_purchase_v2_config(self, config: SdkConfig):
+        """
+        Sets method-level configuration for create_purchase_v2.
+
+        :param SdkConfig config: Configuration dictionary to override service-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._create_purchase_v2_config = config
+        return self
+
+    def set_list_purchases_config(self, config: SdkConfig):
+        """
+        Sets method-level configuration for list_purchases.
+
+        :param SdkConfig config: Configuration dictionary to override service-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._list_purchases_config = config
+        return self
+
+    def set_create_purchase_config(self, config: SdkConfig):
+        """
+        Sets method-level configuration for create_purchase.
+
+        :param SdkConfig config: Configuration dictionary to override service-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._create_purchase_config = config
+        return self
+
+    def set_top_up_esim_config(self, config: SdkConfig):
+        """
+        Sets method-level configuration for top_up_esim.
+
+        :param SdkConfig config: Configuration dictionary to override service-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._top_up_esim_config = config
+        return self
+
+    def set_edit_purchase_config(self, config: SdkConfig):
+        """
+        Sets method-level configuration for edit_purchase.
+
+        :param SdkConfig config: Configuration dictionary to override service-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._edit_purchase_config = config
+        return self
+
+    def set_get_purchase_consumption_config(self, config: SdkConfig):
+        """
+        Sets method-level configuration for get_purchase_consumption.
+
+        :param SdkConfig config: Configuration dictionary to override service-level defaults.
+        :return: The service instance for method chaining.
+        """
+        self._get_purchase_consumption_config = config
+        return self
+
     @cast_models
     def create_purchase_v2(
-        self, request_body: CreatePurchaseV2Request
+        self,
+        request_body: CreatePurchaseV2Request,
+        *,
+        request_config: Optional[SdkConfig] = None,
     ) -> List[CreatePurchaseV2OkResponse]:
         """This endpoint is used to purchase a new eSIM by providing the package details.
 
@@ -45,9 +119,15 @@ class PurchasesService(BaseService):
 
         Validator(CreatePurchaseV2Request).validate(request_body)
 
+        resolved_config = self._get_resolved_config(
+            self._create_purchase_v2_config, request_config
+        )
+
         serialized_request = (
             Serializer(
-                f"{self.base_url or Environment.DEFAULT.url}/purchases/v2",
+                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/v2",
+                [],
+                resolved_config,
             )
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
@@ -58,7 +138,7 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return [CreatePurchaseV2OkResponse._unmap(item) for item in response]
+        return [CreatePurchaseV2OkResponse.model_validate(item) for item in response]
 
     @cast_models
     def list_purchases(
@@ -73,6 +153,8 @@ class PurchasesService(BaseService):
         limit: float = SENTINEL,
         after: float = SENTINEL,
         before: float = SENTINEL,
+        *,
+        request_config: Optional[SdkConfig] = None,
     ) -> ListPurchasesOkResponse:
         """This endpoint can be used to list all the successful purchases made between a given interval.
 
@@ -114,9 +196,15 @@ class PurchasesService(BaseService):
         Validator(float).is_optional().validate(after)
         Validator(float).is_optional().validate(before)
 
+        resolved_config = self._get_resolved_config(
+            self._list_purchases_config, request_config
+        )
+
         serialized_request = (
             Serializer(
-                f"{self.base_url or Environment.DEFAULT.url}/purchases",
+                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases",
+                [],
+                resolved_config,
             )
             .add_query("purchaseId", purchase_id)
             .add_query("iccid", iccid)
@@ -136,11 +224,14 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return ListPurchasesOkResponse._unmap(response)
+        return ListPurchasesOkResponse.model_validate(response)
 
     @cast_models
     def create_purchase(
-        self, request_body: CreatePurchaseRequest
+        self,
+        request_body: CreatePurchaseRequest,
+        *,
+        request_config: Optional[SdkConfig] = None,
     ) -> CreatePurchaseOkResponse:
         """This endpoint is used to purchase a new eSIM by providing the package details.
 
@@ -155,9 +246,15 @@ class PurchasesService(BaseService):
 
         Validator(CreatePurchaseRequest).validate(request_body)
 
+        resolved_config = self._get_resolved_config(
+            self._create_purchase_config, request_config
+        )
+
         serialized_request = (
             Serializer(
-                f"{self.base_url or Environment.DEFAULT.url}/purchases",
+                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases",
+                [],
+                resolved_config,
             )
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
@@ -168,10 +265,15 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return CreatePurchaseOkResponse._unmap(response)
+        return CreatePurchaseOkResponse.model_validate(response)
 
     @cast_models
-    def top_up_esim(self, request_body: TopUpEsimRequest) -> TopUpEsimOkResponse:
+    def top_up_esim(
+        self,
+        request_body: TopUpEsimRequest,
+        *,
+        request_config: Optional[SdkConfig] = None,
+    ) -> TopUpEsimOkResponse:
         """This endpoint is used to top-up an existing eSIM with the previously associated destination by providing its ICCID and package details. To determine if an eSIM can be topped up, use the Get eSIM endpoint, which returns the `isTopUpAllowed` flag.
 
         :param request_body: The request body.
@@ -185,9 +287,15 @@ class PurchasesService(BaseService):
 
         Validator(TopUpEsimRequest).validate(request_body)
 
+        resolved_config = self._get_resolved_config(
+            self._top_up_esim_config, request_config
+        )
+
         serialized_request = (
             Serializer(
-                f"{self.base_url or Environment.DEFAULT.url}/purchases/topup",
+                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/topup",
+                [],
+                resolved_config,
             )
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
@@ -198,20 +306,16 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return TopUpEsimOkResponse._unmap(response)
+        return TopUpEsimOkResponse.model_validate(response)
 
     @cast_models
     def edit_purchase(
-        self, request_body: EditPurchaseRequest
+        self,
+        request_body: EditPurchaseRequest,
+        *,
+        request_config: Optional[SdkConfig] = None,
     ) -> EditPurchaseOkResponse:
-        """This endpoint allows you to modify the validity dates of an existing purchase.
-
-        **Behavior:**
-        - If the purchase has **not yet been activated**, both the start and end dates can be updated.
-        - If the purchase is **already active**, only the **end date** can be updated, while the **start date must remain unchanged** (and should be passed as originally set).
-        - Updates must comply with the same pricing structure; the modification cannot alter the package size or change its duration category.
-
-        The end date can be extended or shortened as long as it adheres to the same pricing category and does not exceed the allowed duration limits.
+        """This endpoint allows you to modify the validity dates of an existing purchase. **Behavior:** - If the purchase has **not yet been activated**, both the start and end dates can be updated. - If the purchase is **already active**, only the **end date** can be updated, while the **start date must remain unchanged** (and should be passed as originally set). - Updates must comply with the same pricing structure; the modification cannot alter the package size or change its duration category. The end date can be extended or shortened as long as it adheres to the same pricing category and does not exceed the allowed duration limits.
 
         :param request_body: The request body.
         :type request_body: EditPurchaseRequest
@@ -224,9 +328,15 @@ class PurchasesService(BaseService):
 
         Validator(EditPurchaseRequest).validate(request_body)
 
+        resolved_config = self._get_resolved_config(
+            self._edit_purchase_config, request_config
+        )
+
         serialized_request = (
             Serializer(
-                f"{self.base_url or Environment.DEFAULT.url}/purchases/edit",
+                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/edit",
+                [],
+                resolved_config,
             )
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
@@ -237,11 +347,11 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return EditPurchaseOkResponse._unmap(response)
+        return EditPurchaseOkResponse.model_validate(response)
 
     @cast_models
     def get_purchase_consumption(
-        self, purchase_id: str
+        self, purchase_id: str, *, request_config: Optional[SdkConfig] = None
     ) -> GetPurchaseConsumptionOkResponse:
         """This endpoint can be called for consumption notifications (e.g. every 1 hour or when the user clicks a button). It returns the data balance (consumption) of purchased packages.
 
@@ -256,9 +366,15 @@ class PurchasesService(BaseService):
 
         Validator(str).validate(purchase_id)
 
+        resolved_config = self._get_resolved_config(
+            self._get_purchase_consumption_config, request_config
+        )
+
         serialized_request = (
             Serializer(
-                f"{self.base_url or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
+                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
+                [],
+                resolved_config,
             )
             .add_path("purchaseId", purchase_id)
             .add_error(400, BadRequest)
@@ -269,4 +385,4 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return GetPurchaseConsumptionOkResponse._unmap(response)
+        return GetPurchaseConsumptionOkResponse.model_validate(response)
