@@ -45,7 +45,7 @@ class Serializer:
         self.errors: dict[int, ApiError] = {}
         self.config: Optional["SdkConfig"] = config
 
-        self.headers["User-Agent"] = "postman-codegen/1.1.2 celitech-sdk/2.0.0 (python)"
+        self.headers["User-Agent"] = "postman-codegen/1.3.3 celitech-sdk/2.0.1 (python)"
 
         # Apply default headers
         for header in default_headers:
