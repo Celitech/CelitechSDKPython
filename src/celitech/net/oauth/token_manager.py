@@ -77,7 +77,8 @@ class TokenManager:
         """
         has_all_scopes = self._token and self._token.scopes.issuperset(scopes)
         valid_token = self._token and (
-            self._token.expires_at is None or (self._token.expires_at - int(time())) > 5
+            self._token.expires_at is None
+            or (self._token.expires_at - int(time())) > 30
         )
         if has_all_scopes and valid_token:
             return self._token
@@ -108,7 +109,7 @@ class TokenManager:
         from ...services.o_auth import OAuthService
 
         service = OAuthService(base_url=self._base_oauth_url, token_manager=self)
-        return service.get_access_token(
+        return service.get_access_token_(
             request_body={
                 k: v
                 for k, v in {

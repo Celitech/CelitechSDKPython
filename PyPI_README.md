@@ -1,17 +1,21 @@
-# Celitech Python SDK 2.0.1<a id="celitech-python-sdk-201"></a>
+# Celitech Python SDK 2.0.0<a id="celitech-python-sdk-200"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions<a id="versions"></a>
 
-- API version: `2.0.1`
-- SDK version: `2.0.1`
+- API version: `2.0.0`
+- SDK version: `2.0.0`
 
 ## About the API<a id="about-the-api"></a>
 
 Welcome to the CELITECH API documentation!
 
 Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)
+
+Contact Support:
+Name: CELITECH
+Email: support@celitech.com
 
 ## Table of Contents<a id="table-of-contents"></a>
 
@@ -104,7 +108,7 @@ sdk = Celitech(
     client_secret="CLIENT_SECRET"
 )
 
-result = sdk.destinations.list_destinations()
+result = sdk.celitech.list_destinations()
 
 print(result)
 
@@ -125,7 +129,7 @@ sdk = CelitechAsync(
 
 
 async def main():
-  result = await sdk.destinations.list_destinations()
+  result = await sdk.celitech.list_destinations()
   print(result)
 
 asyncio.run(main())
@@ -138,13 +142,9 @@ The SDK provides various services to interact with the API.
 <details> 
 <summary>Below is a list of all available services:</summary>
 
-| Name         |
-| :----------- |
-| destinations |
-| packages     |
-| purchases    |
-| e_sim        |
-| i_frame      |
+| Name     |
+| :------- |
+| celitech |
 
 </details>
 
@@ -155,27 +155,13 @@ The SDK includes several models that represent the data structures used in API r
 <details> 
 <summary>Below is a list of all available models:</summary>
 
-| Name                             | Description |
-| :------------------------------- | :---------- |
-| ListDestinationsOkResponse       |             |
-| ListPackagesOkResponse           |             |
-| CreatePurchaseV2Request          |             |
-| CreatePurchaseV2OkResponse       |             |
-| ListPurchasesOkResponse          |             |
-| CreatePurchaseRequest            |             |
-| CreatePurchaseOkResponse         |             |
-| TopUpEsimRequest                 |             |
-| TopUpEsimOkResponse              |             |
-| EditPurchaseRequest              |             |
-| EditPurchaseOkResponse           |             |
-| GetPurchaseConsumptionOkResponse |             |
-| GetEsimOkResponse                |             |
-| GetEsimDeviceOkResponse          |             |
-| GetEsimHistoryOkResponse         |             |
-| TokenOkResponse                  |             |
-| GrantType                        |             |
-| BadRequest                       |             |
-| Unauthorized                     |             |
+| Name                    | Description |
+| :---------------------- | :---------- |
+| CreatePurchaseV2Request |             |
+| TopUpESimRequest        |             |
+| EditPurchaseRequest     |             |
+| CreatePurchaseRequest   |             |
+| GrantType               |             |
 
 </details>
 
