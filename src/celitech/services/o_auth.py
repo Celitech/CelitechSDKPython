@@ -18,26 +18,26 @@ class OAuthService(BaseService):
     def __init__(self, *args, **kwargs):
         """Initialize the service and method-level configurations."""
         super().__init__(*args, **kwargs)
-        self._get_access_token_config: SdkConfig = {}
+        self._get_access_token__config: SdkConfig = {}
 
-    def set_get_access_token_config(self, config: SdkConfig):
+    def set_get_access_token__config(self, config: SdkConfig):
         """
-        Sets method-level configuration for get_access_token.
+        Sets method-level configuration for get_access_token_.
 
         :param SdkConfig config: Configuration dictionary to override service-level defaults.
         :return: The service instance for method chaining.
         """
-        self._get_access_token_config = config
+        self._get_access_token__config = config
         return self
 
     @cast_models
-    def get_access_token(
+    def get_access_token_(
         self,
         request_body: OAuthTokenRequest,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> OAuthTokenResponse:
-        """get_access_token
+        """get_access_token_
 
         :param request_body: The request body.
         :type request_body: OAuthTokenRequest
@@ -51,7 +51,7 @@ class OAuthService(BaseService):
         Validator(OAuthTokenRequest).validate(request_body)
 
         resolved_config = self._get_resolved_config(
-            self._get_access_token_config, request_config
+            self._get_access_token__config, request_config
         )
 
         serialized_request = (
