@@ -108,7 +108,7 @@ class TokenManager:
         from ...services.o_auth import OAuthService
 
         service = OAuthService(base_url=self._base_oauth_url, token_manager=self)
-        return service.get_access_token(
+        return service.get_access_token_(
             request_body={
                 k: v
                 for k, v in {
