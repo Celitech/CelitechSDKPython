@@ -10,12 +10,12 @@ class OAuthServiceAsync(OAuthService):
     Async Wrapper for OAuthServiceAsync
     """
 
-    def get_access_token(
+    def get_access_token_(
         self,
         request_body: OAuthTokenRequest,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> Awaitable[OAuthTokenResponse]:
-        return to_async(super().get_access_token)(
+        return to_async(super().get_access_token_)(
             request_body, request_config=request_config
         )
