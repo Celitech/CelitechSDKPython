@@ -1,6 +1,6 @@
 {
   "sdkGenVersion": "1.4.0",
-  "date": "2026-06-08T09:39:30.243Z",
+  "date": "2026-06-15T08:44:16.745Z",
   "config": {
     "languages": [
       "python"
@@ -10,7 +10,7 @@
     ],
     "languageOptions": {
       "java": {
-        "sdkVersion": "2.0.2",
+        "sdkVersion": "2.0.3",
         "githubRepoName": "CelitechSDKJava",
         "retry": {
           "enabled": true,
@@ -58,7 +58,7 @@
         ]
       },
       "typescript": {
-        "sdkVersion": "2.0.2",
+        "sdkVersion": "2.0.3",
         "githubRepoName": "CelitechSDKTypeScript",
         "retry": {
           "enabled": true,
@@ -96,7 +96,7 @@
         "npmName": "celitech-sdk"
       },
       "python": {
-        "sdkVersion": "2.0.2",
+        "sdkVersion": "2.0.3",
         "githubRepoName": "CelitechSDKPython",
         "retry": {
           "enabled": true,
@@ -134,7 +134,7 @@
         "pypiPackageName": "celitech-sdk"
       },
       "go": {
-        "sdkVersion": "2.0.2",
+        "sdkVersion": "2.0.3",
         "githubRepoName": "CelitechSDKGo",
         "retry": {
           "enabled": true,
@@ -172,7 +172,7 @@
         "goModuleName": "github.com/Celitech/CelitechSDKGo/v2"
       },
       "csharp": {
-        "sdkVersion": "2.0.2",
+        "sdkVersion": "2.0.3",
         "githubRepoName": "CelitechSDKCSharp",
         "retry": {
           "enabled": true,
@@ -211,7 +211,7 @@
         "useOptionalWrapper": false
       },
       "php": {
-        "sdkVersion": "2.0.2",
+        "sdkVersion": "2.0.3",
         "githubRepoName": "CelitechSDKPHP",
         "retry": {
           "enabled": true,
@@ -252,11 +252,11 @@
     "includeWatermark": false,
     "responseHeaders": false,
     "sdkName": "Celitech",
-    "sdkVersion": "2.0.2",
+    "sdkVersion": "2.0.3",
     "auth": [
       "oauth"
     ],
-    "apiVersion": "2.0.2",
+    "apiVersion": "2.0.3",
     "publishing": {
       "githubOrg": "Celitech"
     },
@@ -457,8 +457,8 @@
     ".env.example": "f0205d8c60f02fb15a9472298dcd53adfb7bce5a6b5a97213285f3daa079e787",
     ".gitignore": "6bbf1931dedfa978c086f704675227391491eeb602840bea6d83e20394768b77",
     "LICENSE": "3ec558dc6e9c9355ab4b28c942caa92bf90b0b82c12d7838d2ef92467ad135c1",
-    "PyPI_README.md": "82dde4a18647ed9b79922d72b20523dc40ff8e4c41c15becf763be919fdc2d20",
-    "README.md": "dded0c90cba12d598a16521319cd9aee7478cd7c231a79ac903d35b5edbdae6d",
+    "PyPI_README.md": "95c1238da2472e8bf8c9811cbb23198a4f95b5bd046ba7657d1ce3f6f36c5134",
+    "README.md": "7b1035e8ae9b8ffa29645aa993b29dad5234030e48cb75bdcaee17109eae4e64",
     "documentation/models/BadRequest.md": "a37bac06a0d048ce1be90cdcebac0437939e9e717b1fb3b99394c2243d3d03da",
     "documentation/models/CreatePurchaseOkResponse.md": "3ae6b8a8162f44b7013b571780acbaa0b7e4fd1f1aa880d3afe097e6f294c9b5",
     "documentation/models/CreatePurchaseRequest.md": "83aa2d72fe78e91fa17adc33f3ce2016de549fc73e3e6d7e179264a28037c5b2",
@@ -485,13 +485,13 @@
     "documentation/services/PurchasesService.md": "24e4504c2fd1b7dd053919d2c31b45222119d09a91b6586c903757a3534f443e",
     "documentation/snippets/snippets.json": "41ac1f66511c5284707678c45b31a9dbfcfa1b22d1de1e80ee82aeafdb438c45",
     "examples/.env.example": "f0205d8c60f02fb15a9472298dcd53adfb7bce5a6b5a97213285f3daa079e787",
-    "examples/install.cmd": "02d2a169afbd142e3a1f1269909694dff8de4af03f56f45ffc48afc8ba2f8abd",
-    "examples/install.sh": "243f0f67a533c5e27cfdc2df7316a39a4117d89335843f27284a366808fdaa7d",
+    "examples/install.cmd": "d0a32296e09839b03c2e3408cc4deda8e6d30cc7ec48478d063d1d2e28b5ea7f",
+    "examples/install.sh": "dfdc417e0e0f3afde7c6af52e332928cb33cfbad43678201875735264198538d",
     "examples/sample.py": "5480166d530d7706e885a6cdfa79984d1a89ba39914861ba9cd15acfb3658f3e",
-    "install.cmd": "57e1452abf656b840dac7b69ea3a6e5f915ee7c31b084c7e767ffbd9286a9585",
-    "install.sh": "1f652d20eaf09e7514cfcd7b30f0e41b182c4b646c713b72789d943c65f6605e",
+    "install.cmd": "47341c52939cb599a329e6bf65b328e3d3b3bbe6dd2f14f06c03b4ce5af505b4",
+    "install.sh": "c17f4216e4d54a45c667d304478abdbaecac48add0c987e2ebe38c8754da12a2",
     "prettier.config.js": "2fe33fda52344779fcf235afa8152cfd356880dc3161da09403dc26231bc72d9",
-    "pyproject.toml": "6652c3a68d9cd538b7ee38e846af50da31c50cbd6abed9225cc6a6fc2e73bd7f",
+    "pyproject.toml": "270a0061cb8d942cc848b769b58aa1dccd3d0eee22a7139e1e609559c2fa80b6",
     "src/celitech/__init__.py": "2fca372a615fdd5964b6f60000cf29975a60c61d92b017bfc59397d442f6c30a",
     "src/celitech/models/__init__.py": "0595d7ae9ff6b7d2c5b96094975adb4f103d5369619d8068b454a82c323ecb57",
     "src/celitech/models/bad_request.py": "e1bc6d40a2c9a470d91b0aee80ef511109778a2d1d9a76130ea64ff7ca533307",
@@ -541,7 +541,7 @@
     "src/celitech/net/transport/request.py": "d04b817c76eee3b345c2c97db44223c1475ad55599faaa3cebb2a8b39b026eba",
     "src/celitech/net/transport/request_error.py": "962c1e627288694eb31644f85474f32a540367c382b34119e74adfc52d7fdf06",
     "src/celitech/net/transport/response.py": "27b0834b80f907aab8a7d2c91e4e6c6646fdad69ce67eece63c8af8cc8bcc4a1",
-    "src/celitech/net/transport/serializer.py": "64cf91acc1475745d27e5ed39c30238bbc5540b61cf5e4d4eb5623ac716cb92f",
+    "src/celitech/net/transport/serializer.py": "ad6cf5e0afccdf53f026a90c493abfdae7a5758dd0362fbf2ab0522f49544ba7",
     "src/celitech/net/transport/utils.py": "734ea9f9838b85ca9a0b7d8d82c65b56f73324fb02bd9693a60f1b54e4f085da",
     "src/celitech/sdk.py": "09eaeffdf41be0367d11131fc196b7ee2a3545f8e6e759a8d0e1542f24adc45a",
     "src/celitech/sdk_async.py": "6097a9f77556de9027eb0ea143796b0f2a540412146846d17948639c7b7d8dac",
