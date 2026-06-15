@@ -1,11 +1,11 @@
-# Celitech Python SDK 2.0.2<a id="celitech-python-sdk-202"></a>
+# Celitech Python SDK 2.0.3<a id="celitech-python-sdk-203"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions<a id="versions"></a>
 
-- API version: `2.0.2`
-- SDK version: `2.0.2`
+- API version: `2.0.3`
+- SDK version: `2.0.3`
 
 ## About the API<a id="about-the-api"></a>
 
