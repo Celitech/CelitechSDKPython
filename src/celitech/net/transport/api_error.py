@@ -25,3 +25,12 @@ class ApiError(Exception):
         self.message = message
         self.status = status
         self.response = response
+        super().__init__(message)
+
+    def __str__(self) -> str:
+        parts = []
+        if self.status is not None:
+            parts.append(f"status={self.status}")
+        if self.message:
+            parts.append(self.message)
+        return ": ".join(parts)

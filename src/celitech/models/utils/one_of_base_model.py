@@ -68,6 +68,13 @@ class OneOfBaseModel:
         :return: An instance of the class if the input data matches the class constructor
             or can be used to initialize the class, None otherwise.
         """
+        # `Union[..., Any]` / `Optional[Any]` propagate `typing.Any` through
+        # `class_list`. `isinstance(..., Any)` raises, so short-circuit and
+        # pass the data through — `Any` in a oneOf means the branch accepts
+        # anything by definition.
+        if class_constructor is Any:
+            return input_data
+
         # Check if the class is only a TypeHint.
         origin = get_origin(class_constructor)
         if origin is not None and isinstance(input_data, list):
@@ -107,6 +114,11 @@ class OneOfBaseModel:
             return None
 
         inner_type = args[0]
+
+        # `List[Any]` inside a oneOf branch — every item satisfies it by
+        # definition, and `isinstance(item, Any)` would raise.
+        if inner_type is Any:
+            return input_data
 
         if not all(isinstance(item, inner_type) for item in input_data):
             return [inner_type._unmap(item) for item in input_data]

@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "celitech-sdk"
-version = "2.0.2"
+version = "2.0.0"
 license = { text = "MIT" }
-description = """Welcome to the CELITECH API documentation!\n\nUseful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)\n"""
+description = """Welcome to the CELITECH API documentation!\n\nUseful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)\n\n\nContact Support:\n Name: CELITECH\n Email: support@celitech.com"""
 readme = "PyPI_README.md"
 requires-python = ">=3.9"
 dependencies = [
