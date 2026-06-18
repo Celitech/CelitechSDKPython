@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import get_args, Union
+from typing import Any, get_args, Union
 from inspect import isclass
 from .one_of_base_model import OneOfBaseModel
 from pydantic import ValidationError
@@ -40,6 +40,14 @@ def cast_models(func):
         :param input_type: The type of the input.
         :return: The instanced type.
         """
+        # `typing.Any` means "no validation" — pass the data through
+        # unchanged. Without this guard, downstream branches eventually
+        # call `isinstance(data, Any)`, which raises
+        # `TypeError: typing.Any cannot be used with isinstance()` and
+        # crashes any method whose annotation propagates an Any-schema.
+        if input_type is Any:
+            return data
+
         # Instanciate oneOf models
         if _is_one_of_model(input_type):
             class_list = {
@@ -72,6 +80,11 @@ def cast_models(func):
         # Instanciate list of object models
         elif isinstance(data, list) and all(isinstance(i, dict) for i in data):
             element_type = get_args(input_type)[0]
+            # `List[Any]` — no per-item validation, just return the list as-is.
+            # Otherwise the else-branch would call `Any(**item)` which raises
+            # `TypeError: Cannot instantiate typing.Any`.
+            if element_type is Any:
+                return data
             # Pydantic models: use model_validate() for each item
             if hasattr(element_type, "model_validate"):
                 try:
