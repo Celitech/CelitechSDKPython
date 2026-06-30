@@ -147,6 +147,13 @@ class HttpHandler(BaseHandler):
         :rtype: dict
         """
         headers = request.headers or {}
+
+        # No body was set on the request (the operation declares no requestBody).
+        # Sending an empty JSON payload would force a Content-Type the endpoint
+        # never advertises, which strict servers reject with HTTP 415.
+        if request.body is None:
+            return {}
+
         data = request.body or {}
         content_type = headers.get("Content-Type", "application/json")
 

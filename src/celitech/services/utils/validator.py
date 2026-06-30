@@ -194,6 +194,12 @@ class Validator:
         :param Any value: The input that needs to be checked
         :raises ValueError: If the value does not match the expected type.
         """
+        # `Any` is a typing special form, not a runtime class — passing it
+        # to isinstance() raises TypeError. Treat Any-typed fields as
+        # "always match" so models with `field: Any` validate without
+        # crashing on every snippet that touches them.
+        if self._type is Any:
+            return True
         is_numeric = self._type is float and isinstance(value, int)
         if isinstance(value, self._type) or is_numeric:
             return True
