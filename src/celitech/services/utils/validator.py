@@ -1,6 +1,8 @@
 import re
 import operator
-from typing import Union, Any, Type, Pattern, get_args
+from enum import Enum
+from inspect import isclass
+from typing import Union, Any, Type, Pattern, get_args, get_origin
 from ...models.utils.sentinel import was_value_set
 from ...models.utils.one_of_base_model import OneOfBaseModel
 
@@ -194,8 +196,41 @@ class Validator:
         :param Any value: The input that needs to be checked
         :raises ValueError: If the value does not match the expected type.
         """
-        is_numeric = self._type is float and isinstance(value, int)
-        if isinstance(value, self._type) or is_numeric:
+        # `Any` is a typing special form, not a runtime class — passing it
+        # to isinstance() raises TypeError. Treat Any-typed fields as
+        # "always match" so models with `field: Any` validate without
+        # crashing on every snippet that touches them.
+        if self._type is Any:
+            return True
+        # Subscripted generics (e.g. List[str], Dict[str, int]) cannot be passed
+        # to isinstance() — it raises "TypeError: Subscripted generics cannot be
+        # used with class and instance checks". Fall back to the runtime origin
+        # class (list, dict, ...) for the check.
+        check_type = get_origin(self._type) or self._type
+        if check_type is Any:
+            return True
+        # A subscripted Union (e.g. a list of `Union[str, int]`) reaches here as
+        # `typing.Union`, which also can't be passed to isinstance(). Match the
+        # value against any of the union's member types instead.
+        if check_type is Union:
+            return any(
+                Validator(arg)._match_type(value) for arg in get_args(self._type)
+            )
+        # Enum-typed fields accept either an enum member or any of the enum's
+        # underlying values (e.g. the raw string a snippet passes), so a plain
+        # value isn't rejected with "Invalid type: Expected <enum ...>".
+        if isclass(check_type) and issubclass(check_type, Enum):
+            if isinstance(value, check_type):
+                return True
+            try:
+                check_type(value)
+                return True
+            except (ValueError, TypeError):
+                # ValueError: not a valid enum value. TypeError: unhashable
+                # value (e.g. a list/dict) can't be looked up in the enum.
+                return False
+        is_numeric = check_type is float and isinstance(value, int)
+        if isinstance(value, check_type) or is_numeric:
             return True
         return False
 

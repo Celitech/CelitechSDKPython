@@ -1,4 +1,4 @@
-from typing import Awaitable, Optional
+from typing import Awaitable, Optional, Any
 from .utils.to_async import to_async
 from ..o_auth import OAuthService
 from ...net.sdk_config import SdkConfig

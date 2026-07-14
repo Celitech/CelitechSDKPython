@@ -10,6 +10,7 @@ class Environment(Enum):
     """The environments available for the SDK"""
 
     DEFAULT = "https://api.celitech.net/v1"
+    API = "https://api.celitech.net/v1"
 
     def __new__(cls, url):
         parsed_url = urlparse(url)

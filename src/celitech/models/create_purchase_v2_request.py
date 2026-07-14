@@ -1,119 +1,58 @@
-from enum import Enum
+from __future__ import annotations
 from pydantic import Field
 from typing import Optional
+from typing import Any
+from typing import Union
 from .utils.base_model import BaseModel
-
-
-class CreatePurchaseV2RequestLanguage(str, Enum):
-    """An enumeration representing different categories.
-
-    :cvar EN: "en"
-    :vartype EN: str
-    :cvar ES: "es"
-    :vartype ES: str
-    :cvar FR: "fr"
-    :vartype FR: str
-    :cvar DE: "de"
-    :vartype DE: str
-    :cvar PTBR: "pt-br"
-    :vartype PTBR: str
-    """
-
-    EN = "en"
-    ES = "es"
-    FR = "fr"
-    DE = "de"
-    PTBR = "pt-br"
-
-    @staticmethod
-    def list():
-        """Lists all enum values.
-
-        :return: A list of all enum values.
-        :rtype: list
-        """
-        return list(
-            map(
-                lambda x: x.value, CreatePurchaseV2RequestLanguage._member_map_.values()
-            )
-        )
 
 
 class CreatePurchaseV2Request(BaseModel):
     """CreatePurchaseV2Request
 
-    :param destination: ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes.
-    :type destination: str
-    :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20, 50GB
-    :type data_limit_in_gb: float
-    :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
+    :param destination: destination, defaults to None
+    :type destination: str, optional
+    :param data_limit_in_gb: data_limit_in_gb, defaults to None
+    :type data_limit_in_gb: float, optional
+    :param quantity: quantity, defaults to None
+    :type quantity: float, optional
+    :param start_date: start_date, defaults to None
     :type start_date: str, optional
-    :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
+    :param end_date: end_date, defaults to None
     :type end_date: str, optional
-    :param duration: Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration., defaults to None
+    :param duration: duration, defaults to None
     :type duration: float, optional
-    :param quantity: Number of eSIMs to purchase.
-    :type quantity: float
-    :param email: Email address where the purchase confirmation email will be sent (including QR Code & activation steps), defaults to None
+    :param email: email, defaults to None
     :type email: str, optional
-    :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
+    :param reference_id: reference_id, defaults to None
     :type reference_id: str, optional
-    :param network_brand: Customize the network brand of the issued eSIM. The `networkBrand` parameter cannot exceed 15 characters in length and must contain only letters, numbers, dots (.), ampersands (&), and spaces. This feature is available to platforms with Diamond tier only., defaults to None
+    :param network_brand: network_brand, defaults to None
     :type network_brand: str, optional
-    :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
+    :param email_brand: email_brand, defaults to None
     :type email_brand: str, optional
-    :param language: Language of the confirmation email sent to the customer., defaults to None
-    :type language: CreatePurchaseV2RequestLanguage, optional
+    :param language: language, defaults to None
+    :type language: str, optional
     """
 
-    destination: str = Field(
-        description="ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes."
+    destination: Optional[str] = Field(default=None)
+    data_limit_in_gb: Optional[float] = Field(
+        alias="dataLimitInGB", serialization_alias="dataLimitInGB", default=None
     )
-    data_limit_in_gb: float = Field(
-        alias="dataLimitInGB",
-        serialization_alias="dataLimitInGB",
-        description="Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20, 50GB",
-    )
+    quantity: Optional[float] = Field(default=None)
     start_date: Optional[str] = Field(
-        alias="startDate",
-        serialization_alias="startDate",
-        default=None,
-        description="Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months.",
+        alias="startDate", serialization_alias="startDate", default=None
     )
     end_date: Optional[str] = Field(
-        alias="endDate",
-        serialization_alias="endDate",
-        default=None,
-        description="End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date.",
+        alias="endDate", serialization_alias="endDate", default=None
     )
-    duration: Optional[float] = Field(
-        default=None,
-        description="Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration.",
-    )
-    quantity: float = Field(description="Number of eSIMs to purchase.", ge=1, le=5)
-    email: Optional[str] = Field(
-        default=None,
-        description="Email address where the purchase confirmation email will be sent (including QR Code & activation steps)",
-    )
+    duration: Optional[float] = Field(default=None)
+    email: Optional[str] = Field(default=None)
     reference_id: Optional[str] = Field(
-        alias="referenceId",
-        serialization_alias="referenceId",
-        default=None,
-        description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes.",
+        alias="referenceId", serialization_alias="referenceId", default=None
     )
     network_brand: Optional[str] = Field(
-        alias="networkBrand",
-        serialization_alias="networkBrand",
-        default=None,
-        description="Customize the network brand of the issued eSIM. The `networkBrand` parameter cannot exceed 15 characters in length and must contain only letters, numbers, dots (.), ampersands (&), and spaces. This feature is available to platforms with Diamond tier only.",
+        alias="networkBrand", serialization_alias="networkBrand", default=None
     )
     email_brand: Optional[str] = Field(
-        alias="emailBrand",
-        serialization_alias="emailBrand",
-        default=None,
-        description="Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only.",
+        alias="emailBrand", serialization_alias="emailBrand", default=None
     )
-    language: Optional[CreatePurchaseV2RequestLanguage] = Field(
-        default=None,
-        description="Language of the confirmation email sent to the customer.",
-    )
+    language: Optional[str] = Field(default=None)

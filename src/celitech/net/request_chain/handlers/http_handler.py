@@ -147,11 +147,25 @@ class HttpHandler(BaseHandler):
         :rtype: dict
         """
         headers = request.headers or {}
+
+        # No body was set on the request (the operation declares no requestBody).
+        # Sending an empty JSON payload would force a Content-Type the endpoint
+        # never advertises, which strict servers reject with HTTP 415.
+        if request.body is None:
+            return {}
+
         data = request.body or {}
         content_type = headers.get("Content-Type", "application/json")
 
         if request.method == "GET" and not data:
             return {}
+
+        # Raw binary bodies (e.g. application/octet-stream, file uploads) must be
+        # sent as-is. Routing them through `json=` crashes with
+        # "TypeError: Object of type bytes is not JSON serializable", regardless
+        # of what Content-Type the request defaulted to.
+        if isinstance(data, (bytes, bytearray)):
+            return {"data": data}
 
         if content_type.startswith("application/") and "json" in content_type:
             return {"json": data}
