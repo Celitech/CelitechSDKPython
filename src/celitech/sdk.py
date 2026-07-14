@@ -1,9 +1,5 @@
 from typing import Union
-from .services.destinations import DestinationsService
-from .services.packages import PackagesService
-from .services.purchases import PurchasesService
-from .services.e_sim import ESimService
-from .services.i_frame import IFrameService
+from .services.celitech import CelitechService
 from .net.environment import Environment
 from .net.oauth.token_manager import TokenManager
 
@@ -35,19 +31,7 @@ class Celitech:
             base_url.value if isinstance(base_url, Environment) else base_url
         )
         self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
-        self.destinations = DestinationsService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.packages = PackagesService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.purchases = PurchasesService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.e_sim = ESimService(
-            base_url=self._base_url, token_manager=self._token_manager
-        )
-        self.i_frame = IFrameService(
+        self.celitech = CelitechService(
             base_url=self._base_url, token_manager=self._token_manager
         )
         self.set_client_id(client_id)
@@ -66,11 +50,7 @@ class Celitech:
         )
         self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
 
-        self.destinations.set_base_url(self._base_url)
-        self.packages.set_base_url(self._base_url)
-        self.purchases.set_base_url(self._base_url)
-        self.e_sim.set_base_url(self._base_url)
-        self.i_frame.set_base_url(self._base_url)
+        self.celitech.set_base_url(self._base_url)
 
         return self
 
@@ -90,11 +70,7 @@ class Celitech:
         :param int timeout: The timeout (ms) to be set.
         :return: The SDK instance.
         """
-        self.destinations.set_timeout(timeout)
-        self.packages.set_timeout(timeout)
-        self.purchases.set_timeout(timeout)
-        self.e_sim.set_timeout(timeout)
-        self.i_frame.set_timeout(timeout)
+        self.celitech.set_timeout(timeout)
 
         return self
 

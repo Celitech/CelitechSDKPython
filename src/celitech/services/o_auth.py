@@ -66,4 +66,8 @@ class OAuthService(BaseService):
         )
 
         response, _, _ = self.send_request(serialized_request)
-        return OAuthTokenResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else OAuthTokenResponse.model_validate(response)
+        )
