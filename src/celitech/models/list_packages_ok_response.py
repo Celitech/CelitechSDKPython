@@ -1,6 +1,8 @@
+from __future__ import annotations
 from typing import List
 from pydantic import Field
 from typing import Optional
+from typing import Any
 from typing import Union
 from .utils.base_model import BaseModel
 
@@ -14,9 +16,9 @@ class Packages(BaseModel):
     :type destination: str
     :param destination_iso2: ISO2 representation of the package's destination.
     :type destination_iso2: str
-    :param data_limit_in_bytes: Size of the package in Bytes
+    :param data_limit_in_bytes: Size of the package in Bytes. A value of `-1` indicates an unlimited package.
     :type data_limit_in_bytes: float
-    :param data_limit_in_gb: Size of the package in GB
+    :param data_limit_in_gb: Size of the package in GB. A value of `-1` indicates an unlimited (date-based) package.
     :type data_limit_in_gb: float
     :param min_days: Min number of days for the package
     :type min_days: float
@@ -40,12 +42,12 @@ class Packages(BaseModel):
     data_limit_in_bytes: float = Field(
         alias="dataLimitInBytes",
         serialization_alias="dataLimitInBytes",
-        description="Size of the package in Bytes",
+        description="Size of the package in Bytes. A value of `-1` indicates an unlimited package.",
     )
     data_limit_in_gb: float = Field(
         alias="dataLimitInGB",
         serialization_alias="dataLimitInGB",
-        description="Size of the package in GB",
+        description="Size of the package in GB. A value of `-1` indicates an unlimited (date-based) package.",
     )
     min_days: float = Field(
         alias="minDays",

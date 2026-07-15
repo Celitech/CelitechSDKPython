@@ -11,13 +11,13 @@
 
 **Properties**
 
-| Name                | Type  | Required | Description                                       |
-| :------------------ | :---- | :------- | :------------------------------------------------ |
-| id\_                | str   | ✅       | ID of the package                                 |
-| destination         | str   | ✅       | ISO3 representation of the package's destination. |
-| destination_iso2    | str   | ✅       | ISO2 representation of the package's destination. |
-| data_limit_in_bytes | float | ✅       | Size of the package in Bytes                      |
-| data_limit_in_gb    | float | ✅       | Size of the package in GB                         |
-| min_days            | float | ✅       | Min number of days for the package                |
-| max_days            | float | ✅       | Max number of days for the package                |
-| price_in_cents      | float | ✅       | Price of the package in cents                     |
+| Name                | Type  | Required | Description                                                                             |
+| :------------------ | :---- | :------- | :-------------------------------------------------------------------------------------- |
+| id\_                | str   | ✅       | ID of the package                                                                       |
+| destination         | str   | ✅       | ISO3 representation of the package's destination.                                       |
+| destination_iso2    | str   | ✅       | ISO2 representation of the package's destination.                                       |
+| data_limit_in_bytes | float | ✅       | Size of the package in Bytes. A value of `-1` indicates an unlimited package.           |
+| data_limit_in_gb    | float | ✅       | Size of the package in GB. A value of `-1` indicates an unlimited (date-based) package. |
+| min_days            | float | ✅       | Min number of days for the package                                                      |
+| max_days            | float | ✅       | Max number of days for the package                                                      |
+| price_in_cents      | float | ✅       | Price of the package in cents                                                           |

@@ -138,7 +138,10 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return [CreatePurchaseV2OkResponse.model_validate(item) for item in response]
+        return [
+            CreatePurchaseV2OkResponse.model_validate(item)
+            for item in (response if isinstance(response, list) else [])
+        ]
 
     @cast_models
     def list_purchases(
@@ -224,7 +227,11 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return ListPurchasesOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else ListPurchasesOkResponse.model_validate(response)
+        )
 
     @cast_models
     def create_purchase(
@@ -265,7 +272,11 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return CreatePurchaseOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else CreatePurchaseOkResponse.model_validate(response)
+        )
 
     @cast_models
     def top_up_esim(
@@ -306,7 +317,11 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return TopUpEsimOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else TopUpEsimOkResponse.model_validate(response)
+        )
 
     @cast_models
     def edit_purchase(
@@ -347,7 +362,11 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return EditPurchaseOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else EditPurchaseOkResponse.model_validate(response)
+        )
 
     @cast_models
     def get_purchase_consumption(
@@ -385,4 +404,8 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return GetPurchaseConsumptionOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else GetPurchaseConsumptionOkResponse.model_validate(response)
+        )

@@ -61,4 +61,8 @@ class DestinationsService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return ListDestinationsOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else ListDestinationsOkResponse.model_validate(response)
+        )

@@ -32,6 +32,9 @@ def extract_original_data(data: Any) -> Any:
     if issubclass(data_type, Enum):
         return data.value
 
+    if issubclass(data_type, dict):
+        return {key: extract_original_data(value) for key, value in data.items()}
+
     if issubclass(data_type, list):
         return [extract_original_data(item) for item in data]
 

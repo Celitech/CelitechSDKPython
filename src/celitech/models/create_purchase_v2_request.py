@@ -1,6 +1,8 @@
+from __future__ import annotations
 from enum import Enum
 from pydantic import Field
 from typing import Optional
+from typing import Any
 from .utils.base_model import BaseModel
 
 
@@ -44,13 +46,13 @@ class CreatePurchaseV2Request(BaseModel):
 
     :param destination: ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes.
     :type destination: str
-    :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20, 50GB
+    :param data_limit_in_gb: Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20, 50GB. Use `-1` to purchase an unlimited (date-based) package — provide `startDate`/`endDate` spanning 3 to 30 days (`duration` is not supported for unlimited packages).
     :type data_limit_in_gb: float
     :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
     :type start_date: str, optional
     :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
     :type end_date: str, optional
-    :param duration: Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration., defaults to None
+    :param duration: Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration. Not supported for unlimited packages (`dataLimitInGB` = -1), which are date-based — provide startDate/endDate instead., defaults to None
     :type duration: float, optional
     :param quantity: Number of eSIMs to purchase.
     :type quantity: float
@@ -72,7 +74,7 @@ class CreatePurchaseV2Request(BaseModel):
     data_limit_in_gb: float = Field(
         alias="dataLimitInGB",
         serialization_alias="dataLimitInGB",
-        description="Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20, 50GB",
+        description="Size of the package in GB. The available options are 0.5, 1, 2, 3, 5, 8, 20, 50GB. Use `-1` to purchase an unlimited (date-based) package — provide `startDate`/`endDate` spanning 3 to 30 days (`duration` is not supported for unlimited packages).",
     )
     start_date: Optional[str] = Field(
         alias="startDate",
@@ -88,7 +90,7 @@ class CreatePurchaseV2Request(BaseModel):
     )
     duration: Optional[float] = Field(
         default=None,
-        description="Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration.",
+        description="Duration of the package in days. Available values are 1, 2, 7, 14, 30, or 90. Either provide startDate/endDate or duration. Not supported for unlimited packages (`dataLimitInGB` = -1), which are date-based — provide startDate/endDate instead.",
     )
     quantity: float = Field(description="Number of eSIMs to purchase.", ge=1, le=5)
     email: Optional[str] = Field(

@@ -24,6 +24,14 @@ class BaseModel(PydanticBaseModel):
         populate_by_name=True,
         # Arbitrary types allowed (for flexibility with custom types)
         arbitrary_types_allowed=False,
+        # Validate `Field(pattern=...)` constraints with Python's `re` engine
+        # instead of Pydantic's default Rust `regex` engine. The Rust engine
+        # rejects ALL look-around (`(?=…)`, `(?!…)`, `(?<=…)`, `(?<!…)`) with
+        # `SchemaError: regex parse error … look-around … is not supported`,
+        # crashing model import. OpenAPI `pattern`s frequently use look-ahead;
+        # Python's `re` supports it. Patterns are already normalised for `re`
+        # compatibility by translateRegexForPython at generation time.
+        regex_engine="python-re",
     )
 
     def model_dump_original(self, **kwargs: Any) -> Dict[str, Any]:
