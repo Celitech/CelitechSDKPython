@@ -35,12 +35,14 @@ class PackagesService(BaseService):
     def list_packages(
         self,
         destination: str = SENTINEL,
+        data_limit_in_gb: float = SENTINEL,
         start_date: str = SENTINEL,
         end_date: str = SENTINEL,
         after_cursor: str = SENTINEL,
         limit: float = SENTINEL,
         start_time: int = SENTINEL,
         end_time: int = SENTINEL,
+        include_unlimited: bool = SENTINEL,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> ListPackagesOkResponse:
@@ -48,6 +50,8 @@ class PackagesService(BaseService):
 
         :param destination: ISO representation of the package's destination. Supports both ISO2 (e.g., 'FR') and ISO3 (e.g., 'FRA') country codes., defaults to None
         :type destination: str, optional
+        :param data_limit_in_gb: Filter packages by data limit in GB. When provided, only packages with this exact data limit are returned. Use `-1` together with `includeUnlimited=true` to return only unlimited packages. A value of `0` is ignored., defaults to None
+        :type data_limit_in_gb: float, optional
         :param start_date: Start date of the package's validity in the format 'yyyy-MM-dd'. This date can be set to the current day or any day within the next 12 months., defaults to None
         :type start_date: str, optional
         :param end_date: End date of the package's validity in the format 'yyyy-MM-dd'. End date can be maximum 90 days after Start date., defaults to None
@@ -60,6 +64,8 @@ class PackagesService(BaseService):
         :type start_time: int, optional
         :param end_time: Epoch value representing the end time of the package's validity. End time can be maximum 90 days after Start time, defaults to None
         :type end_time: int, optional
+        :param include_unlimited: Whether to include unlimited (date-based) packages in the results. Unlimited packages are excluded by default; set this to `true` to include them. An unlimited package has `dataLimitInGB` and `dataLimitInBytes` equal to `-1`, and is offered for 3 to 30 days with `minDays` equal to `maxDays`., defaults to None
+        :type include_unlimited: bool, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -68,12 +74,14 @@ class PackagesService(BaseService):
         """
 
         Validator(str).is_optional().validate(destination)
+        Validator(float).is_optional().validate(data_limit_in_gb)
         Validator(str).is_optional().validate(start_date)
         Validator(str).is_optional().validate(end_date)
         Validator(str).is_optional().validate(after_cursor)
         Validator(float).is_optional().validate(limit)
         Validator(int).is_optional().validate(start_time)
         Validator(int).is_optional().validate(end_time)
+        Validator(bool).is_optional().validate(include_unlimited)
 
         resolved_config = self._get_resolved_config(
             self._list_packages_config, request_config
@@ -86,12 +94,14 @@ class PackagesService(BaseService):
                 resolved_config,
             )
             .add_query("destination", destination)
+            .add_query("dataLimitInGB", data_limit_in_gb)
             .add_query("startDate", start_date)
             .add_query("endDate", end_date)
             .add_query("afterCursor", after_cursor)
             .add_query("limit", limit)
             .add_query("startTime", start_time)
             .add_query("endTime", end_time)
+            .add_query("includeUnlimited", include_unlimited)
             .add_error(400, BadRequest)
             .add_error(401, Unauthorized)
             .serialize()
@@ -100,4 +110,8 @@ class PackagesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return ListPackagesOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else ListPackagesOkResponse.model_validate(response)
+        )

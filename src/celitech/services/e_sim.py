@@ -94,7 +94,11 @@ class ESimService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return GetEsimOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else GetEsimOkResponse.model_validate(response)
+        )
 
     @cast_models
     def get_esim_device(
@@ -132,7 +136,11 @@ class ESimService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return GetEsimDeviceOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else GetEsimDeviceOkResponse.model_validate(response)
+        )
 
     @cast_models
     def get_esim_history(
@@ -170,4 +178,8 @@ class ESimService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return GetEsimHistoryOkResponse.model_validate(response)
+        return (
+            None
+            if response in (b"", "")
+            else GetEsimHistoryOkResponse.model_validate(response)
+        )

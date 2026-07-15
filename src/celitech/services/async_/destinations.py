@@ -1,4 +1,4 @@
-from typing import Awaitable, Optional, Union
+from typing import Awaitable, Optional, Any, Union
 from .utils.to_async import to_async
 from ..destinations import DestinationsService
 from ...net.sdk_config import SdkConfig

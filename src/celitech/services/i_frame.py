@@ -57,4 +57,6 @@ class IFrameService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return TokenOkResponse.model_validate(response)
+        return (
+            None if response in (b"", "") else TokenOkResponse.model_validate(response)
+        )
