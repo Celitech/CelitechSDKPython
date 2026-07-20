@@ -1,6 +1,6 @@
 {
-  "sdkGenVersion": "1.6.0",
-  "date": "2026-07-15T12:00:29.569Z",
+  "sdkGenVersion": "1.7.0",
+  "date": "2026-07-20T09:14:38.398Z",
   "config": {
     "languages": [
       "python"
@@ -10,7 +10,7 @@
     ],
     "languageOptions": {
       "java": {
-        "sdkVersion": "2.0.5",
+        "sdkVersion": "2.0.6",
         "githubRepoName": "CelitechSDKJava",
         "retry": {
           "enabled": true,
@@ -58,7 +58,7 @@
         ]
       },
       "typescript": {
-        "sdkVersion": "2.0.5",
+        "sdkVersion": "2.0.6",
         "githubRepoName": "CelitechSDKTypeScript",
         "retry": {
           "enabled": true,
@@ -96,7 +96,7 @@
         "npmName": "celitech-sdk"
       },
       "python": {
-        "sdkVersion": "2.0.5",
+        "sdkVersion": "2.0.6",
         "githubRepoName": "CelitechSDKPython",
         "retry": {
           "enabled": true,
@@ -134,7 +134,7 @@
         "pypiPackageName": "celitech-sdk"
       },
       "go": {
-        "sdkVersion": "2.0.5",
+        "sdkVersion": "2.0.6",
         "githubRepoName": "CelitechSDKGo",
         "retry": {
           "enabled": true,
@@ -172,7 +172,7 @@
         "goModuleName": "github.com/Celitech/CelitechSDKGo/v2"
       },
       "csharp": {
-        "sdkVersion": "2.0.5",
+        "sdkVersion": "2.0.6",
         "githubRepoName": "CelitechSDKCSharp",
         "retry": {
           "enabled": true,
@@ -211,7 +211,7 @@
         "useOptionalWrapper": false
       },
       "php": {
-        "sdkVersion": "2.0.5",
+        "sdkVersion": "2.0.6",
         "githubRepoName": "CelitechSDKPHP",
         "retry": {
           "enabled": true,
@@ -252,11 +252,11 @@
     "includeWatermark": false,
     "responseHeaders": false,
     "sdkName": "Celitech",
-    "sdkVersion": "2.0.5",
+    "sdkVersion": "2.0.6",
     "auth": [
       "oauth"
     ],
-    "apiVersion": "2.0.5",
+    "apiVersion": "2.0.6",
     "publishing": {
       "githubOrg": "Celitech"
     },
@@ -278,7 +278,8 @@
         "PATCH",
         "HEAD",
         "OPTIONS"
-      ]
+      ],
+      "maxRetryAfterDelay": 60000
     },
     "license": {
       "type": "MIT",
@@ -456,11 +457,11 @@
   "fileHashes": {
     ".devcontainer/devcontainer.json": "fe2a5adcb6fc31e3c151203c43fbd86ed83c49c562a1b4605ad9f5b588f7fb95",
     ".env.example": "f0205d8c60f02fb15a9472298dcd53adfb7bce5a6b5a97213285f3daa079e787",
-    ".github/workflows/release.yml": "e19ab8605792d5cb374479d84b2b7bdebcd9ae12844c2fcea0e4c0d6bc6bcae7",
+    ".github/workflows/release.yml": "2f8ffc42803cdf5e613b1511122d64852e56f34e817372ca7cacd2ff60210e8a",
     ".gitignore": "6bbf1931dedfa978c086f704675227391491eeb602840bea6d83e20394768b77",
     "LICENSE": "3ec558dc6e9c9355ab4b28c942caa92bf90b0b82c12d7838d2ef92467ad135c1",
-    "PyPI_README.md": "97eaed3c762050878e8deba884a6471f4cf298437a2a66c5f5aba01f5a7186e4",
-    "README.md": "2726bc0d4c0dfae71797af5fb3a15a1ff89538be857b655da8c4e9c05e5ef6c4",
+    "PyPI_README.md": "86605f66bab4bc2e7120fdf52cce65e83b25602f2bfc94b345d78c8974a342ee",
+    "README.md": "38f7dec6259163934c04f5db5fac0911c52c0b8879f1e66abc89aab856e70460",
     "documentation/models/BadRequest.md": "a37bac06a0d048ce1be90cdcebac0437939e9e717b1fb3b99394c2243d3d03da",
     "documentation/models/CreatePurchaseOkResponse.md": "3ae6b8a8162f44b7013b571780acbaa0b7e4fd1f1aa880d3afe097e6f294c9b5",
     "documentation/models/CreatePurchaseRequest.md": "2ab19d8a67b422f75caadb2da5572c5fdf4bb841a9e70c23c67c28e2ccfa30b0",
@@ -487,13 +488,13 @@
     "documentation/services/PurchasesService.md": "24e4504c2fd1b7dd053919d2c31b45222119d09a91b6586c903757a3534f443e",
     "documentation/snippets/snippets.json": "41ac1f66511c5284707678c45b31a9dbfcfa1b22d1de1e80ee82aeafdb438c45",
     "examples/.env.example": "f0205d8c60f02fb15a9472298dcd53adfb7bce5a6b5a97213285f3daa079e787",
-    "examples/install.cmd": "8b7706f72ee178374f2b83e0d9fdb65aa1a89d604b883132a2dfa9bedd2824e3",
-    "examples/install.sh": "fcede728cca928ebba6207865743940129c14a53099dd418e1649898ff49e364",
+    "examples/install.cmd": "04af128bb57e94bae9f291e968f77596b1b813be08a65e8169355cad174459ad",
+    "examples/install.sh": "88fcbe6bbb3dba83c1cd4383313f040a0f3979f59be9ae4fe6de6b8d3351bddf",
     "examples/sample.py": "5480166d530d7706e885a6cdfa79984d1a89ba39914861ba9cd15acfb3658f3e",
-    "install.cmd": "a93a6e8126d81307705bf84cd761f92fa40a72585ad7a72d6e6a8637529463f7",
-    "install.sh": "97746ad6f1b3382774899c1f6737cd8a09c434faf9205c355a82fa970f7be354",
+    "install.cmd": "4ba4c0d39afe66b8bbf65a3f5cda72dc80f7bde4ad5a101ebe66b1e640229b58",
+    "install.sh": "307f05614b0ec426533960f6b2ccdb964dc9f5e2a932c8ef075408c9bd76133e",
     "prettier.config.js": "2fe33fda52344779fcf235afa8152cfd356880dc3161da09403dc26231bc72d9",
-    "pyproject.toml": "9ba6e9b2af3e1188499bb767630ca9174e1ffce426b9d7b1cdc9d897fbd5aaec",
+    "pyproject.toml": "cc5e1e0b7c713df9d92fcf1bc5b47b5f78225f2d319c2a38eab1ef429e91436a",
     "src/celitech/__init__.py": "2fca372a615fdd5964b6f60000cf29975a60c61d92b017bfc59397d442f6c30a",
     "src/celitech/models/__init__.py": "c6d634ef450bb46badbb0534ebbbf22011886a87acf6e2a0f6ecb67987b00528",
     "src/celitech/models/bad_request.py": "64c2d911cc503a5dc772891d4fa622f709875e2355a10f68eaa97f4041a4dbbe",
@@ -543,7 +544,7 @@
     "src/celitech/net/transport/request.py": "d04b817c76eee3b345c2c97db44223c1475ad55599faaa3cebb2a8b39b026eba",
     "src/celitech/net/transport/request_error.py": "962c1e627288694eb31644f85474f32a540367c382b34119e74adfc52d7fdf06",
     "src/celitech/net/transport/response.py": "27b0834b80f907aab8a7d2c91e4e6c6646fdad69ce67eece63c8af8cc8bcc4a1",
-    "src/celitech/net/transport/serializer.py": "92efb59c7708dff585b58b713bf903ccbe32cd666a197727c110572b5587c731",
+    "src/celitech/net/transport/serializer.py": "fa6023bee5507f8e40629632bc34ba3ce99c733b6c22bc344644380338be87bc",
     "src/celitech/net/transport/utils.py": "6d6867626c22e1a23a8ca3bad021f66b9f16782409bccb063ac0ff6eb1db98f5",
     "src/celitech/sdk.py": "09eaeffdf41be0367d11131fc196b7ee2a3545f8e6e759a8d0e1542f24adc45a",
     "src/celitech/sdk_async.py": "6097a9f77556de9027eb0ea143796b0f2a540412146846d17948639c7b7d8dac",
