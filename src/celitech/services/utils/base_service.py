@@ -11,7 +11,7 @@ from ...net.oauth.token_manager import TokenManager
 from ...net.request_chain.handlers.oauth_handler import OauthHandler
 
 if TYPE_CHECKING:
-    from ...net.sdk_config import SdkConfig
+    from ...net.sdk_config import SdkConfig, RetryConfig
 
 
 class BaseService:
@@ -30,18 +30,18 @@ class BaseService:
         """
         self.base_url = base_url.rstrip("/") if base_url else base_url
         self._default_headers = DefaultHeaders()
-        self._timeout = 60000
+        self._timeout = 60
         self._service_config: "SdkConfig" = {}
 
         self._token_manager = token_manager
 
         self._update_request_handler()
 
-    def set_timeout(self, timeout: int):
+    def set_timeout(self, timeout: float):
         """
         Sets the timeout for the service.
 
-        :param int timeout: The timeout (ms) to be set.
+        :param float timeout: The timeout (in seconds) to be set.
         :return: The service instance.
         """
         self._timeout = timeout
@@ -67,6 +67,18 @@ class BaseService:
         :return: The service instance for method chaining.
         """
         self._service_config = config
+        return self
+
+    def set_retry(self, retry: "RetryConfig"):
+        """
+        Sets the service-level retry configuration, merging it into any existing config.
+
+        :param RetryConfig retry: The retry configuration to be set.
+        :return: The service instance for method chaining.
+        """
+        self._service_config = self._deep_merge(
+            self._service_config or {}, {"retry": retry}
+        )
         return self
 
     @staticmethod
