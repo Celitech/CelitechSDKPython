@@ -1,5 +1,8 @@
 import random
+import re
 
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from typing import Generator, Optional, Tuple
 from time import sleep
 from .base_handler import BaseHandler
@@ -31,6 +34,7 @@ class RetryHandler(BaseHandler):
         self._max_attempts = 3
         self._delay_in_milliseconds = 150
         self._max_delay_in_milliseconds = 5000
+        self._max_retry_after_delay_in_milliseconds = 60000
         self._backoff_factor = 2
         self._jitter_in_milliseconds = 50
         self._status_codes_to_retry = None
@@ -62,7 +66,7 @@ class RetryHandler(BaseHandler):
 
         try_count = 0
         while try_count < max_attempts and self._should_retry(error, request):
-            self._delay(try_count, request)
+            self._delay(try_count, request, error)
             response, error = self._next_handler.handle(request)
             try_count += 1
 
@@ -92,7 +96,7 @@ class RetryHandler(BaseHandler):
             while True:
                 response, error = next(stream)
                 if try_count < max_attempts and self._should_retry(error, request):
-                    self._delay(try_count, request)
+                    self._delay(try_count, request, error)
                     try_count += 1
                     stream = self._next_handler.stream(request)  # Retry the request
                 elif try_count >= max_attempts:
@@ -104,16 +108,29 @@ class RetryHandler(BaseHandler):
         except StopIteration:
             pass
 
-    def _delay(self, try_count: int, request: Request) -> None:
+    def _delay(
+        self, try_count: int, request: Request, error: Optional[ApiError] = None
+    ) -> None:
         """
-        Calculate and apply delay before next retry attempt using exponential backoff.
-        Delay is capped at maximum delay and optional jitter is added.
+        Calculate and apply delay before next retry attempt.
+        A server rate-limit timing header (Retry-After / X-RateLimit-Reset) on the error,
+        when present, overrides the computed exponential backoff; otherwise exponential
+        backoff (capped at max delay, with optional jitter) is used.
         Per-request retry config overrides SDK defaults.
 
         :param int try_count: Current retry attempt number (0-indexed).
         :param Request request: The request being retried, used to read per-request retry config.
+        :param Optional[ApiError] error: The error that triggered the retry (carries headers).
         """
         retry_config = (request.config or {}).get("retry") or {}
+        max_retry_after = retry_config.get(
+            "max_retry_after_delay_ms", self._max_retry_after_delay_in_milliseconds
+        )
+        header_delay_ms = self._retry_after_delay(error, max_retry_after)
+        if header_delay_ms is not None:
+            sleep(header_delay_ms / 1000)
+            return
+
         base_delay = retry_config.get("delay_ms", self._delay_in_milliseconds)
         max_delay = retry_config.get("max_delay_ms", self._max_delay_in_milliseconds)
         backoff_factor = retry_config.get("backoff_factor", self._backoff_factor)
@@ -131,6 +148,82 @@ class RetryHandler(BaseHandler):
 
         # Convert to seconds and sleep
         sleep(delay / 1000)
+
+    def _retry_after_delay(
+        self, error: Optional[ApiError], max_retry_after_ms: float
+    ) -> Optional[float]:
+        """
+        Return the server-directed retry delay (in milliseconds) from rate-limit response
+        headers, honoring Retry-After (delta-seconds or HTTP-date) and, when absent,
+        X-RateLimit-Reset (epoch seconds), clamped to max_retry_after_ms. Returns None when
+        no usable header is present so the caller falls back to exponential backoff.
+
+        :param Optional[ApiError] error: The error that triggered the retry.
+        :param float max_retry_after_ms: Upper bound for a server-directed delay.
+        :return: The delay in milliseconds, or None to use exponential backoff.
+        :rtype: Optional[float]
+        """
+        headers = getattr(getattr(error, "response", None), "headers", None)
+        if headers is None or max_retry_after_ms <= 0:
+            return None
+
+        # retry-after-ms (milliseconds) is a non-standard but finer-grained hint some APIs
+        # send (e.g. OpenAI); it takes precedence over the whole-second Retry-After.
+        retry_after_ms = headers.get("retry-after-ms")
+        if retry_after_ms is not None and re.fullmatch(
+            r"\d+(\.\d+)?", str(retry_after_ms).strip()
+        ):
+            return min(float(str(retry_after_ms).strip()), max_retry_after_ms)
+
+        seconds = self._parse_retry_after(headers.get("Retry-After"))
+        if seconds is not None:
+            return min(max(seconds * 1000, 0), max_retry_after_ms)
+
+        # X-RateLimit-Reset is interpreted as epoch seconds (the common convention).
+        reset = headers.get("X-RateLimit-Reset")
+        if reset is not None and str(reset).strip() != "":
+            try:
+                epoch = float(reset)
+            except (TypeError, ValueError):
+                epoch = None
+            if epoch is not None:
+                delta_ms = epoch * 1000 - datetime.now(timezone.utc).timestamp() * 1000
+                if delta_ms > 0:
+                    return min(delta_ms, max_retry_after_ms)
+
+        return None
+
+    def _parse_retry_after(self, value: Optional[str]) -> Optional[float]:
+        """
+        Parse a Retry-After header value: an integer/float number of seconds, or an
+        HTTP-date (a past date yields 0). Returns the delay in seconds, or None if the
+        value is empty or unparseable.
+
+        :param Optional[str] value: The raw Retry-After header value.
+        :return: The delay in seconds, or None.
+        :rtype: Optional[float]
+        """
+        if value is None:
+            return None
+        trimmed = str(value).strip()
+        if trimmed == "":
+            return None
+        if re.fullmatch(r"\d+(\.\d+)?", trimmed):
+            return float(trimmed)
+        # Parsing and the timestamp math both run under the guard: a pathological but
+        # well-formed HTTP-date (e.g. year 9999) can raise OverflowError/OSError from
+        # timestamp(), and a malformed value can raise beyond TypeError/ValueError. A bad
+        # server header must never crash the retry layer, so treat any failure as "no delay".
+        try:
+            parsed = parsedate_to_datetime(trimmed)
+            if parsed is None:
+                return None
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            delta = parsed.timestamp() - datetime.now(timezone.utc).timestamp()
+        except (TypeError, ValueError, OverflowError, OSError):
+            return None
+        return delta if delta > 0 else 0.0
 
     def _should_retry(self, error: Optional[ApiError], request: Request) -> bool:
         """

@@ -17,12 +17,12 @@ class HttpHandler(BaseHandler):
     :ivar int _timeout_in_seconds: The timeout for the HTTP request in seconds.
     """
 
-    def __init__(self, timeout=60000):
+    def __init__(self, timeout=60):
         """
         Initialize a new instance of HttpHandler.
         """
         super().__init__()
-        self._timeout_in_seconds = timeout / 1000
+        self._timeout_in_seconds = timeout
 
     def handle(
         self, request: Request
@@ -191,5 +191,5 @@ class HttpHandler(BaseHandler):
         :rtype: float
         """
         if request.config and "timeout" in request.config:
-            return request.config["timeout"] / 1000
+            return request.config["timeout"]
         return self._timeout_in_seconds

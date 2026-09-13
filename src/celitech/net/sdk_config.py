@@ -14,6 +14,7 @@ class RetryConfig(TypedDict, total=False):
     :ivar int jitter_ms: Maximum random jitter in milliseconds to add to retry delays.
     :ivar list[int] status_codes_to_retry: Specific HTTP status codes to retry (overrides default 5xx + 408, 429).
     :ivar list[str] http_methods_to_retry: HTTP methods to retry (e.g., ['GET', 'POST']).
+    :ivar int max_retry_after_delay_ms: Upper bound (ms) for a server-directed retry delay parsed from Retry-After / X-RateLimit-Reset response headers.
     """
 
     attempts: int
@@ -23,6 +24,7 @@ class RetryConfig(TypedDict, total=False):
     jitter_ms: int
     status_codes_to_retry: list[int]
     http_methods_to_retry: list[str]
+    max_retry_after_delay_ms: int
 
 
 class ValidationConfig(TypedDict, total=False):
@@ -47,7 +49,7 @@ class SdkConfig(TypedDict, total=False):
 
     :ivar str base_url: Base URL for API requests. Can be a string URL or Environment enum.
     :ivar Environment environment: Environment enum value for base URL.
-    :ivar int timeout: Request timeout in milliseconds.
+    :ivar float timeout: Request timeout in seconds.
     :ivar str client_id: OAuth client ID.
     :ivar str client_secret: OAuth client secret.
     :ivar RetryConfig retry: Retry configuration.
@@ -56,7 +58,7 @@ class SdkConfig(TypedDict, total=False):
 
     base_url: str
     environment: Environment
-    timeout: int
+    timeout: float
     client_id: str
     client_secret: str
     retry: RetryConfig

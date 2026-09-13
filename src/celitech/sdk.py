@@ -1,3 +1,4 @@
+import warnings
 from typing import Union
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
@@ -17,10 +18,13 @@ class Celitech:
 
     def __init__(
         self,
+        *,
         client_id: str = None,
         client_secret: str = None,
         base_url: Union[Environment, str, None] = None,
-        timeout: int = 60000,
+        timeout: float = None,
+        timeout_ms: int = None,
+        retry: "RetryConfig" = None,
         base_oauth_url: str = None,
     ):
         """
@@ -52,7 +56,18 @@ class Celitech:
         )
         self.set_client_id(client_id)
         self.set_client_secret(client_secret)
+        if timeout_ms is not None:
+            warnings.warn(
+                "`timeout_ms` is deprecated; use `timeout` (in seconds) instead.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            timeout = timeout_ms / 1000 if timeout is None else timeout
+        if timeout is None:
+            timeout = 60
         self.set_timeout(timeout)
+        if retry is not None:
+            self.set_retry(retry)
 
     def set_base_url(self, base_url: Union[Environment, str]):
         """
@@ -83,11 +98,11 @@ class Celitech:
 
         return self
 
-    def set_timeout(self, timeout: int):
+    def set_timeout(self, timeout: float):
         """
         Sets the timeout for the entire SDK.
 
-        :param int timeout: The timeout (ms) to be set.
+        :param float timeout: The timeout (in seconds) to be set.
         :return: The SDK instance.
         """
         self.destinations.set_timeout(timeout)
@@ -95,6 +110,21 @@ class Celitech:
         self.purchases.set_timeout(timeout)
         self.e_sim.set_timeout(timeout)
         self.i_frame.set_timeout(timeout)
+
+        return self
+
+    def set_retry(self, retry: "RetryConfig"):
+        """
+        Sets the retry configuration for the entire SDK.
+
+        :param RetryConfig retry: The retry configuration to be set.
+        :return: The SDK instance.
+        """
+        self.destinations.set_retry(retry)
+        self.packages.set_retry(retry)
+        self.purchases.set_retry(retry)
+        self.e_sim.set_retry(retry)
+        self.i_frame.set_retry(retry)
 
         return self
 
