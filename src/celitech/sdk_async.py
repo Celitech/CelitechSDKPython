@@ -16,10 +16,13 @@ class CelitechAsync(Celitech):
 
     def __init__(
         self,
+        *,
         client_id: str = None,
         client_secret: str = None,
         base_url: Union[Environment, str, None] = None,
-        timeout: int = 60000,
+        timeout: float = None,
+        timeout_ms: int = None,
+        retry: "RetryConfig" = None,
         base_oauth_url: str = None,
     ):
         super().__init__(
@@ -27,6 +30,8 @@ class CelitechAsync(Celitech):
             client_secret=client_secret,
             base_url=base_url,
             timeout=timeout,
+            timeout_ms=timeout_ms,
+            retry=retry,
             base_oauth_url=base_oauth_url,
         )
 
@@ -48,3 +53,5 @@ class CelitechAsync(Celitech):
         self.o_auth = OAuthServiceAsync(
             base_url=self._base_url, token_manager=self._token_manager
         )
+        if retry is not None:
+            self.set_retry(retry)
