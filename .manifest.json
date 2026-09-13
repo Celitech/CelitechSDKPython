@@ -1,343 +1,99 @@
 {
-  "sdkGenVersion": "1.7.0",
-  "date": "2026-07-20T09:14:38.398Z",
+  "sdkGenVersion": "2.6.0",
+  "resolvedGeneratorVersion": "2.6.0",
+  "date": "2026-09-13T16:34:03.741Z",
   "config": {
-    "languages": [
-      "python"
-    ],
-    "deliveryMethods": [
-      "zip"
-    ],
-    "languageOptions": {
-      "java": {
-        "sdkVersion": "2.0.6",
-        "githubRepoName": "CelitechSDKJava",
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
-        "license": {
-          "type": "MIT"
-        },
-        "authentication": {
-          "oauth": {
-            "enabled": true,
-            "refreshBuffer": 5000
-          }
-        },
-        "environmentVariables": [
-          {
-            "name": "CLIENT_ID",
-            "description": "Client ID parameter"
-          },
-          {
-            "name": "CLIENT_SECRET",
-            "description": "Client Secret parameter"
-          }
-        ],
-        "devContainer": true,
-        "generateEnv": true,
-        "responseHeaders": false,
-        "includeOptionalSnippetParameters": false,
-        "injectedModels": [],
-        "inferServiceNames": false,
-        "deprecatedOperations": {
-          "include": true
-        },
-        "groupId": "io.github.celitech",
-        "artifactId": "celitech-sdk",
-        "homepage": "https://docs.celitech.com/",
-        "developers": [
-          {
-            "name": "CELITECH",
-            "email": "info@celitech.com",
-            "organization": "Celitech",
-            "organizationUrl": "https://www.celitech.com"
-          }
-        ]
-      },
-      "typescript": {
-        "sdkVersion": "2.0.6",
-        "githubRepoName": "CelitechSDKTypeScript",
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
-        "license": {
-          "type": "MIT"
-        },
-        "authentication": {
-          "oauth": {
-            "enabled": true,
-            "refreshBuffer": 5000
-          }
-        },
-        "environmentVariables": [
-          {
-            "name": "CLIENT_ID",
-            "description": "Client ID parameter"
-          },
-          {
-            "name": "CLIENT_SECRET",
-            "description": "Client Secret parameter"
-          }
-        ],
-        "devContainer": true,
-        "generateEnv": true,
-        "responseHeaders": false,
-        "includeOptionalSnippetParameters": false,
-        "injectedModels": [],
-        "inferServiceNames": false,
-        "deprecatedOperations": {
-          "include": true
-        },
-        "npmName": "celitech-sdk"
-      },
-      "python": {
-        "sdkVersion": "2.0.6",
-        "githubRepoName": "CelitechSDKPython",
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
-        "license": {
-          "type": "MIT"
-        },
-        "authentication": {
-          "oauth": {
-            "enabled": true,
-            "refreshBuffer": 5000
-          }
-        },
-        "environmentVariables": [
-          {
-            "name": "CLIENT_ID",
-            "description": "Client ID parameter"
-          },
-          {
-            "name": "CLIENT_SECRET",
-            "description": "Client Secret parameter"
-          }
-        ],
-        "devContainer": true,
-        "generateEnv": true,
-        "responseHeaders": false,
-        "includeOptionalSnippetParameters": false,
-        "injectedModels": [],
-        "inferServiceNames": false,
-        "deprecatedOperations": {
-          "include": true
-        },
-        "pypiPackageName": "celitech-sdk"
-      },
-      "go": {
-        "sdkVersion": "2.0.6",
-        "githubRepoName": "CelitechSDKGo",
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
-        "license": {
-          "type": "MIT"
-        },
-        "authentication": {
-          "oauth": {
-            "enabled": true,
-            "refreshBuffer": 5000
-          }
-        },
-        "environmentVariables": [
-          {
-            "name": "CLIENT_ID",
-            "description": "Client ID parameter"
-          },
-          {
-            "name": "CLIENT_SECRET",
-            "description": "Client Secret parameter"
-          }
-        ],
-        "devContainer": true,
-        "generateEnv": true,
-        "responseHeaders": false,
-        "includeOptionalSnippetParameters": false,
-        "injectedModels": [],
-        "inferServiceNames": false,
-        "deprecatedOperations": {
-          "include": true
-        },
-        "goModuleName": "github.com/Celitech/CelitechSDKGo/v2"
-      },
-      "csharp": {
-        "sdkVersion": "2.0.6",
-        "githubRepoName": "CelitechSDKCSharp",
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
-        "license": {
-          "type": "MIT"
-        },
-        "authentication": {
-          "oauth": {
-            "enabled": true,
-            "refreshBuffer": 5000
-          }
-        },
-        "environmentVariables": [
-          {
-            "name": "CLIENT_ID",
-            "description": "Client ID parameter"
-          },
-          {
-            "name": "CLIENT_SECRET",
-            "description": "Client Secret parameter"
-          }
-        ],
-        "devContainer": true,
-        "generateEnv": true,
-        "responseHeaders": false,
-        "includeOptionalSnippetParameters": false,
-        "injectedModels": [],
-        "inferServiceNames": false,
-        "deprecatedOperations": {
-          "include": true
-        },
-        "packageId": "Celitech.SDK",
-        "useOptionalWrapper": false
-      },
-      "php": {
-        "sdkVersion": "2.0.6",
-        "githubRepoName": "CelitechSDKPHP",
-        "retry": {
-          "enabled": true,
-          "maxAttempts": 3,
-          "retryDelay": 150
-        },
-        "license": {
-          "type": "MIT"
-        },
-        "authentication": {
-          "oauth": {
-            "enabled": true,
-            "refreshBuffer": 5000
-          }
-        },
-        "environmentVariables": [
-          {
-            "name": "CLIENT_ID",
-            "description": "Client ID parameter"
-          },
-          {
-            "name": "CLIENT_SECRET",
-            "description": "Client Secret parameter"
-          }
-        ],
-        "devContainer": true,
-        "generateEnv": true,
-        "responseHeaders": false,
-        "includeOptionalSnippetParameters": false,
-        "injectedModels": [],
-        "inferServiceNames": false,
-        "deprecatedOperations": {
-          "include": true
-        },
-        "packageName": "celitech-sdk/sdk"
-      }
-    },
-    "includeWatermark": false,
-    "responseHeaders": false,
-    "sdkName": "Celitech",
-    "sdkVersion": "2.0.6",
-    "auth": [
-      "oauth"
-    ],
-    "apiVersion": "2.0.6",
-    "publishing": {
-      "githubOrg": "Celitech"
-    },
-    "customCode": {
-      "trackChanges": true
-    },
-    "retry": {
-      "enabled": true,
-      "maxAttempts": 3,
-      "retryDelay": 150,
-      "maxDelay": 5000,
-      "retryDelayJitter": 50,
-      "backOffFactor": 2,
-      "httpMethodsToRetry": [
-        "GET",
-        "POST",
-        "PUT",
-        "DELETE",
-        "PATCH",
-        "HEAD",
-        "OPTIONS"
-      ],
-      "maxRetryAfterDelay": 60000
-    },
-    "license": {
-      "type": "MIT",
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT",
-      "path": "MIT.ejs"
-    },
-    "authentication": {
-      "oauth": {
-        "enabled": true,
-        "refreshBuffer": 5000
-      }
-    },
-    "environmentVariables": [
-      {
-        "name": "CLIENT_ID",
-        "description": "Client ID parameter"
-      },
-      {
-        "name": "CLIENT_SECRET",
-        "description": "Client Secret parameter"
-      }
-    ],
-    "devContainer": true,
-    "generateEnv": true,
-    "includeOptionalSnippetParameters": false,
-    "injectedModels": [],
-    "inferServiceNames": false,
-    "deprecatedOperations": {
-      "include": true
-    },
-    "githubRepoName": "CelitechSDKPython",
-    "pypiPackageName": "celitech-sdk",
-    "language": "python",
-    "deliveryMethod": "zip",
-    "hooks": {
-      "enabled": false,
-      "sourceDir": ""
-    },
-    "usesFormData": false,
-    "fileOutput": "/tmp",
-    "httpLibrary": {
-      "name": "axios",
-      "packages": {},
-      "languages": [
-        "typescript"
+    "schemaVersion": "sdk-config-ir/v1",
+    "source": {
+      "specs": [
+        {
+          "specUrl": "https://us-prod-sdk-gen-api-specs.s3.us-east-1.amazonaws.com/specification-snapshots/384c4a61-72fc-4d28-ba6b-2691f6d6ec91/1789317242751.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LJBU7FM4MOITI%2F20260913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260913T163403Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAkaCXVzLWVhc3QtMSJGMEQCIHV9z0cTaIYfXo3kYUMm3HtALS%2FNvdP8CRW1GTJjmCWcAiAlSen8VHWb14IZS%2BS5f27uhntchVPXYdEy5%2FBDyhkarCqcBQjR%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzY1MjE1OCIMxDpALCHCxdxvmB%2FFKvAEPbpTp6Enh8OXKtMqyOM5bnrblqaDX8XhNmZxOmlKey9pQPj21ghIcL0DfizZHJrfD5atI4agCInppRxavy90nJ0EIf%2F6961tZ%2BOQ6foNqEfP7jOVpyGRIKKgr39UhwamTgqnRgVROQfALnFuXaKTHejFnE%2BqTadaOgXkufWl8Ok%2F89qR4B3rxZYKdH9Na4DZu%2FvmUSMmg2Mr%2BxrSxGrXLK3E%2Bs1%2FI2RPNkp5qT5Wb5kXcVdy%2BNx1izELW9MfSZBUzbldxpst0QX8jeMtF1Sr4t0eU7coV4JC2oEHZ3Lbm8OzjId4abuPY9IsDzq1cf2dc2jWxdDmMGSkwyqpjKdlVWng3sTs5sJxsN5FGeiQW3qD%2FD7VoJ9A0SxrgpiThiK4JSDpJQQtqylzN1SJtbWsVqRKL77nJNV7BwZBlYqOLjnK7LiOXFKEjro3wEVnmWKVsO6LBLiMlDrTQYyQd2bnrF0xr5x4UirBT8XyaIp3S8LtBlzra3djNos6ZJZLUoO9%2BZuEFTgZbW4h94%2B3auZuXE%2F%2FDSERzgEIuI5N8DiiyKW5rT%2BGTXDuBqyBUtKNw99fwxP5mF99H2w8Eu31VfNPYve6gbD3psyemobIHIVXkY%2BqqjESI3r1EofuNurfDEYLYxeZJuUSPlgZOwIdmNhkhVA%2BP49COMllO%2FrnzJBQVyqMMRN43Kw4GwpUkjCj%2BuR7Pvhg9sDerpOz3l15ke2TyBP3d3JJDCMOZcqDdN6PtxCUUKiz9UOI1PRRhUEi0Xfe0RVI28XCqzlIZlxQlNYK9DkFfr6ncYxSF7L1GS%2F40lhbEmuN8azX0k75D1xhe6soMNSgm9UGOpoB3mu7e9wXLvduE6W72QATQzidRXAmL8GHaBwZejX5Qinbg8AGKShbOuYAfNnxd3w4jrOVXwM0IA70vFbNdLtLCkKYogkPunzCTJcg2R6g9jp2Fthgosc%2BNESWFd1Z%2B0tMPkZDUQN7pS6mIDgbs%2BjLwyFQyGGi69pLWjiQPJU1rrjiWSQqiDSWT34H3%2FmaMsn4wd5%2Fy7HvnmvI7g%3D%3D&X-Amz-Signature=8f31459f5868a6444e164920097bde40ed9e5c6684590161cc3f22d57efa3350&X-Amz-SignedHeaders=host&x-id=GetObject",
+          "specType": "openapi"
+        }
       ]
     },
-    "multiTenant": false,
-    "customQueries": {
-      "paths": [],
-      "rawQueries": [],
-      "queriesData": []
+    "target": {
+      "language": "python",
+      "sourceOrigin": "postman",
+      "sdkName": "Celitech",
+      "sdkVersion": "2.0.6",
+      "apiVersion": "2.0.6"
     },
-    "ai": false,
-    "specType": "openapi",
-    "multipleResponses": {
-      "enabled": false
+    "api": {
+      "baseUrl": "",
+      "environments": [],
+      "environmentVariables": [
+        {
+          "name": "CLIENT_ID",
+          "description": "Client ID parameter"
+        },
+        {
+          "name": "CLIENT_SECRET",
+          "description": "Client Secret parameter"
+        }
+      ],
+      "auth": {
+        "schemes": [
+          {
+            "id": "oauth",
+            "type": "oauth2",
+            "flows": [
+              {
+                "type": "client-credentials",
+                "tokenUrl": "https://example.com/oauth/token"
+              }
+            ],
+            "refreshBufferSeconds": 5
+          }
+        ]
+      }
+    },
+    "client": {
+      "retry": {
+        "enabled": true,
+        "maxAttempts": 3,
+        "retryDelayMs": 150,
+        "maxDelayMs": 5000,
+        "jitterMs": 50,
+        "backoffFactor": 2,
+        "methods": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "PATCH",
+          "HEAD",
+          "OPTIONS"
+        ],
+        "maxRetryAfterDelayMs": 60000
+      },
+      "responseHeaders": false,
+      "multiTenant": false,
+      "additionalConstructorParameters": []
+    },
+    "package": {
+      "packageName": "celitech-sdk",
+      "repository": "https://github.com/Celitech/CelitechSDKPython",
+      "license": {
+        "type": "MIT"
+      }
+    },
+    "output": {
+      "delivery": "zip",
+      "credentialResolution": "refs-only"
+    },
+    "docs": {},
+    "generation": {
+      "includeWatermark": false,
+      "ai": false,
+      "includeOptionalSnippetParameters": false,
+      "buildAllModels": false,
+      "inferServiceNames": false,
+      "includeDeprecatedOperations": true,
+      "multipleResponses": false,
+      "devContainer": true,
+      "allowMockClient": false,
+      "serialization": {}
     }
   },
   "files": [
@@ -460,8 +216,8 @@
     ".github/workflows/release.yml": "2f8ffc42803cdf5e613b1511122d64852e56f34e817372ca7cacd2ff60210e8a",
     ".gitignore": "6bbf1931dedfa978c086f704675227391491eeb602840bea6d83e20394768b77",
     "LICENSE": "3ec558dc6e9c9355ab4b28c942caa92bf90b0b82c12d7838d2ef92467ad135c1",
-    "PyPI_README.md": "86605f66bab4bc2e7120fdf52cce65e83b25602f2bfc94b345d78c8974a342ee",
-    "README.md": "38f7dec6259163934c04f5db5fac0911c52c0b8879f1e66abc89aab856e70460",
+    "PyPI_README.md": "3ef3efb07ed9b1d5033a64e5162219bddd7676c4783b41854aaaa69965b42130",
+    "README.md": "f84cafb4745318621059618502b5ba7347a379c075a816c41f9dc7c32ddfd7c8",
     "documentation/models/BadRequest.md": "a37bac06a0d048ce1be90cdcebac0437939e9e717b1fb3b99394c2243d3d03da",
     "documentation/models/CreatePurchaseOkResponse.md": "3ae6b8a8162f44b7013b571780acbaa0b7e4fd1f1aa880d3afe097e6f294c9b5",
     "documentation/models/CreatePurchaseRequest.md": "2ab19d8a67b422f75caadb2da5572c5fdf4bb841a9e70c23c67c28e2ccfa30b0",
@@ -493,7 +249,7 @@
     "examples/sample.py": "5480166d530d7706e885a6cdfa79984d1a89ba39914861ba9cd15acfb3658f3e",
     "install.cmd": "4ba4c0d39afe66b8bbf65a3f5cda72dc80f7bde4ad5a101ebe66b1e640229b58",
     "install.sh": "307f05614b0ec426533960f6b2ccdb964dc9f5e2a932c8ef075408c9bd76133e",
-    "prettier.config.js": "2fe33fda52344779fcf235afa8152cfd356880dc3161da09403dc26231bc72d9",
+    "prettier.config.js": "b3f990b4c84640a705ded29e3343d8e3d70ddc4b88431d10d47c23f568470cfd",
     "pyproject.toml": "cc5e1e0b7c713df9d92fcf1bc5b47b5f78225f2d319c2a38eab1ef429e91436a",
     "src/celitech/__init__.py": "2fca372a615fdd5964b6f60000cf29975a60c61d92b017bfc59397d442f6c30a",
     "src/celitech/models/__init__.py": "c6d634ef450bb46badbb0534ebbbf22011886a87acf6e2a0f6ecb67987b00528",
@@ -534,20 +290,20 @@
     "src/celitech/net/request_chain/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/celitech/net/request_chain/handlers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/celitech/net/request_chain/handlers/base_handler.py": "5ff9cdc332de0131ce8e4b5052530b28c863eb9f381ece0f145da3b2cbf20fa5",
-    "src/celitech/net/request_chain/handlers/http_handler.py": "66af2b3e886fdc56e2681ddb77eab6c6c030ce87d7c6899ce1688c402125a252",
+    "src/celitech/net/request_chain/handlers/http_handler.py": "c0e7380138e4bb28e3aecd73417eaabccf2be04e89acc7cde8b1078642c8b0b4",
     "src/celitech/net/request_chain/handlers/oauth_handler.py": "63ff4e8e0019b5147c20ebb00dca641584d4eb5959e48e82300771dbbac6575d",
-    "src/celitech/net/request_chain/handlers/retry_handler.py": "ec6703c6299aaacca84e009a38aed8b8f498b004922154ca3c17fcdbd0208378",
+    "src/celitech/net/request_chain/handlers/retry_handler.py": "2998a7c35577106bc8142bb6b478dd274273e6fa8cbac77a97c2290b1cb09c65",
     "src/celitech/net/request_chain/request_chain.py": "b21ebb0d8f8018887332570ac4610f16e7268dca0b2e73408a724901165bace4",
-    "src/celitech/net/sdk_config.py": "ada8626750184c3004953df83516d907b40c321ff95feb6248de1dc58d72984e",
+    "src/celitech/net/sdk_config.py": "66f21d6379ab6738181dab7d58ddfad06daf909f80f1837351b0bbbf8d8b8c09",
     "src/celitech/net/transport/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/celitech/net/transport/api_error.py": "6df36d8aa330fd3b8aca0b34cc525ad4f131e55fe9fffa14e6d690b168400d7b",
     "src/celitech/net/transport/request.py": "d04b817c76eee3b345c2c97db44223c1475ad55599faaa3cebb2a8b39b026eba",
     "src/celitech/net/transport/request_error.py": "962c1e627288694eb31644f85474f32a540367c382b34119e74adfc52d7fdf06",
     "src/celitech/net/transport/response.py": "27b0834b80f907aab8a7d2c91e4e6c6646fdad69ce67eece63c8af8cc8bcc4a1",
-    "src/celitech/net/transport/serializer.py": "fa6023bee5507f8e40629632bc34ba3ce99c733b6c22bc344644380338be87bc",
+    "src/celitech/net/transport/serializer.py": "5fa8405f4b1798bb4f5b9991d5ec9882b45db112b845c06cb525a14c511f2adf",
     "src/celitech/net/transport/utils.py": "6d6867626c22e1a23a8ca3bad021f66b9f16782409bccb063ac0ff6eb1db98f5",
-    "src/celitech/sdk.py": "09eaeffdf41be0367d11131fc196b7ee2a3545f8e6e759a8d0e1542f24adc45a",
-    "src/celitech/sdk_async.py": "6097a9f77556de9027eb0ea143796b0f2a540412146846d17948639c7b7d8dac",
+    "src/celitech/sdk.py": "eb86700ba20f74d47a1f268efc754351e02fd22b06a12b0799994079c7ceec31",
+    "src/celitech/sdk_async.py": "bcdb7dad80f7394b4b7a3b651594de611189153df2b4bd7d2f360d6b223ba4a7",
     "src/celitech/services/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/celitech/services/async_/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/celitech/services/async_/destinations.py": "b3acbf7996a642f4982f9ef2d8a6c4a7f91ecc10cb9a07419fa40ee934a3c3be",
@@ -565,7 +321,7 @@
     "src/celitech/services/packages.py": "d537b81441f2d9903c92602fbfd2ef7f100471b3b05fb8b667ab180081b15a5b",
     "src/celitech/services/purchases.py": "5812c15728e5de083ea24896bab084d9f65a08b2d6940db25bc73c50147f83b1",
     "src/celitech/services/utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "src/celitech/services/utils/base_service.py": "029e71065d53b656b0a2bde34959d896db6c1556eba580f93689c531e20c4c06",
+    "src/celitech/services/utils/base_service.py": "c2ee22df32c14e5b8571e96e762ba9f6b2d018ba873a5d55121bee6bbd3a4752",
     "src/celitech/services/utils/default_headers.py": "8b2763f889d8da9febef2c1f8d846177aff0faf03e8978e91c0b18d8811bdf6b",
     "src/celitech/services/utils/validator.py": "dac5d883228f96d6e7ea2665597ad462b6c5d8f3d55aecaaf780f44f9ecd739a"
   }
