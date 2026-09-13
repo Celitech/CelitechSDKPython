@@ -1,13 +1,13 @@
 {
   "sdkGenVersion": "2.6.0",
   "resolvedGeneratorVersion": "2.6.0",
-  "date": "2026-09-13T18:22:48.765Z",
+  "date": "2026-09-13T19:12:56.245Z",
   "config": {
     "schemaVersion": "sdk-config-ir/v1",
     "source": {
       "specs": [
         {
-          "specUrl": "https://us-prod-sdk-gen-api-specs.s3.us-east-1.amazonaws.com/specification-snapshots/384c4a61-72fc-4d28-ba6b-2691f6d6ec91/1789323767705.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LJBU7PSDQA5EC%2F20260913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260913T182248Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAoaCXVzLWVhc3QtMSJGMEQCIDz46grgdLjCZ9ML83n%2F1v7ZzSqUK068H1HEEg6xYvtoAiB5naL2EjJpDMOvTMjnTejguLAp%2BRdqSF%2BtPd4t9i4tqiqcBQjS%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDYzNzQyMzY1MjE1OCIMwFMt4%2BSvg%2BxRyEWzKvAEJ3DaWx6rK%2B%2BANWIox%2BwbQbfMfU3sXXOjiYDKNNFh2TzjfTv6DEPgzO7GxqtEIJDiffjxy7t%2B5PwAWtCJucETa3KvKHENALC2DIstdx4xRswnBWjSqMFW5Z8V9c1Lo0hz1%2BKQYV7XINptE1SbyNJSccp3idbybO5ynhls0TMQXCLoVmEE0YaE%2F3UEqhlGkQlTjL0o0w1AI5WwNd4k9xLoaroUEqsuNPjAgQSHZ37OlDaNaLpUOxIMzoGKmRKdo4ufn7yc8o20H0agoSBcTcAE%2Fi5WozDEyr%2F%2BPFuRXAmUTMi3AoYHOD5BJHXaIHojRGmTgSRTri42O%2Ben4D7ijhB8VyF07dqCO21kGLjxr8ATzx9Z5n47dOO9Hf%2BBD6uXtGJbSmom3DGxX2B0NbIkAyIny2GpBqTeRkUv8sfrD0sIhsMzYlvbXiMRDXNcSHqw%2FlA%2FQBU98li5Beay9yDU8NDccIfOQylyeQ5LAtknk82gFrKzgyJX8kJPygpz5TXjWFvnG7hjfbkjtKPpLc6fdiLf%2Bkpm30RZrpNBoyaaw77CtdT2rvpcp735NVfoQ%2BTpR8URpvyz2poj2a7Vipd79IspcD8Tbc1cBL1fxmTNYvjCueAo8MQhToCWNpESfBJFIkQw8%2BVMtv5rc%2FRdBvHlXetbtNktez%2BtPFq%2ByvtSnFlLLCzDjcQW03Rmz%2B2BSQbWFJk8A4%2FhH8KlzBN4x%2B7oia3tfY6LItw39XaEnQ2jx6nkCE%2BzZzCofeeyxEhURtX4vUzK6N1TmjZww8rirIFjJ49cnKGoITgI%2FRM0AJW1lt%2BQ91l3jbiVUC6vxirNHFpJ0p1cMMXBm9UGOpoBqmLoqbaVOslYfLZik%2ByPWkawWEG%2FzAFoQ1YKxaa%2FZxFR2TgPcSjqvDx3fhSaHkeQ5DQchXcEAmuh5D94qC5Qx8W4AMSzB1q3hmnYp0AgHkbMjYW2pXHSGFR3UDG4MvBYFE6IC6nXMHooPQJmGrz25J%2BePk435mA%2FNgfg6IDUNef9kY%2F8uZBkZhp%2BN%2B0I%2FXKXpE6YQ78i5%2BytdQ%3D%3D&X-Amz-Signature=448c2a8df72a443ffdcd0b07150345e7ea1e8212d710a935f1dfcdbc3a36b8ff&X-Amz-SignedHeaders=host&x-id=GetObject",
+          "specUrl": "https://us-prod-sdk-gen-api-specs.s3.us-east-1.amazonaws.com/specification-snapshots/384c4a61-72fc-4d28-ba6b-2691f6d6ec91/1789326775473.yaml?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LJBU7FAMOMRBY%2F20260913%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260913T191255Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAsaCXVzLWVhc3QtMSJHMEUCIGy7qJVyHC5ejaN23cMdBOCXLyEafqj5328xN9Ht2otVAiEAyVNCZJduQlXdMGTw2pHYsiUCwVK8d61V2Fh6k9bul7MqnAUI0%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgw2Mzc0MjM2NTIxNTgiDAuMqgMp14WDwISUmSrwBFELTq1HgDZet5Djoift5WpoD9ph0KbJUPBQUkPTc7hBqXYfjl16B4HWykObQA%2BVWBw3RjR%2BS5%2BsSAtt7P5hmkQJB588Xvlf7AhqdgNcT%2FsiLtMs%2FFYNpT%2BgeuY4%2FBgxtJqLVu9cJxvCo8TMBHIWf%2Fb7JyiBXyM%2BmvMFwnGkGDeloGayt4KfQtLcdBSjhw35%2B4%2BEMROHUkmMzAMw4JvY%2FNa%2FKThIaSnw7jUSKI%2F1zTNhjlXvSQ8I%2BgVmHrdaCb6nCp8hFX%2FXWvccJReHsKYJ2bG%2BCv1hc2OL5JK9OkTeqz1GmQ%2F0HoRzcSHF97K9BsmSDqfdB6vaGaST5jZsQ5DuicKBc0F4jmmRnEUeEbqzUI8%2FLEBW4LOORY33ldwOjq0OApo3kppMaJd%2FX2s%2FjzPpu5xr283ROLUxAN68O36hr2zZbyrrLGE4ahmCe9a5o2BnePpccwY6qAiXnfmGWua7kU8uhwdV3upaqQPOOy3P7iwB0rO34GQMUAmQetm6CGOb4YqZqHo0Ao8mIo2I8SZ4SyyZl1BqeT37IZKSpODovL5jMg2abyRZsF07d1LQ64rccRtfJXwvx0nDvQOERgMxV8OETbnyV0aB2XPVpBsiOr1e6O0CK9alkrnZe8WGj4GtkQ4AWQsdRt%2BMTl5eNtwrGKgNZx24kKdE0kDZWSNxctn0pdhqzAPHYF12jt38PhQAARdjYC%2Fd3BKPCoktXRS3P910qVYM4MX0qTj3rfVwKyyoo51JIRcGJ1VYT87OrOBbfShtsdL7%2BhMpzBjJZlwP%2FQzVxnz9i30Np0Kn6oP0xvC0VPBsUHVx%2FbtwLU4PVVBsHDC%2F1ZvVBjqZAT7MToTaFZtHUj7xtHXsbBCFCpTzYYwYvLJBDMkm3d2XfQkx8n7xyN69Lz6lxdsnbIV1vX8TSVKRUPgiF%2FAxwfK6389vWK0E1mHK72AaBSct6lZ%2BjNmE7AN9k7Tsa4G4Y%2F42DkglSZ2gDpBEeD4JXDWupSQms3x5JV196a8n199s8ldHvA2fmoUaNl8b%2BoQ9XUtpoqZgPossgg%3D%3D&X-Amz-Signature=711e3548f8703d65f9a63bf134e6c03ca01ff745ac1ed3bbb19e866c4d2f2fae&X-Amz-SignedHeaders=host&x-id=GetObject",
           "specType": "openapi"
         }
       ]
@@ -16,8 +16,8 @@
       "language": "python",
       "sourceOrigin": "postman",
       "sdkName": "Celitech",
-      "sdkVersion": "2.0.6",
-      "apiVersion": "2.0.6"
+      "sdkVersion": "2.0.7",
+      "apiVersion": "2.0.7"
     },
     "api": {
       "baseUrl": "",
@@ -213,11 +213,11 @@
   "fileHashes": {
     ".devcontainer/devcontainer.json": "fe2a5adcb6fc31e3c151203c43fbd86ed83c49c562a1b4605ad9f5b588f7fb95",
     ".env.example": "f0205d8c60f02fb15a9472298dcd53adfb7bce5a6b5a97213285f3daa079e787",
-    ".github/workflows/release.yml": "2f8ffc42803cdf5e613b1511122d64852e56f34e817372ca7cacd2ff60210e8a",
+    ".github/workflows/release.yml": "aaad38ff7a9360c9431a190ec6963401bff73ce71ad60cdf550e42ff0f8b7d7e",
     ".gitignore": "6bbf1931dedfa978c086f704675227391491eeb602840bea6d83e20394768b77",
     "LICENSE": "3ec558dc6e9c9355ab4b28c942caa92bf90b0b82c12d7838d2ef92467ad135c1",
-    "PyPI_README.md": "3ef3efb07ed9b1d5033a64e5162219bddd7676c4783b41854aaaa69965b42130",
-    "README.md": "f84cafb4745318621059618502b5ba7347a379c075a816c41f9dc7c32ddfd7c8",
+    "PyPI_README.md": "5383dadf8022542fd1fa956f49a7086337dc721d8db8c581f3f1a0b8f32a10a6",
+    "README.md": "29cb6c4ebd4dd4f11fd377c61c577c165cceca07203de9764e67cf0c11caa617",
     "documentation/models/BadRequest.md": "a37bac06a0d048ce1be90cdcebac0437939e9e717b1fb3b99394c2243d3d03da",
     "documentation/models/CreatePurchaseOkResponse.md": "3ae6b8a8162f44b7013b571780acbaa0b7e4fd1f1aa880d3afe097e6f294c9b5",
     "documentation/models/CreatePurchaseRequest.md": "2ab19d8a67b422f75caadb2da5572c5fdf4bb841a9e70c23c67c28e2ccfa30b0",
@@ -244,13 +244,13 @@
     "documentation/services/PurchasesService.md": "24e4504c2fd1b7dd053919d2c31b45222119d09a91b6586c903757a3534f443e",
     "documentation/snippets/snippets.json": "41ac1f66511c5284707678c45b31a9dbfcfa1b22d1de1e80ee82aeafdb438c45",
     "examples/.env.example": "f0205d8c60f02fb15a9472298dcd53adfb7bce5a6b5a97213285f3daa079e787",
-    "examples/install.cmd": "04af128bb57e94bae9f291e968f77596b1b813be08a65e8169355cad174459ad",
-    "examples/install.sh": "88fcbe6bbb3dba83c1cd4383313f040a0f3979f59be9ae4fe6de6b8d3351bddf",
+    "examples/install.cmd": "325d455dcceecbfdc580b5d7bdaabbb5dc38ff30e14323c9d0b7179ac91e9c52",
+    "examples/install.sh": "fad6d489c15438fc80eca7a30f41325fcaeabb903a59a8c3aaea50765d04f8a4",
     "examples/sample.py": "5480166d530d7706e885a6cdfa79984d1a89ba39914861ba9cd15acfb3658f3e",
-    "install.cmd": "4ba4c0d39afe66b8bbf65a3f5cda72dc80f7bde4ad5a101ebe66b1e640229b58",
-    "install.sh": "307f05614b0ec426533960f6b2ccdb964dc9f5e2a932c8ef075408c9bd76133e",
+    "install.cmd": "dd54ad119a962d253ab58736223ed82cb2b90eeb594a6458d55e336d4430af05",
+    "install.sh": "317e1e750b2481bf5a21c11fb7f56ba2100c82341572f6d5de93fdcc29a93d3c",
     "prettier.config.js": "b3f990b4c84640a705ded29e3343d8e3d70ddc4b88431d10d47c23f568470cfd",
-    "pyproject.toml": "cc5e1e0b7c713df9d92fcf1bc5b47b5f78225f2d319c2a38eab1ef429e91436a",
+    "pyproject.toml": "464611cac07bb1ce32be6c8321218249e86ad65dcd830cf6c191a26e7a6618a2",
     "src/celitech/__init__.py": "2fca372a615fdd5964b6f60000cf29975a60c61d92b017bfc59397d442f6c30a",
     "src/celitech/models/__init__.py": "c6d634ef450bb46badbb0534ebbbf22011886a87acf6e2a0f6ecb67987b00528",
     "src/celitech/models/bad_request.py": "64c2d911cc503a5dc772891d4fa622f709875e2355a10f68eaa97f4041a4dbbe",
@@ -300,7 +300,7 @@
     "src/celitech/net/transport/request.py": "d04b817c76eee3b345c2c97db44223c1475ad55599faaa3cebb2a8b39b026eba",
     "src/celitech/net/transport/request_error.py": "962c1e627288694eb31644f85474f32a540367c382b34119e74adfc52d7fdf06",
     "src/celitech/net/transport/response.py": "27b0834b80f907aab8a7d2c91e4e6c6646fdad69ce67eece63c8af8cc8bcc4a1",
-    "src/celitech/net/transport/serializer.py": "5fa8405f4b1798bb4f5b9991d5ec9882b45db112b845c06cb525a14c511f2adf",
+    "src/celitech/net/transport/serializer.py": "3c78e83942a5b3f79c1fc6b0adc3f17595861aef514c5671b88680f2253797f9",
     "src/celitech/net/transport/utils.py": "6d6867626c22e1a23a8ca3bad021f66b9f16782409bccb063ac0ff6eb1db98f5",
     "src/celitech/sdk.py": "eb86700ba20f74d47a1f268efc754351e02fd22b06a12b0799994079c7ceec31",
     "src/celitech/sdk_async.py": "bcdb7dad80f7394b4b7a3b651594de611189153df2b4bd7d2f360d6b223ba4a7",
