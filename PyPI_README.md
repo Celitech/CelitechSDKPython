@@ -89,7 +89,7 @@ You can set a custom timeout for the SDK's HTTP requests as follows:
 ```py
 from celitech import Celitech
 
-sdk = Celitech(timeout=10000)
+sdk = Celitech(timeout=10)
 ```
 
 # Sample Usage<a id="sample-usage"></a>
