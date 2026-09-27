@@ -1,5 +1,6 @@
 import warnings
-from typing import Union
+import requests
+from typing import Optional, Union
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
 from .services.purchases import PurchasesService
@@ -24,6 +25,7 @@ class Celitech:
         base_url: Union[Environment, str, None] = None,
         timeout: float = None,
         timeout_ms: int = None,
+        http_client: Optional[requests.Session] = None,
         retry: "RetryConfig" = None,
         base_oauth_url: str = None,
     ):
@@ -33,26 +35,38 @@ class Celitech:
         self.base_oauth_url = (
             base_oauth_url if base_oauth_url else "https://auth.celitech.net"
         )
-        self._token_manager = TokenManager(base_oauth_url=self.base_oauth_url)
+        self._token_manager = TokenManager(
+            base_oauth_url=self.base_oauth_url, http_client=http_client
+        )
 
         _resolved_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
         self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
         self.destinations = DestinationsService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            token_manager=self._token_manager,
         )
         self.packages = PackagesService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            token_manager=self._token_manager,
         )
         self.purchases = PurchasesService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            token_manager=self._token_manager,
         )
         self.e_sim = ESimService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            token_manager=self._token_manager,
         )
         self.i_frame = IFrameService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            token_manager=self._token_manager,
         )
         self.set_client_id(client_id)
         self.set_client_secret(client_secret)
@@ -110,6 +124,23 @@ class Celitech:
         self.purchases.set_timeout(timeout)
         self.e_sim.set_timeout(timeout)
         self.i_frame.set_timeout(timeout)
+
+        return self
+
+    def set_http_client(self, http_client: Optional[requests.Session]):
+        """
+        Sets a custom HTTP client for the entire SDK.
+
+        :param http_client: A requests.Session-compatible client, used as-is (the SDK never
+            reconfigures its transport). Pass None to fall back to the module-level requests API.
+        :return: The SDK instance.
+        """
+        self.destinations.set_http_client(http_client)
+        self.packages.set_http_client(http_client)
+        self.purchases.set_http_client(http_client)
+        self.e_sim.set_http_client(http_client)
+        self.i_frame.set_http_client(http_client)
+        self._token_manager.set_http_client(http_client)
 
         return self
 

@@ -2,6 +2,7 @@ from typing import Any, Optional, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
@@ -73,15 +74,15 @@ class PackagesService(BaseService):
         :rtype: ListPackagesOkResponse
         """
 
-        Validator(str).is_optional().validate(destination)
-        Validator(float).is_optional().validate(data_limit_in_gb)
-        Validator(str).is_optional().validate(start_date)
-        Validator(str).is_optional().validate(end_date)
-        Validator(str).is_optional().validate(after_cursor)
-        Validator(float).is_optional().validate(limit)
-        Validator(int).is_optional().validate(start_time)
-        Validator(int).is_optional().validate(end_time)
-        Validator(bool).is_optional().validate(include_unlimited)
+        Validator(str).is_optional().validate(destination, "destination")
+        Validator(float).is_optional().validate(data_limit_in_gb, "data_limit_in_gb")
+        Validator(str).is_optional().validate(start_date, "start_date")
+        Validator(str).is_optional().validate(end_date, "end_date")
+        Validator(str).is_optional().validate(after_cursor, "after_cursor")
+        Validator(float).is_optional().validate(limit, "limit")
+        Validator(int).is_optional().validate(start_time, "start_time")
+        Validator(int).is_optional().validate(end_time, "end_time")
+        Validator(bool).is_optional().validate(include_unlimited, "include_unlimited")
 
         resolved_config = self._get_resolved_config(
             self._list_packages_config, request_config
@@ -89,7 +90,7 @@ class PackagesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/packages",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/packages",
                 [],
                 resolved_config,
             )
@@ -113,5 +114,9 @@ class PackagesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else ListPackagesOkResponse.model_validate(response)
+            else (
+                ListPackagesOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )

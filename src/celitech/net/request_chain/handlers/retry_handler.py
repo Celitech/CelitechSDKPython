@@ -8,7 +8,7 @@ from time import sleep
 from .base_handler import BaseHandler
 from ...transport.request import Request
 from ...transport.response import Response
-from ...transport.api_error import ApiError
+from ...transport.api_error import ApiConnectionError, ApiError, ApiTimeoutError
 from ...transport.request_error import RequestError
 
 
@@ -99,10 +99,11 @@ class RetryHandler(BaseHandler):
                     self._delay(try_count, request, error)
                     try_count += 1
                     stream = self._next_handler.stream(request)  # Retry the request
-                elif try_count >= max_attempts:
-                    yield response, error
-                    break
                 else:
+                    # An exhausted retry budget is not the end of the stream: every event is
+                    # yielded, and only the inner generator running out ends iteration (the
+                    # StopIteration below). Breaking here on the attempt count instead truncated
+                    # a stream to one event whenever retries were disabled.
                     yield response, error
 
         except StopIteration:
@@ -230,6 +231,8 @@ class RetryHandler(BaseHandler):
         Determine whether the request should be retried based on status code and HTTP method.
         By default, retries all 5xx server errors and specific 4xx client errors (408 Timeout, 429 Rate Limit).
         Per-request retry config overrides SDK defaults for status codes and HTTP methods.
+        A statusless transport failure is decided by its type rather than by a status code: an
+        ApiTimeoutError is retryable on a retryable method, an ApiConnectionError is not.
 
         :param Optional[ApiError] error: The error from the previous handler.
         :param Request request: The request being retried.
@@ -240,6 +243,34 @@ class RetryHandler(BaseHandler):
             return False
 
         retry_config = (request.config or {}).get("retry") or {}
+
+        # Check if HTTP method is retryable. Evaluated BEFORE the status gate so the transport
+        # cases below can reuse it: a non-idempotent request must not be replayed just because it
+        # failed at the transport level rather than with a status.
+        request_http_methods = retry_config.get("http_methods_to_retry")
+        if request_http_methods is not None:
+            should_retry_method = request.method.upper() in {
+                m.upper() for m in request_http_methods
+            }
+        else:
+            should_retry_method = request.method.upper() in self._http_methods_to_retry
+
+        # FSDK-1585: a timeout carries NO status, so none of the status rules below can speak
+        # about it — and `None >= 500` raises TypeError rather than returning False. A timeout
+        # stays retryable: it used to arrive as a synthetic 408, which sat in the default retry
+        # set, and removing that fake status must not silently stop retrying timeouts. It is
+        # retryable regardless of `status_codes_to_retry`, because a list of status codes cannot
+        # express an opinion about a failure that never produced one.
+        if isinstance(error, ApiTimeoutError):
+            return should_retry_method
+
+        # FSDK-1573: a refused connection is NOT retried. It used to escape the handler chain as a
+        # raw requests exception, so it never reached this loop at all — wrapping it in an SDK type
+        # is the ticket's scope, and turning it into a retryable failure would be a behaviour
+        # change nothing asked for. Checked explicitly rather than left to fall through, because
+        # the status rules below would raise TypeError on its absent status.
+        if isinstance(error, ApiConnectionError):
+            return False
 
         # Check if status code is retryable
         request_status_codes = retry_config.get("status_codes_to_retry")
@@ -252,14 +283,5 @@ class RetryHandler(BaseHandler):
             should_retry_status = (
                 error.status >= 500 or error.status == 408 or error.status == 429
             )
-
-        # Check if HTTP method is retryable
-        request_http_methods = retry_config.get("http_methods_to_retry")
-        if request_http_methods is not None:
-            should_retry_method = request.method.upper() in {
-                m.upper() for m in request_http_methods
-            }
-        else:
-            should_retry_method = request.method.upper() in self._http_methods_to_retry
 
         return should_retry_status and should_retry_method
