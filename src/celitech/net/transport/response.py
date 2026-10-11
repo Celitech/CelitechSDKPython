@@ -1,5 +1,4 @@
 import json
-import re
 from typing import Generator, Optional, Union
 from requests import Response
 from urllib.parse import parse_qs
@@ -31,8 +30,13 @@ class Response:
         self.status = response.status_code
         self.headers = response.headers
 
+        # `media_type`, so the PARSE decision is made on the same normalised value as the generated
+        # branch SELECTION (FSDK-1571). With the raw header here and a normalised one there, an
+        # `application/xml; charset=utf-8` response would match its branch and then arrive as raw
+        # bytes, because the equality tests below never saw past the parameter -- a silently wrong
+        # type in place of the error it used to raise.
         self.body = self._parse_response_body(
-            content_type=response.headers.get("Content-Type", "").lower(),
+            content_type=self.media_type,
             body=chunk if chunk else response.text,
             raw_body=raw_chunk if raw_chunk else response.content,
         )
@@ -79,6 +83,27 @@ class Response:
         """
         return self._raw_response
 
+    @property
+    def media_type(self) -> str:
+        """
+        The response's media type, lowercased and WITHOUT its parameters.
+
+        ``Content-Type: text/json; charset=utf-8`` is the same media type as ``text/json``, but an
+        endpoint declaring more than one success media type selects its branch by comparing this
+        against the exact media type the spec declared. Leaving the parameters attached made every
+        charset-annotated response miss its branch and fall through to
+        ``raise ApiError("Error on deserializing the response.")`` — the SDK rejecting a response
+        that matched its own spec (FSDK-1571). Only multi-media-type endpoints emit that
+        comparison, which is why it went unnoticed.
+
+        Kept separate from ``headers`` so a caller that wants the header verbatim, parameters and
+        all, still has it.
+
+        :return: The media type, e.g. ``text/json``.
+        :rtype: str
+        """
+        return self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
+
     def _parse_response_body(
         self, content_type: str, body: str, raw_body: bytes
     ) -> Union[str, dict, bytes]:
@@ -91,14 +116,32 @@ class Response:
         If the content type is 'application/x-www-form-urlencoded', it parses the body as a query string.
         For all other content types, it returns the raw binary content.
 
-        :param str content_type: The content type of the response.
+        :param str content_type: The response's MEDIA TYPE -- lowercased, parameters already
+            stripped (see ``media_type``). Several branches below test it for equality, so a
+            ``; charset=utf-8`` suffix would make them miss.
         :param str body: The text body of the response.
         :param bytes raw_body: The raw binary body of the response.
         :return: The parsed response body.
         :rtype: str or dict or bytes
         """
         try:
-            if re.search(r"application\/.*json", content_type):
+            # JSON IS CHECKED BEFORE TEXT, and the JSON family includes `text/json`.
+            #
+            # The old pattern was `application/.*json`, which matched only the `application/`
+            # family — so a declared `text/json` response fell through to the `text/` branch below
+            # and came back as a `str`, and the generated `Model.model_validate(response)` then
+            # raised ValidationError inside the SDK (FSDK-1571). Ordering matters for the same
+            # reason: `text/json` satisfies the `text/` test too, so a text-first check would keep
+            # returning the unparsed string.
+            #
+            # This mirrors `isApplicationJson` in `src/generate/common/content-types.ts`, which is
+            # the generation-time authority on the same question (and already correct); the runtime
+            # has to make the decision again because it sees the media type the SERVER actually
+            # sent, so the two have to agree.
+            if (
+                content_type.startswith(("application/", "text/"))
+                and "json" in content_type
+            ):
                 return json.loads(body)
 
             if "text/event-stream" in content_type and "data: " in body:
@@ -106,9 +149,13 @@ class Response:
                 # Note: this assumes that the content of data is a valid JSON string
                 return json.loads(json_body)
 
+            # The whole `application/*xml*` family, not just `application/xml`: an
+            # `application/soap+xml` or `application/atom+xml` body is textual for the same reason,
+            # and the generated type for it is `str` (see `getContentTypeDefinition`), so an
+            # equality test returned raw bytes under a `str` annotation.
             if (
                 "text/" in content_type
-                or content_type == "application/xml"
+                or (content_type.startswith("application/") and "xml" in content_type)
                 or content_type == "application/javascript"
             ):
                 return body

@@ -1,5 +1,7 @@
 import warnings
-from typing import Union
+import requests
+import logging
+from typing import Optional, Union
 from .services.destinations import DestinationsService
 from .services.packages import PackagesService
 from .services.purchases import PurchasesService
@@ -24,6 +26,9 @@ class Celitech:
         base_url: Union[Environment, str, None] = None,
         timeout: float = None,
         timeout_ms: int = None,
+        http_client: Optional[requests.Session] = None,
+        follow_redirects: bool = True,
+        logger: Optional[logging.Logger] = None,
         retry: "RetryConfig" = None,
         base_oauth_url: str = None,
     ):
@@ -33,26 +38,51 @@ class Celitech:
         self.base_oauth_url = (
             base_oauth_url if base_oauth_url else "https://auth.celitech.net"
         )
-        self._token_manager = TokenManager(base_oauth_url=self.base_oauth_url)
+        self._token_manager = TokenManager(
+            base_oauth_url=self.base_oauth_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+        )
 
         _resolved_url = (
             base_url.value if isinstance(base_url, Environment) else base_url
         )
         self._base_url = _resolved_url.rstrip("/") if _resolved_url else _resolved_url
         self.destinations = DestinationsService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.packages = PackagesService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.purchases = PurchasesService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.e_sim = ESimService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.i_frame = IFrameService(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.set_client_id(client_id)
         self.set_client_secret(client_secret)
@@ -110,6 +140,56 @@ class Celitech:
         self.purchases.set_timeout(timeout)
         self.e_sim.set_timeout(timeout)
         self.i_frame.set_timeout(timeout)
+
+        return self
+
+    def set_http_client(self, http_client: Optional[requests.Session]):
+        """
+        Sets a custom HTTP client for the entire SDK.
+
+        :param http_client: A requests.Session-compatible client, used as-is (the SDK never
+            reconfigures its transport). Pass None to fall back to the module-level requests API.
+        :return: The SDK instance.
+        """
+        self.destinations.set_http_client(http_client)
+        self.packages.set_http_client(http_client)
+        self.purchases.set_http_client(http_client)
+        self.e_sim.set_http_client(http_client)
+        self.i_frame.set_http_client(http_client)
+        self._token_manager.set_http_client(http_client)
+
+        return self
+
+    def set_follow_redirects(self, follow_redirects: bool):
+        """
+        Sets whether HTTP redirects (3xx responses) are followed automatically, for the entire SDK.
+
+        :param bool follow_redirects: False to return a 3xx response as-is instead of following it.
+        :return: The SDK instance.
+        """
+        self.destinations.set_follow_redirects(follow_redirects)
+        self.packages.set_follow_redirects(follow_redirects)
+        self.purchases.set_follow_redirects(follow_redirects)
+        self.e_sim.set_follow_redirects(follow_redirects)
+        self.i_frame.set_follow_redirects(follow_redirects)
+        self._token_manager.set_follow_redirects(follow_redirects)
+
+        return self
+
+    def set_logging(self, logger: Optional[logging.Logger]):
+        """
+        Sets the logger requests/responses are written to, for the entire SDK.
+
+        :param logger: A standard library logger. Pass None (the default) to disable logging.
+            Authorization and Cookie header values are always redacted from logged output.
+        :return: The SDK instance.
+        """
+        self.destinations.set_logging(logger)
+        self.packages.set_logging(logger)
+        self.purchases.set_logging(logger)
+        self.e_sim.set_logging(logger)
+        self.i_frame.set_logging(logger)
+        self._token_manager.set_logging(logger)
 
         return self
 

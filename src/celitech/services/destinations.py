@@ -2,6 +2,7 @@ from typing import Any, Optional, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
@@ -49,7 +50,7 @@ class DestinationsService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/destinations",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/destinations",
                 [],
                 resolved_config,
             )
@@ -64,5 +65,9 @@ class DestinationsService(BaseService):
         return (
             None
             if response in (b"", "")
-            else ListDestinationsOkResponse.model_validate(response)
+            else (
+                ListDestinationsOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )

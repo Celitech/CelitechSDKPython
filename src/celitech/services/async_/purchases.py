@@ -48,16 +48,22 @@ class PurchasesServiceAsync(PurchasesService):
         request_config: Optional[SdkConfig] = None,
     ) -> Awaitable[ListPurchasesOkResponse]:
         return to_async(super().list_purchases)(
-            purchase_id,
-            iccid,
-            after_date,
-            before_date,
-            email,
-            reference_id,
-            after_cursor,
-            limit,
-            after,
-            before,
+            **{
+                k: v
+                for k, v in {
+                    "purchase_id": purchase_id,
+                    "iccid": iccid,
+                    "after_date": after_date,
+                    "before_date": before_date,
+                    "email": email,
+                    "reference_id": reference_id,
+                    "after_cursor": after_cursor,
+                    "limit": limit,
+                    "after": after,
+                    "before": before,
+                }.items()
+                if v is not SENTINEL
+            },
             request_config=request_config,
         )
 

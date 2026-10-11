@@ -2,6 +2,7 @@ from typing import Any, Optional, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
@@ -73,7 +74,7 @@ class ESimService(BaseService):
         :rtype: GetEsimOkResponse
         """
 
-        Validator(str).min_length(18).max_length(22).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid, "iccid")
 
         resolved_config = self._get_resolved_config(
             self._get_esim_config, request_config
@@ -81,7 +82,7 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/esim",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/esim",
                 [],
                 resolved_config,
             )
@@ -97,7 +98,11 @@ class ESimService(BaseService):
         return (
             None
             if response in (b"", "")
-            else GetEsimOkResponse.model_validate(response)
+            else (
+                GetEsimOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -115,7 +120,7 @@ class ESimService(BaseService):
         :rtype: GetEsimDeviceOkResponse
         """
 
-        Validator(str).min_length(18).max_length(22).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid, "iccid")
 
         resolved_config = self._get_resolved_config(
             self._get_esim_device_config, request_config
@@ -123,7 +128,7 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/device",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/esim/{{iccid}}/device",
                 [],
                 resolved_config,
             )
@@ -139,7 +144,11 @@ class ESimService(BaseService):
         return (
             None
             if response in (b"", "")
-            else GetEsimDeviceOkResponse.model_validate(response)
+            else (
+                GetEsimDeviceOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -157,7 +166,7 @@ class ESimService(BaseService):
         :rtype: GetEsimHistoryOkResponse
         """
 
-        Validator(str).min_length(18).max_length(22).validate(iccid)
+        Validator(str).min_length(18).max_length(22).validate(iccid, "iccid")
 
         resolved_config = self._get_resolved_config(
             self._get_esim_history_config, request_config
@@ -165,7 +174,7 @@ class ESimService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/esim/{{iccid}}/history",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/esim/{{iccid}}/history",
                 [],
                 resolved_config,
             )
@@ -181,5 +190,9 @@ class ESimService(BaseService):
         return (
             None
             if response in (b"", "")
-            else GetEsimHistoryOkResponse.model_validate(response)
+            else (
+                GetEsimHistoryOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
