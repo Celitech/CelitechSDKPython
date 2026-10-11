@@ -2,6 +2,7 @@ from typing import Any, Optional, List, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
@@ -117,7 +118,7 @@ class PurchasesService(BaseService):
         :rtype: List[CreatePurchaseV2OkResponse]
         """
 
-        Validator(CreatePurchaseV2Request).validate(request_body)
+        Validator(CreatePurchaseV2Request).validate(request_body, "request_body")
 
         resolved_config = self._get_resolved_config(
             self._create_purchase_v2_config, request_config
@@ -125,7 +126,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/v2",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/v2",
                 [],
                 resolved_config,
             )
@@ -138,10 +139,14 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return [
-            CreatePurchaseV2OkResponse.model_validate(item)
-            for item in (response if isinstance(response, list) else [])
-        ]
+        return (
+            [
+                CreatePurchaseV2OkResponse.model_validate(item)
+                for item in (response if isinstance(response, list) else [])
+            ]
+            if should_validate_response(resolved_config)
+            else (response if isinstance(response, list) else [])
+        )
 
     @cast_models
     def list_purchases(
@@ -188,16 +193,18 @@ class PurchasesService(BaseService):
         :rtype: ListPurchasesOkResponse
         """
 
-        Validator(str).is_optional().validate(purchase_id)
-        Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
-        Validator(str).is_optional().validate(after_date)
-        Validator(str).is_optional().validate(before_date)
-        Validator(str).is_optional().validate(email)
-        Validator(str).is_optional().validate(reference_id)
-        Validator(str).is_optional().validate(after_cursor)
-        Validator(float).is_optional().validate(limit)
-        Validator(float).is_optional().validate(after)
-        Validator(float).is_optional().validate(before)
+        Validator(str).is_optional().validate(purchase_id, "purchase_id")
+        Validator(str).is_optional().min_length(18).max_length(22).validate(
+            iccid, "iccid"
+        )
+        Validator(str).is_optional().validate(after_date, "after_date")
+        Validator(str).is_optional().validate(before_date, "before_date")
+        Validator(str).is_optional().validate(email, "email")
+        Validator(str).is_optional().validate(reference_id, "reference_id")
+        Validator(str).is_optional().validate(after_cursor, "after_cursor")
+        Validator(float).is_optional().validate(limit, "limit")
+        Validator(float).is_optional().validate(after, "after")
+        Validator(float).is_optional().validate(before, "before")
 
         resolved_config = self._get_resolved_config(
             self._list_purchases_config, request_config
@@ -205,7 +212,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases",
                 [],
                 resolved_config,
             )
@@ -230,7 +237,11 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else ListPurchasesOkResponse.model_validate(response)
+            else (
+                ListPurchasesOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -251,7 +262,7 @@ class PurchasesService(BaseService):
         :rtype: CreatePurchaseOkResponse
         """
 
-        Validator(CreatePurchaseRequest).validate(request_body)
+        Validator(CreatePurchaseRequest).validate(request_body, "request_body")
 
         resolved_config = self._get_resolved_config(
             self._create_purchase_config, request_config
@@ -259,7 +270,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases",
                 [],
                 resolved_config,
             )
@@ -275,7 +286,11 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else CreatePurchaseOkResponse.model_validate(response)
+            else (
+                CreatePurchaseOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -296,7 +311,7 @@ class PurchasesService(BaseService):
         :rtype: TopUpEsimOkResponse
         """
 
-        Validator(TopUpEsimRequest).validate(request_body)
+        Validator(TopUpEsimRequest).validate(request_body, "request_body")
 
         resolved_config = self._get_resolved_config(
             self._top_up_esim_config, request_config
@@ -304,7 +319,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/topup",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/topup",
                 [],
                 resolved_config,
             )
@@ -320,7 +335,11 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else TopUpEsimOkResponse.model_validate(response)
+            else (
+                TopUpEsimOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -341,7 +360,7 @@ class PurchasesService(BaseService):
         :rtype: EditPurchaseOkResponse
         """
 
-        Validator(EditPurchaseRequest).validate(request_body)
+        Validator(EditPurchaseRequest).validate(request_body, "request_body")
 
         resolved_config = self._get_resolved_config(
             self._edit_purchase_config, request_config
@@ -349,7 +368,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/edit",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/edit",
                 [],
                 resolved_config,
             )
@@ -365,7 +384,11 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else EditPurchaseOkResponse.model_validate(response)
+            else (
+                EditPurchaseOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -383,7 +406,7 @@ class PurchasesService(BaseService):
         :rtype: GetPurchaseConsumptionOkResponse
         """
 
-        Validator(str).validate(purchase_id)
+        Validator(str).validate(purchase_id, "purchase_id")
 
         resolved_config = self._get_resolved_config(
             self._get_purchase_consumption_config, request_config
@@ -391,7 +414,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
                 [],
                 resolved_config,
             )
@@ -407,5 +430,9 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else GetPurchaseConsumptionOkResponse.model_validate(response)
+            else (
+                GetPurchaseConsumptionOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )

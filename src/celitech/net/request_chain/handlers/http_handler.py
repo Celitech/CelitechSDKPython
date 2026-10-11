@@ -1,12 +1,14 @@
 import requests
 
-from requests.exceptions import Timeout
+# Aliased rather than imported under its own name: `requests.exceptions.ConnectionError` would
+# shadow the Python builtin of the same name for the whole module.
+from requests.exceptions import ConnectionError as RequestsConnectionError, Timeout
 from typing import Generator, Optional, Tuple
 from pydantic import TypeAdapter
 from .base_handler import BaseHandler
 from ...transport.request import Request
 from ...transport.response import Response
-from ...transport.api_error import ApiError
+from ...transport.api_error import ApiConnectionError, ApiError, ApiTimeoutError
 
 
 class HttpHandler(BaseHandler):
@@ -17,12 +19,31 @@ class HttpHandler(BaseHandler):
     :ivar int _timeout_in_seconds: The timeout for the HTTP request in seconds.
     """
 
-    def __init__(self, timeout=60):
+    def __init__(self, timeout=60, http_client=None, follow_redirects=True):
         """
         Initialize a new instance of HttpHandler.
+
+        :param http_client: An optional caller-supplied requests.Session used as-is (the SDK
+            never reconfigures its transport). Falls back to the module-level `requests.request`
+            when not provided.
+        :param follow_redirects: Whether HTTP redirects (3xx responses) are followed
+            automatically. `requests` follows them unconditionally otherwise, with no other way
+            to opt out.
         """
         super().__init__()
         self._timeout_in_seconds = timeout
+        self._http_client = http_client
+        self._follow_redirects = follow_redirects
+
+    def _request(self, method, url, **kwargs):
+        """
+        Dispatch a single HTTP request through the injected client, if any, otherwise through
+        the module-level `requests.request`.
+        """
+        kwargs.setdefault("allow_redirects", self._follow_redirects)
+        if self._http_client is not None:
+            return self._http_client.request(method, url, **kwargs)
+        return requests.request(method, url, **kwargs)
 
     def handle(
         self, request: Request
@@ -40,7 +61,7 @@ class HttpHandler(BaseHandler):
             # Get timeout from config if available, otherwise use default
             timeout = self._get_timeout_from_config(request)
 
-            result = requests.request(
+            result = self._request(
                 request.method,
                 request.url,
                 headers=request.headers,
@@ -91,8 +112,21 @@ class HttpHandler(BaseHandler):
                 )
 
             return response, None
-        except Timeout:
-            return None, ApiError("Request timed out", status=408)
+        # FSDK-1585: a timeout is its own type, carrying no status. It used to be reported as
+        # `ApiError("Request timed out", status=408)` — but nothing on the wire said 408, no
+        # endpoint maps it, and no error class is named for it, so the failure was
+        # indistinguishable by type from any other unmapped status. Dropping the synthetic status
+        # is the fix, not a side effect of it.
+        except Timeout as error:
+            return None, ApiTimeoutError(f"Request timed out: {error}", cause=error)
+        # FSDK-1573: a connection-level failure — refused, DNS, TLS — used to escape this handler
+        # entirely, so a caller had to import `requests` to catch it and the SDK's abstraction
+        # leaked its HTTP library. MUST stay below `except Timeout`: ConnectTimeout inherits from
+        # both ConnectionError and Timeout, and a connect timeout is a timeout.
+        except RequestsConnectionError as error:
+            return None, ApiConnectionError(
+                f"Connection to {request.url} failed: {error}", cause=error
+            )
 
     def stream(
         self, request: Request
@@ -110,7 +144,7 @@ class HttpHandler(BaseHandler):
             # Get timeout from config if available, otherwise use default
             timeout = self._get_timeout_from_config(request)
 
-            result = requests.request(
+            result = self._request(
                 request.method,
                 request.url,
                 headers=request.headers,
@@ -135,8 +169,18 @@ class HttpHandler(BaseHandler):
                     for response in Response.from_chunk(result, chunk):
                         yield response, None
 
-        except Timeout:
-            yield None, ApiError("Request timed out", status=408)
+        # FSDK-1585: the streaming path gets the same typed timeout as `handle`, so a caller does
+        # not have to catch two different things depending on which method it called.
+        except Timeout as error:
+            yield None, ApiTimeoutError(f"Request timed out: {error}", cause=error)
+        # Same ordering constraint as `handle`, for the same reason.
+        except RequestsConnectionError as error:
+            yield (
+                None,
+                ApiConnectionError(
+                    f"Connection to {request.url} failed: {error}", cause=error
+                ),
+            )
 
     def _get_request_data(self, request: Request) -> dict:
         """
@@ -167,20 +211,56 @@ class HttpHandler(BaseHandler):
         if isinstance(data, (bytes, bytearray)):
             return {"data": data}
 
-        if content_type.startswith("application/") and "json" in content_type:
+        # The JSON family includes `text/json`, exactly as it does on the response side. This
+        # tested `application/` only, so a declared `text/json` request body fell through to the
+        # form-urlencoded branch below and went out as `data=payload` under a `text/json`
+        # Content-Type — a body that matched neither its declared media type nor its schema
+        # (FSDK-1571). Mirrors `isApplicationJson` in `src/generate/common/content-types.ts`.
+        # `requests` only defaults the Content-Type header when one is not already set, so routing
+        # through `json=` does not rewrite the declared `text/json`.
+        if (
+            content_type.startswith(("application/", "text/"))
+            and "json" in content_type
+        ):
             return {"json": data}
 
         if "multipart/form-data" in content_type:
             headers.pop("Content-Type", None)
-            files, form_data = {}, {}
+            # `files` is a LIST of (field, part) pairs, not a dict: an array of files repeats one
+            # field name, which a dict cannot hold. Collapsing it into `data` left `files` empty,
+            # so requests form-urlencoded the whole body -- including the bytes (FSDK-1479).
+            files, form_data = [], {}
             for key, value in data.items():
-                if isinstance(value, bytes):
-                    files[key] = (key, value, "application/octet-stream")
+                if isinstance(value, (bytes, bytearray, memoryview)):
+                    files.append((key, (key, value, "application/octet-stream")))
+                elif self._is_file_array(value):
+                    for item in value:
+                        files.append((key, (key, item, "application/octet-stream")))
                 else:
                     form_data[key] = value
             return {"files": files, "data": form_data}
 
         return {"data": data}
+
+    @staticmethod
+    def _is_file_array(value) -> bool:
+        """
+        Whether a multipart field holds an array of files rather than form values.
+
+        Requires EVERY element to be bytes-like: an array of primitives is a repeated form field,
+        and requests already encodes a list value that way. The accepted types match the scalar
+        file branch above, so a bytearray/memoryview of file content cannot fall through to form
+        data.
+
+        :param value: The value of a single multipart field.
+        :return: True when the value is a non-empty sequence of bytes-like objects.
+        :rtype: bool
+        """
+        return (
+            isinstance(value, (list, tuple))
+            and len(value) > 0
+            and all(isinstance(item, (bytes, bytearray, memoryview)) for item in value)
+        )
 
     def _get_timeout_from_config(self, request: Request) -> float:
         """
