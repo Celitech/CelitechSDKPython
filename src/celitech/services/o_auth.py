@@ -2,6 +2,7 @@ from typing import Any, Optional
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
@@ -48,7 +49,7 @@ class OAuthService(BaseService):
         :rtype: OAuthTokenResponse
         """
 
-        Validator(OAuthTokenRequest).validate(request_body)
+        Validator(OAuthTokenRequest).validate(request_body, "request_body")
 
         resolved_config = self._get_resolved_config(
             self._get_access_token__config, request_config
@@ -56,7 +57,7 @@ class OAuthService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/oauth2/token",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/oauth2/token",
                 [],
                 resolved_config,
             )
@@ -69,5 +70,9 @@ class OAuthService(BaseService):
         return (
             None
             if response in (b"", "")
-            else OAuthTokenResponse.model_validate(response)
+            else (
+                OAuthTokenResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )

@@ -29,6 +29,7 @@ class Request:
     :ivar dict headers: Dictionary of headers to include in the request.
     :ivar Any body: Request body.
     :ivar Set[str] scopes: List of scopes to include in the request.
+    :ivar bool bearer_wins_over_oauth: Whether a supplied bearer token skips OAuth token acquisition.
     :ivar dict errors: Dictionary of HTTP status codes to error models.
     :ivar SdkConfig config: Configuration dictionary for the request.
     """
@@ -39,6 +40,7 @@ class Request:
         self.headers = None
         self.body = None
         self.scopes = None
+        self.bearer_wins_over_oauth = False
         self.errors = None
         self.config: "SdkConfig" = None
 
@@ -97,6 +99,17 @@ class Request:
         :rtype: Request
         """
         self.scopes = scopes
+        return self
+
+    def set_bearer_wins_over_oauth(self, bearer_wins: bool) -> "Request":
+        """
+        Mark that a bearer token already on the request takes precedence over a minted OAuth token.
+
+        :param bool bearer_wins: Whether a supplied bearer token replaces OAuth token acquisition.
+        :return: The updated Request object.
+        :rtype: Request
+        """
+        self.bearer_wins_over_oauth = bearer_wins
         return self
 
     def set_errors(self, errors: dict) -> "Request":
