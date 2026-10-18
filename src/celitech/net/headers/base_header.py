@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 
 class BaseHeader:
@@ -15,6 +15,13 @@ class BaseHeader:
         :param value: The authentication value to set.
         """
         pass
+
+    def get_value(self) -> Optional[str]:
+        """
+        Get the raw credential, for schemes that carry it outside a header.
+        Subclasses that hold a single credential should override this method.
+        """
+        return None
 
     def get_headers(self) -> Dict[str, str]:
         """
