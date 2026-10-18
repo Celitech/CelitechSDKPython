@@ -26,14 +26,20 @@ class PackagesServiceAsync(PackagesService):
         request_config: Optional[SdkConfig] = None,
     ) -> Awaitable[ListPackagesOkResponse]:
         return to_async(super().list_packages)(
-            destination,
-            data_limit_in_gb,
-            start_date,
-            end_date,
-            after_cursor,
-            limit,
-            start_time,
-            end_time,
-            include_unlimited,
+            **{
+                k: v
+                for k, v in {
+                    "destination": destination,
+                    "data_limit_in_gb": data_limit_in_gb,
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "after_cursor": after_cursor,
+                    "limit": limit,
+                    "start_time": start_time,
+                    "end_time": end_time,
+                    "include_unlimited": include_unlimited,
+                }.items()
+                if v is not SENTINEL
+            },
             request_config=request_config,
         )

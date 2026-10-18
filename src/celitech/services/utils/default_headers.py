@@ -55,3 +55,15 @@ class DefaultHeaders:
         :rtype: list
         """
         return list(self._default_headers.values())
+
+    def copy(self) -> "DefaultHeaders":
+        """
+        Returns a new DefaultHeaders instance with its own copy of this instance's headers dict,
+        so mutating the copy (or the original) afterwards does not affect the other.
+
+        :return: A copy of this DefaultHeaders instance.
+        :rtype: DefaultHeaders
+        """
+        copied = DefaultHeaders()
+        copied._default_headers = dict(self._default_headers)
+        return copied

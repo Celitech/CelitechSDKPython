@@ -1,4 +1,6 @@
-from typing import Union
+import requests
+import logging
+from typing import Optional, Union
 from .net.environment import Environment
 from .sdk import Celitech
 from .services.async_.destinations import DestinationsServiceAsync
@@ -22,6 +24,9 @@ class CelitechAsync(Celitech):
         base_url: Union[Environment, str, None] = None,
         timeout: float = None,
         timeout_ms: int = None,
+        http_client: Optional[requests.Session] = None,
+        follow_redirects: bool = True,
+        logger: Optional[logging.Logger] = None,
         retry: "RetryConfig" = None,
         base_oauth_url: str = None,
     ):
@@ -31,27 +36,54 @@ class CelitechAsync(Celitech):
             base_url=base_url,
             timeout=timeout,
             timeout_ms=timeout_ms,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
             retry=retry,
             base_oauth_url=base_oauth_url,
         )
 
         self.destinations = DestinationsServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.packages = PackagesServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.purchases = PurchasesServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.e_sim = ESimServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.i_frame = IFrameServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         self.o_auth = OAuthServiceAsync(
-            base_url=self._base_url, token_manager=self._token_manager
+            base_url=self._base_url,
+            http_client=http_client,
+            follow_redirects=follow_redirects,
+            logger=logger,
+            token_manager=self._token_manager,
         )
         if retry is not None:
             self.set_retry(retry)
