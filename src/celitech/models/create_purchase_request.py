@@ -52,7 +52,7 @@ class CreatePurchaseRequest(BaseModel):
     :type end_date: str
     :param email: Email address where the purchase confirmation email will be sent (including QR Code & activation steps), defaults to None
     :type email: str, optional
-    :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
+    :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes. Letters, digits, `-`, `_`, `.`, `@` and `+` are allowed (so an email address works), up to 255 characters., defaults to None
     :type reference_id: str, optional
     :param network_brand: Customize the network brand of the issued eSIM. The `networkBrand` parameter cannot exceed 15 characters in length and must contain only letters, numbers, dots (.), ampersands (&), and spaces. This feature is available to platforms with Diamond tier only., defaults to None
     :type network_brand: str, optional
@@ -92,7 +92,9 @@ class CreatePurchaseRequest(BaseModel):
         alias="referenceId",
         serialization_alias="referenceId",
         default=None,
-        description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes.",
+        description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes. Letters, digits, `-`, `_`, `.`, `@` and `+` are allowed (so an email address works), up to 255 characters.",
+        pattern=r"^[a-zA-Z0-9\-_.@+]+$",
+        max_length=255,
     )
     network_brand: Optional[str] = Field(
         alias="networkBrand",

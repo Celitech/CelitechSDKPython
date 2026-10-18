@@ -2,6 +2,7 @@ from enum import Enum
 from typing import Any, get_args, Union
 from inspect import isclass
 from .one_of_base_model import OneOfBaseModel
+from .sentinel import was_value_set
 from pydantic import ValidationError
 
 
@@ -20,24 +21,48 @@ def cast_models(func):
         new_cls_args = []
         new_kwargs = {}
 
-        for input, input_type in zip(clss, cls_types.values()):
-            new_cls_args.append(_get_instanced_type(input, input_type))
+        for input, (param_name, input_type) in zip(clss, cls_types.items()):
+            new_cls_args.append(_get_instanced_type(input, input_type, param_name))
 
         for type_name, input in kwargs.items():
-            # Config parameters pass through unchanged - they're already dicts
-            if type_name == "request_config":
+            # Config and unknown keywords pass through so the call itself raises TypeError
+            if type_name == "request_config" or type_name not in cls_types:
                 new_kwargs[type_name] = input
             else:
-                new_kwargs[type_name] = _get_instanced_type(input, cls_types[type_name])
+                new_kwargs[type_name] = _get_instanced_type(
+                    input, cls_types[type_name], type_name
+                )
 
         return func(self, *new_cls_args, **new_kwargs)
 
-    def _get_instanced_type(data, input_type):
+    def _label(type_name, param_name=None, index=None):
+        """
+        Build what a validation failure is reported against. Naming the parameter and, for an
+        array, the element index is the only way a caller with several elements can tell which
+        one failed — the underlying error names the field but not its position.
+
+        :param type_name: The model class name the value was validated against.
+        :param param_name: The parameter the value came from, when known.
+        :param index: The element's position, for a value inside an array.
+        :return: A label such as "items[2] (Thing)", or just "Thing" when the parameter is unknown.
+        :rtype: str
+        """
+        if param_name is None and index is None:
+            return type_name
+
+        breadcrumb = param_name or ""
+        if index is not None:
+            breadcrumb = f"{breadcrumb}[{index}]"
+
+        return f"{breadcrumb} ({type_name})"
+
+    def _get_instanced_type(data, input_type, param_name=None):
         """
         Get instanced type based on the input data and type.
 
         :param data: The input data.
         :param input_type: The type of the input.
+        :param param_name: The parameter name the data came from, used in error messages.
         :return: The instanced type.
         """
         # `typing.Any` means "no validation" — pass the data through
@@ -51,15 +76,21 @@ def cast_models(func):
         # Instanciate oneOf models
         if _is_one_of_model(input_type):
             class_list = {
-                getattr(arg, "__name__", str(arg)): arg for arg in get_args(input_type)
+                getattr(arg, "__name__", str(arg)): arg
+                for arg in map(_strip_annotation, get_args(input_type))
             }
             OneOfBaseModel.class_list = class_list
             return OneOfBaseModel.return_one_of(data)
 
-        # Instanciate enum values
+        # Instanciate enum values. An unset optional parameter (SENTINEL) is never a valid enum
+        # member, so it must pass through unchanged here rather than reach `input_type(data)` -
+        # otherwise every optional enum-typed parameter left at its default would raise
+        # `ValueError: <SENTINEL> is not a valid <Enum>` before the method body (and its own
+        # `Validator(...).is_optional()` check, which already special-cases SENTINEL) ever runs.
         elif (
             isclass(input_type)
             and issubclass(input_type, Enum)
+            and was_value_set(data)
             and not isinstance(data, input_type)
         ):
             return input_type(data)
@@ -72,7 +103,9 @@ def cast_models(func):
                     return input_type.model_validate(data)
                 except ValidationError as e:
                     # Convert ValidationError to TypeError for backward compatibility
-                    raise TypeError(f"Invalid data for {input_type.__name__}: {e}")
+                    raise TypeError(
+                        f"Invalid data for {_label(input_type.__name__, param_name)}: {e}"
+                    )
             # Legacy models or direct instantiation
             else:
                 return input_type(**data)
@@ -85,13 +118,19 @@ def cast_models(func):
             # `TypeError: Cannot instantiate typing.Any`.
             if element_type is Any:
                 return data
-            # Pydantic models: use model_validate() for each item
+            # Pydantic models: use model_validate() for each item. Validated one at a time so the
+            # failing element's index reaches the error message.
             if hasattr(element_type, "model_validate"):
-                try:
-                    return [element_type.model_validate(item) for item in data]
-                except ValidationError as e:
-                    # Convert ValidationError to TypeError for backward compatibility
-                    raise TypeError(f"Invalid data for {element_type.__name__}: {e}")
+                validated = []
+                for index, item in enumerate(data):
+                    try:
+                        validated.append(element_type.model_validate(item))
+                    except ValidationError as e:
+                        # Convert ValidationError to TypeError for backward compatibility
+                        raise TypeError(
+                            f"Invalid data for {_label(element_type.__name__, param_name, index)}: {e}"
+                        )
+                return validated
             # Legacy models or direct instantiation
             else:
                 return [element_type(**item) for item in data]
@@ -103,6 +142,22 @@ def cast_models(func):
         # Pass other types
         else:
             return data
+
+    def _strip_annotation(cls_type):
+        """
+        Unwrap ``Annotated[T, ...]`` to ``T``.
+
+        A oneOf variant carries its own constraints as Annotated metadata, so the union's members
+        are Annotated aliases rather than bare classes. Those are useless to the checks below:
+        ``isinstance`` rejects a subscripted generic outright, and EVERY Annotated alias reports
+        ``__name__ == "Annotated"``, which would collapse two variants into one ``class_list``
+        entry. The constraints still apply — they are enforced by the pydantic model this value is
+        handed to, not here.
+
+        :param cls_type: A union member, annotated or not.
+        :return: The underlying type.
+        """
+        return cls_type.__origin__ if hasattr(cls_type, "__metadata__") else cls_type
 
     def _is_one_of_model(cls_type):
         """

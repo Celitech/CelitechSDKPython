@@ -1,4 +1,6 @@
-from typing import Set
+import logging
+
+from typing import Optional, Set
 from time import time
 
 
@@ -33,13 +35,27 @@ class TokenManager:
     :ivar OauthToken _token: The currently cached OAuth token (None if not yet acquired).
     """
 
-    def __init__(self, base_oauth_url: str):
+    def __init__(
+        self,
+        base_oauth_url: str,
+        http_client=None,
+        follow_redirects: bool = True,
+        logger: Optional[logging.Logger] = None,
+    ):
         """
         Initialize a TokenManager instance.
 
         :param base_oauth_url: The base URL for OAuth token requests.
+        :param http_client: An optional caller-supplied requests.Session, used by the internal
+            OAuth service instance this manager creates to fetch tokens. Used as-is.
+        :param follow_redirects: Whether the internal token-fetch request follows redirects.
+        :param logger: A standard library logger the internal token-fetch request is logged
+            to. Pass None (the default) to disable logging.
         """
         self._base_oauth_url = base_oauth_url
+        self._http_client = http_client
+        self._follow_redirects = follow_redirects
+        self._logger = logger
         self._token = None
         self.client_id = None
         self.client_secret = None
@@ -49,6 +65,27 @@ class TokenManager:
         Sets the base oAuth URL
         """
         self._base_oauth_url = base_oauth_url
+        return self
+
+    def set_http_client(self, http_client):
+        """
+        Sets the HTTP client used by the internal OAuth service to fetch tokens.
+        """
+        self._http_client = http_client
+        return self
+
+    def set_follow_redirects(self, follow_redirects: bool):
+        """
+        Sets whether the internal token-fetch request follows redirects.
+        """
+        self._follow_redirects = follow_redirects
+        return self
+
+    def set_logging(self, logger: Optional[logging.Logger]):
+        """
+        Sets the logger the internal token-fetch request is logged to.
+        """
+        self._logger = logger
         return self
 
     def set_client_id(self, client_id: str):
@@ -107,7 +144,13 @@ class TokenManager:
         # We need to import the service here, to avoid a circular reference error.
         from ...services.o_auth import OAuthService
 
-        service = OAuthService(base_url=self._base_oauth_url, token_manager=self)
+        service = OAuthService(
+            base_url=self._base_oauth_url,
+            token_manager=self,
+            http_client=self._http_client,
+            follow_redirects=self._follow_redirects,
+            logger=self._logger,
+        )
         return service.get_access_token_(
             request_body={
                 k: v

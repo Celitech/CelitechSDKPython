@@ -20,7 +20,7 @@ class TopUpEsimRequest(BaseModel):
     :type duration: float, optional
     :param email: Email address where the purchase confirmation email will be sent (excluding QR Code & activation steps)., defaults to None
     :type email: str, optional
-    :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes., defaults to None
+    :param reference_id: An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes. Letters, digits, `-`, `_`, `.`, `@` and `+` are allowed (so an email address works), up to 255 characters., defaults to None
     :type reference_id: str, optional
     :param email_brand: Customize the email subject brand. The `emailBrand` parameter cannot exceed 25 characters in length and must contain only letters, numbers, and spaces. This feature is available to platforms with Diamond tier only., defaults to None
     :type email_brand: str, optional
@@ -60,7 +60,9 @@ class TopUpEsimRequest(BaseModel):
         alias="referenceId",
         serialization_alias="referenceId",
         default=None,
-        description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes.",
+        description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes. Letters, digits, `-`, `_`, `.`, `@` and `+` are allowed (so an email address works), up to 255 characters.",
+        pattern=r"^[a-zA-Z0-9\-_.@+]+$",
+        max_length=255,
     )
     email_brand: Optional[str] = Field(
         alias="emailBrand",

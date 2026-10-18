@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "celitech-sdk"
-version = "2.0.7"
+version = "2.0.10"
 license = { text = "MIT" }
-description = """Welcome to the CELITECH API documentation!\n\nUseful links: [Homepage](https://www.celitech.com) | [Support email](mailto:support@celitech.com) | [Blog](https://www.celitech.com/blog/)\n"""
+description = """Welcome to the CELITECH API documentation!\n  \n  Useful links: [Homepage](https://www.celitech.com) | [Support email](mailto:devops@celitech.com) | [Blog](https://www.celitech.com/blog/)\n\n  # Introduction\n\n  This is the reference documentation and schemas for the CELITECH API and webhooks. For tutorials and other documentation please refer to the [CELITECH Documentation](https://docs.celitech.com).\n\n  \"Partners\" refers to online service providers that use our eSIM API. Access levels include Gold, Platinum, and Diamond.\n\n  ## API\n\n  The CELITECH API is designed for use by partner platforms, including both web and mobile applications. It's assumed all endpoint calls are initiated from the backend of an integrated platform.\n\n  API URL: `https://api.celitech.net/v1`\n\n  ## Authentication & Authorization\n  CELITECH API uses the OAuth 2.0 protocol for authentication and authorization.\n  The endpoints are protected using client credentials flow which is based on a token exchange. The token has a defined life span (typically 1 hour), after which a new token must be obtained.\n\n  To begin, obtain OAuth 2.0 client credentials ( **CLIENT_ID** & **CLIENT_SECRET** ) from the [CELITECH Dashboard](https://www.dashboard.celitech.com/). Then your client application requests an access token from the CELITECH Authorization Server, extracts a token from the response, and sends the token to the CELITECH API that you want to access.\n\n  Security Scheme Type: `OAuth2`\n\n  Flow type: `clientCredentials`\n\n  Token URL: `https://auth.celitech.net/oauth2/token`"""
 readme = "PyPI_README.md"
 requires-python = ">=3.9"
 dependencies = [

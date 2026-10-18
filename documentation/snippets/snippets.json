@@ -31,6 +31,9 @@
     "/esim/{iccid}/history": {
       "get": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.e_sim.get_esim_history(iccid=\"1111222233334444555000\")\n\nprint(result)\n"
     },
+    "/esim/{iccid}/suspend": {
+      "post": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.e_sim.suspend_esim(iccid=\"1111222233334444555000\")\n\nprint(result)\n"
+    },
     "/iframe/token": {
       "post": "from celitech import Celitech\n\nsdk = Celitech(\n    client_id=\"CLIENT_ID\",\n    client_secret=\"CLIENT_SECRET\"\n)\n\nresult = sdk.i_frame.token()\n\nprint(result)\n"
     }
@@ -66,6 +69,9 @@
     },
     "/esim/{iccid}/history": {
       "get": "print(result)"
+    },
+    "/esim/{iccid}/suspend": {
+      "post": "print(result)"
     },
     "/iframe/token": {
       "post": "print(result)"
