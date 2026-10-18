@@ -1,4 +1,4 @@
-from typing import TypedDict, Optional
+from typing import Dict, TypedDict, Optional, Union
 
 from ..net.environment import Environment
 
@@ -37,6 +37,32 @@ class ValidationConfig(TypedDict, total=False):
     response_validation: bool
 
 
+# What the SDK was generated with (`validateResponses`). Only the DEFAULT: `response_validation`
+# is a documented runtime key, so a caller must be able to move it in either direction.
+RESPONSE_VALIDATION_DEFAULT = True
+
+
+def should_validate_response(resolved_config: Optional["SdkConfig"] = None) -> bool:
+    """
+    Whether a response should be validated against its declared schema.
+
+    Lives next to the ``ValidationConfig`` declaration so the key's only reader sits with its
+    definition. Turning validation off is the standard mitigation when a server drifts from its
+    spec -- an extra enum member, a widened range -- because otherwise every response fails
+    client-side and the SDK is unusable until the spec is corrected.
+
+    An absent key falls back to the generated default rather than being read as False, so a
+    partial ``validation`` dict does not silently disable validation.
+
+    :param SdkConfig resolved_config: The configuration resolved for this request.
+    :return: True when the response should be validated.
+    :rtype: bool
+    """
+    validation = (resolved_config or {}).get("validation") or {}
+    configured = validation.get("response_validation")
+    return RESPONSE_VALIDATION_DEFAULT if configured is None else bool(configured)
+
+
 class SdkConfig(TypedDict, total=False):
     """
     Configuration dictionary for SDK, service, method, and request-level overrides.
@@ -47,18 +73,20 @@ class SdkConfig(TypedDict, total=False):
     - Service config (set via set_config())
     - SDK config (set at initialization)
 
-    :ivar str base_url: Base URL for API requests. Can be a string URL or Environment enum.
-    :ivar Environment environment: Environment enum value for base URL.
+    :ivar Union[Environment, str] base_url: Base URL for API requests. Can be a string URL or Environment enum. Wins over ``environment`` when both are set.
+    :ivar Union[Environment, str] environment: Base URL for API requests, expressed as an Environment enum member. Used only when ``base_url`` is not set at this or a higher-priority scope.
     :ivar float timeout: Request timeout in seconds.
+    :ivar Dict[str, str] additional_headers: Extra headers merged into every request in scope. They override headers the SDK already set for the request (authentication, User-Agent, spec-declared header parameters) but not the body's Content-Type.
     :ivar str client_id: OAuth client ID.
     :ivar str client_secret: OAuth client secret.
     :ivar RetryConfig retry: Retry configuration.
     :ivar ValidationConfig validation: Validation configuration.
     """
 
-    base_url: str
-    environment: Environment
+    base_url: Union[Environment, str]
+    environment: Union[Environment, str]
     timeout: float
+    additional_headers: Dict[str, str]
     client_id: str
     client_secret: str
     retry: RetryConfig

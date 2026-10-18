@@ -2,23 +2,23 @@ from typing import Any, Optional, List, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.sentinel import SENTINEL
 from ..models.utils.cast_models import cast_models
 from ..models import (
-    BadRequest,
     CreatePurchaseOkResponse,
     CreatePurchaseRequest,
     CreatePurchaseV2OkResponse,
     CreatePurchaseV2Request,
     EditPurchaseOkResponse,
     EditPurchaseRequest,
+    ErrorResponse,
     GetPurchaseConsumptionOkResponse,
     ListPurchasesOkResponse,
     TopUpEsimOkResponse,
     TopUpEsimRequest,
-    Unauthorized,
 )
 
 
@@ -103,6 +103,7 @@ class PurchasesService(BaseService):
     def create_purchase_v2(
         self,
         request_body: CreatePurchaseV2Request,
+        idempotency_key: str = SENTINEL,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> List[CreatePurchaseV2OkResponse]:
@@ -110,6 +111,8 @@ class PurchasesService(BaseService):
 
         :param request_body: The request body.
         :type request_body: CreatePurchaseV2Request
+        :param idempotency_key: Optional. A unique value (for example a UUID) that makes this request safe to retry. If a request with the same `Idempotency-Key` and the same body succeeds, repeating it returns the original response instead of performing the action again, and the response includes the header `Idempotent-Replayed: true`. Keys are scoped to your credentials and remembered for 3 days. Only successful (2xx) responses are remembered, so a request that failed can be retried with the same key. Reusing a key with a different request returns `422`; sending it while the original request is still being processed returns `409`. If the idempotency store is temporarily unavailable, the request is not processed and returns `503`; retry it. Must be 1 to 255 printable ASCII characters, without spaces., defaults to None
+        :type idempotency_key: str, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -117,7 +120,10 @@ class PurchasesService(BaseService):
         :rtype: List[CreatePurchaseV2OkResponse]
         """
 
-        Validator(CreatePurchaseV2Request).validate(request_body)
+        Validator(CreatePurchaseV2Request).validate(request_body, "request_body")
+        Validator(str).is_optional().min_length(1).max_length(255).validate(
+            idempotency_key, "idempotency_key"
+        )
 
         resolved_config = self._get_resolved_config(
             self._create_purchase_v2_config, request_config
@@ -125,12 +131,16 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/v2",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/v2",
                 [],
                 resolved_config,
             )
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_header("Idempotency-Key", idempotency_key)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -138,10 +148,14 @@ class PurchasesService(BaseService):
         )
 
         response, status, _ = self.send_request(serialized_request)
-        return [
-            CreatePurchaseV2OkResponse.model_validate(item)
-            for item in (response if isinstance(response, list) else [])
-        ]
+        return (
+            [
+                CreatePurchaseV2OkResponse.model_validate(item)
+                for item in (response if isinstance(response, list) else [])
+            ]
+            if should_validate_response(resolved_config)
+            else (response if isinstance(response, list) else [])
+        )
 
     @cast_models
     def list_purchases(
@@ -188,16 +202,18 @@ class PurchasesService(BaseService):
         :rtype: ListPurchasesOkResponse
         """
 
-        Validator(str).is_optional().validate(purchase_id)
-        Validator(str).is_optional().min_length(18).max_length(22).validate(iccid)
-        Validator(str).is_optional().validate(after_date)
-        Validator(str).is_optional().validate(before_date)
-        Validator(str).is_optional().validate(email)
-        Validator(str).is_optional().validate(reference_id)
-        Validator(str).is_optional().validate(after_cursor)
-        Validator(float).is_optional().validate(limit)
-        Validator(float).is_optional().validate(after)
-        Validator(float).is_optional().validate(before)
+        Validator(str).is_optional().validate(purchase_id, "purchase_id")
+        Validator(str).is_optional().min_length(18).max_length(22).validate(
+            iccid, "iccid"
+        )
+        Validator(str).is_optional().validate(after_date, "after_date")
+        Validator(str).is_optional().validate(before_date, "before_date")
+        Validator(str).is_optional().validate(email, "email")
+        Validator(str).is_optional().validate(reference_id, "reference_id")
+        Validator(str).is_optional().validate(after_cursor, "after_cursor")
+        Validator(float).is_optional().validate(limit, "limit")
+        Validator(float).is_optional().validate(after, "after")
+        Validator(float).is_optional().validate(before, "before")
 
         resolved_config = self._get_resolved_config(
             self._list_purchases_config, request_config
@@ -205,7 +221,7 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases",
                 [],
                 resolved_config,
             )
@@ -219,8 +235,11 @@ class PurchasesService(BaseService):
             .add_query("limit", limit)
             .add_query("after", after)
             .add_query("before", before)
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -230,13 +249,18 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else ListPurchasesOkResponse.model_validate(response)
+            else (
+                ListPurchasesOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
     def create_purchase(
         self,
         request_body: CreatePurchaseRequest,
+        idempotency_key: str = SENTINEL,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> CreatePurchaseOkResponse:
@@ -244,6 +268,8 @@ class PurchasesService(BaseService):
 
         :param request_body: The request body.
         :type request_body: CreatePurchaseRequest
+        :param idempotency_key: Optional. A unique value (for example a UUID) that makes this request safe to retry. If a request with the same `Idempotency-Key` and the same body succeeds, repeating it returns the original response instead of performing the action again, and the response includes the header `Idempotent-Replayed: true`. Keys are scoped to your credentials and remembered for 3 days. Only successful (2xx) responses are remembered, so a request that failed can be retried with the same key. Reusing a key with a different request returns `422`; sending it while the original request is still being processed returns `409`. If the idempotency store is temporarily unavailable, the request is not processed and returns `503`; retry it. Must be 1 to 255 printable ASCII characters, without spaces., defaults to None
+        :type idempotency_key: str, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -251,7 +277,10 @@ class PurchasesService(BaseService):
         :rtype: CreatePurchaseOkResponse
         """
 
-        Validator(CreatePurchaseRequest).validate(request_body)
+        Validator(CreatePurchaseRequest).validate(request_body, "request_body")
+        Validator(str).is_optional().min_length(1).max_length(255).validate(
+            idempotency_key, "idempotency_key"
+        )
 
         resolved_config = self._get_resolved_config(
             self._create_purchase_config, request_config
@@ -259,12 +288,16 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases",
                 [],
                 resolved_config,
             )
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_header("Idempotency-Key", idempotency_key)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -275,13 +308,18 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else CreatePurchaseOkResponse.model_validate(response)
+            else (
+                CreatePurchaseOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
     def top_up_esim(
         self,
         request_body: TopUpEsimRequest,
+        idempotency_key: str = SENTINEL,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> TopUpEsimOkResponse:
@@ -289,6 +327,8 @@ class PurchasesService(BaseService):
 
         :param request_body: The request body.
         :type request_body: TopUpEsimRequest
+        :param idempotency_key: Optional. A unique value (for example a UUID) that makes this request safe to retry. If a request with the same `Idempotency-Key` and the same body succeeds, repeating it returns the original response instead of performing the action again, and the response includes the header `Idempotent-Replayed: true`. Keys are scoped to your credentials and remembered for 3 days. Only successful (2xx) responses are remembered, so a request that failed can be retried with the same key. Reusing a key with a different request returns `422`; sending it while the original request is still being processed returns `409`. If the idempotency store is temporarily unavailable, the request is not processed and returns `503`; retry it. Must be 1 to 255 printable ASCII characters, without spaces., defaults to None
+        :type idempotency_key: str, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -296,7 +336,10 @@ class PurchasesService(BaseService):
         :rtype: TopUpEsimOkResponse
         """
 
-        Validator(TopUpEsimRequest).validate(request_body)
+        Validator(TopUpEsimRequest).validate(request_body, "request_body")
+        Validator(str).is_optional().min_length(1).max_length(255).validate(
+            idempotency_key, "idempotency_key"
+        )
 
         resolved_config = self._get_resolved_config(
             self._top_up_esim_config, request_config
@@ -304,12 +347,16 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/topup",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/topup",
                 [],
                 resolved_config,
             )
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_header("Idempotency-Key", idempotency_key)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -320,13 +367,18 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else TopUpEsimOkResponse.model_validate(response)
+            else (
+                TopUpEsimOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
     def edit_purchase(
         self,
         request_body: EditPurchaseRequest,
+        idempotency_key: str = SENTINEL,
         *,
         request_config: Optional[SdkConfig] = None,
     ) -> EditPurchaseOkResponse:
@@ -334,6 +386,8 @@ class PurchasesService(BaseService):
 
         :param request_body: The request body.
         :type request_body: EditPurchaseRequest
+        :param idempotency_key: Optional. A unique value (for example a UUID) that makes this request safe to retry. If a request with the same `Idempotency-Key` and the same body succeeds, repeating it returns the original response instead of performing the action again, and the response includes the header `Idempotent-Replayed: true`. Keys are scoped to your credentials and remembered for 3 days. Only successful (2xx) responses are remembered, so a request that failed can be retried with the same key. Reusing a key with a different request returns `422`; sending it while the original request is still being processed returns `409`. If the idempotency store is temporarily unavailable, the request is not processed and returns `503`; retry it. Must be 1 to 255 printable ASCII characters, without spaces., defaults to None
+        :type idempotency_key: str, optional
         ...
         :raises RequestError: Raised when a request fails, with optional HTTP status code and details.
         ...
@@ -341,7 +395,10 @@ class PurchasesService(BaseService):
         :rtype: EditPurchaseOkResponse
         """
 
-        Validator(EditPurchaseRequest).validate(request_body)
+        Validator(EditPurchaseRequest).validate(request_body, "request_body")
+        Validator(str).is_optional().min_length(1).max_length(255).validate(
+            idempotency_key, "idempotency_key"
+        )
 
         resolved_config = self._get_resolved_config(
             self._edit_purchase_config, request_config
@@ -349,12 +406,16 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/edit",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/edit",
                 [],
                 resolved_config,
             )
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_header("Idempotency-Key", idempotency_key)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("POST")
             .set_scopes(set())
@@ -365,7 +426,11 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else EditPurchaseOkResponse.model_validate(response)
+            else (
+                EditPurchaseOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )
 
     @cast_models
@@ -383,7 +448,7 @@ class PurchasesService(BaseService):
         :rtype: GetPurchaseConsumptionOkResponse
         """
 
-        Validator(str).validate(purchase_id)
+        Validator(str).validate(purchase_id, "purchase_id")
 
         resolved_config = self._get_resolved_config(
             self._get_purchase_consumption_config, request_config
@@ -391,13 +456,16 @@ class PurchasesService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/purchases/{{purchaseId}}/consumption",
                 [],
                 resolved_config,
             )
             .add_path("purchaseId", purchase_id)
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -407,5 +475,9 @@ class PurchasesService(BaseService):
         return (
             None
             if response in (b"", "")
-            else GetPurchaseConsumptionOkResponse.model_validate(response)
+            else (
+                GetPurchaseConsumptionOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )

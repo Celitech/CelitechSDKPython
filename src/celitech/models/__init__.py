@@ -6,6 +6,31 @@ on SDKs with thousands of generated models.
 """
 
 import importlib
+import typing
+
+import pydantic
+
+from .utils import base_model as _base_model
+
+# Names a model annotation can mention besides a model class. Pydantic re-evaluates an INHERITED
+# annotation that needs a forward ref in the SUBCLASS's module, not the base's, so a fernMode
+# `<Union>_<Variant>` subclass of a model declaring ``children: List[AstNodeInput]`` looks for
+# ``List`` in the union's module -- which has no reason to import it. Supplying them through the
+# rebuild namespace covers every such name at once. Module globals are layered on top, so a schema
+# that happens to be named ``Field`` still wins.
+_BUILTIN_NAMESPACE = {
+    "typing": typing,
+    "Annotated": typing.Annotated,
+    "Any": typing.Any,
+    "Dict": typing.Dict,
+    "List": typing.List,
+    "Literal": typing.Literal,
+    "Optional": typing.Optional,
+    "Union": typing.Union,
+    "Field": pydantic.Field,
+    "TypeAdapter": pydantic.TypeAdapter,
+    "UniqueItems": _base_model.UniqueItems,
+}
 
 _MODEL_TO_MODULE = {
     "ListDestinationsOkResponse": "list_destinations_ok_response",
@@ -19,6 +44,8 @@ _MODEL_TO_MODULE = {
     "CreatePurchaseV2OkResponseProfile": "create_purchase_v2_ok_response",
     "ListPurchasesOkResponse": "list_purchases_ok_response",
     "Purchases": "list_purchases_ok_response",
+    "Package": "list_purchases_ok_response",
+    "PurchasesEsim": "list_purchases_ok_response",
     "CreatePurchaseRequest": "create_purchase_request",
     "CreatePurchaseRequestLanguage": "create_purchase_request",
     "CreatePurchaseOkResponse": "create_purchase_ok_response",
@@ -37,12 +64,13 @@ _MODEL_TO_MODULE = {
     "Device": "get_esim_device_ok_response",
     "GetEsimHistoryOkResponse": "get_esim_history_ok_response",
     "GetEsimHistoryOkResponseEsim": "get_esim_history_ok_response",
+    "History": "get_esim_history_ok_response",
+    "SuspendEsimOkResponse": "suspend_esim_ok_response",
     "TokenOkResponse": "token_ok_response",
     "OAuthTokenRequest": "o_auth_token_request",
     "OAuthTokenResponse": "o_auth_token_response",
     "GrantType": "grant_type",
-    "BadRequest": "bad_request",
-    "Unauthorized": "unauthorized",
+    "ErrorResponse": "error_response",
 }
 
 _REBUILD_NAMES = frozenset(
@@ -74,6 +102,7 @@ _REBUILD_NAMES = frozenset(
         "Device",
         "GetEsimHistoryOkResponse",
         "GetEsimHistoryOkResponseEsim",
+        "SuspendEsimOkResponse",
         "TokenOkResponse",
         "OAuthTokenRequest",
         "OAuthTokenResponse",
@@ -94,6 +123,45 @@ def _load(name):
     return obj
 
 
+def _rebuild(cls, ns):
+    """Rebuild ``cls``, loading on demand whatever its forward refs still need.
+
+    A deferred model can forward-reference a name that is not itself a
+    BaseModel — a module-level ``Union`` alias is the common case — and
+    no amount of rebuilding the BaseModels brings that alias into ``ns``.
+    Pydantic names the one it is missing, so load exactly that and retry
+    rather than eagerly importing every model, which is the cost this
+    module exists to avoid.
+
+    ``PydanticUndefinedAnnotation`` carries ``.name``; the ``name in ns``
+    guard is what terminates the loop, since ``_load`` either adds the
+    name or there is nothing more to try. The bound on the iteration count
+    is a second belt: it holds even if a future pydantic reports a name
+    that never equals the key inserted for it, which would otherwise hang
+    an SDK rather than fail it.
+    """
+    for _ in range(len(_MODEL_TO_MODULE) + 1):
+        try:
+            # _types_namespace is mandatory: pydantic resolves forward refs
+            # against caller-frame locals by default, but we're calling from
+            # inside a helper — the names live in this module's globals.
+            cls.model_rebuild(_types_namespace=ns)
+            return
+        except pydantic.PydanticUndefinedAnnotation as missing:
+            name = missing.name
+            if name in ns:
+                return
+            try:
+                obj = _load(name)
+            except Exception:
+                return
+            if obj is None:
+                return
+            ns[name] = obj
+        except Exception:
+            return
+
+
 def _ensure_rebuilt():
     """Resolve forward refs across every BaseModel in one batched pass.
 
@@ -103,7 +171,8 @@ def _ensure_rebuilt():
     forward-ref names — calling it from this module once every
     BaseModel has been loaded into our globals is what lets pydantic
     resolve circular refs (the same shape the prior eager-import form
-    relied on). Enums, Union types, and error models stay lazy.
+    relied on). Enums, Union types, and error models stay lazy until a
+    rebuild asks for one.
     """
     global _rebuilt
     if _rebuilt:
@@ -115,18 +184,13 @@ def _ensure_rebuilt():
                 _load(name)
             except Exception:
                 pass
-    ns = globals()
+    ns = dict(_BUILTIN_NAMESPACE)
+    ns.update(globals())
     for name in _REBUILD_NAMES:
-        cls = ns.get(name)
+        cls = globals().get(name)
         if cls is None:
             continue
-        try:
-            # _types_namespace is mandatory: pydantic resolves forward refs
-            # against caller-frame locals by default, but we're calling from
-            # inside a helper — the names live in this module's globals.
-            cls.model_rebuild(_types_namespace=ns)
-        except Exception:
-            pass
+        _rebuild(cls, ns)
 
 
 def __getattr__(name):

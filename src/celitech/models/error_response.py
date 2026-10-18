@@ -6,9 +6,9 @@ from .utils.base_error import BaseError
 from .utils.base_model import BaseModel
 
 
-# Pydantic validation model for Unauthorized
-class UnauthorizedData(BaseModel):
-    """Unauthorized
+# Pydantic validation model for ErrorResponse
+class ErrorResponseData(BaseModel):
+    """ErrorResponse
 
     :param message: Message of the error, defaults to None
     :type message: str, optional
@@ -18,11 +18,11 @@ class UnauthorizedData(BaseModel):
 
 
 # Error exception class
-class Unauthorized(BaseError):
-    """Unauthorized
+class ErrorResponse(BaseError):
+    """ErrorResponse
 
     :param message: Message of the error, defaults to None
     :type message: str, optional
     """
 
-    _model_class = UnauthorizedData
+    _model_class = ErrorResponseData
