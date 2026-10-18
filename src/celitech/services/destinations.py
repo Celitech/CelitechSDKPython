@@ -2,10 +2,11 @@ from typing import Any, Optional, Union
 from .utils.validator import Validator
 from .utils.base_service import BaseService
 from ..net.transport.serializer import Serializer
+from ..net.sdk_config import should_validate_response
 from ..net.sdk_config import SdkConfig
 from ..net.environment.environment import Environment
 from ..models.utils.cast_models import cast_models
-from ..models import BadRequest, ListDestinationsOkResponse, Unauthorized
+from ..models import ErrorResponse, ListDestinationsOkResponse
 
 
 class DestinationsService(BaseService):
@@ -49,12 +50,15 @@ class DestinationsService(BaseService):
 
         serialized_request = (
             Serializer(
-                f"{resolved_config.get('base_url') or self.base_url or Environment.DEFAULT.url}/destinations",
+                f"{self._resolve_base_url(resolved_config) or Environment.DEFAULT.url}/destinations",
                 [],
                 resolved_config,
             )
-            .add_error(400, BadRequest)
-            .add_error(401, Unauthorized)
+            .add_error(400, ErrorResponse)
+            .add_error(401, ErrorResponse)
+            .add_error(409, ErrorResponse)
+            .add_error(422, ErrorResponse)
+            .add_error(503, ErrorResponse)
             .serialize()
             .set_method("GET")
             .set_scopes(set())
@@ -64,5 +68,9 @@ class DestinationsService(BaseService):
         return (
             None
             if response in (b"", "")
-            else ListDestinationsOkResponse.model_validate(response)
+            else (
+                ListDestinationsOkResponse.model_validate(response)
+                if should_validate_response(resolved_config)
+                else response
+            )
         )

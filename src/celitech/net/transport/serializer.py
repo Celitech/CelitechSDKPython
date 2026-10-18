@@ -1,5 +1,5 @@
 from typing import Any, List, Optional, TYPE_CHECKING
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
 
 from .request import Request
 from .utils import extract_original_data
@@ -45,12 +45,59 @@ class Serializer:
         self.errors: dict[int, ApiError] = {}
         self.config: Optional["SdkConfig"] = config
 
-        self.headers["User-Agent"] = "postman-codegen/2.6.0 celitech-sdk/2.0.7 (python)"
+        self.headers["User-Agent"] = "postman-codegen/3.7.0 celitech-sdk/2.0.9 (python)"
 
-        # Apply default headers
+        # Apply default headers, FIRST contributor of a header name winning (FSDK-1671).
+        #
+        # Basic and bearer auth both write `Authorization`, and this loop used to apply them in
+        # order and let the LAST one overwrite the earlier — so on a spec declaring both, basic
+        # (applied last) always won. Combined with a BasicAuth that emitted a header even with no
+        # credentials, a bearer-only caller's token was replaced by `Basic base64("None:None")`.
+        #
+        # The header classes now stay silent when their credential is absent, which resolves every
+        # single-credential case on its own. `setdefault` decides the remaining tie — both
+        # credentials supplied — and the auth header list is ordered bearer, api key, basic (see
+        # `getAuthHeadersWithConfig`), so BEARER WINS. That is the precedence Ruby settled on in
+        # FSDK-1666 and the only one deliberately implemented elsewhere in the repo; the point of
+        # fixing this is that the generators agree rather than each choosing.
+        #
+        # Resolved into a dict up front rather than by guarding `add_header` inside the loop, so
+        # "first wins" is stated once and cannot be confused with the `User-Agent` set just above
+        # or with the request's own header parameters, which are applied after this and still win.
+        resolved_default_headers: dict[str, str] = {}
         for header in default_headers:
             for key, value in header.get_headers().items():
-                self.add_header(key, value)
+                resolved_default_headers.setdefault(key, value)
+
+        for key, value in resolved_default_headers.items():
+            self.add_header(key, value)
+
+    @staticmethod
+    def _is_empty_collection(data: Any) -> bool:
+        """
+        Whether the value is a collection holding nothing.
+
+        An EMPTY collection is an ABSENT parameter, not a present-but-empty one. Every
+        non-exploded style ends in `f"{key}={...}"` and `_serialize_value` over an empty
+        collection returns the empty string, so the wire got exactly `key=` -- which a server
+        reads as one empty element instead of no parameter at all, and is a genuine 400 for an
+        API that validates its array parameters. The exploded-list case was already correct.
+        The callers that consult this (query, header, cookie) therefore skip the parameter
+        outright, matching what the C# generator chose for the same defect (FSDK-1458 / #2253).
+
+        `add_path` deliberately does NOT consult this, for the reason the C# guard sits after its
+        path-style switch: a path parameter is substituted into the URL template rather than
+        appended as a pair, so skipping it would change the URL SHAPE (`/p/;key=` becoming an
+        empty segment) rather than omit anything. Path styles keep their previous rendering.
+
+        A `str`/`bytes` is deliberately not a collection here: an empty string is a real value,
+        and `key=` is the correct wire form for it.
+
+        :param Any data: The already-extracted parameter value.
+        :return: True when the value is a collection with no items.
+        :rtype: bool
+        """
+        return isinstance(data, (list, tuple, set, frozenset, dict)) and len(data) == 0
 
     def add_header(
         self, key: str, data: Any, explode: bool = False, nullable: bool = False
@@ -71,6 +118,21 @@ class Serializer:
             return self
 
         data = extract_original_data(data)
+
+        if self._is_empty_collection(data):
+            # Skips WITHOUT clearing any value already set for `key`, which is deliberate: the
+            # value is an absent parameter, and an absent parameter has nothing to write. `headers`
+            # is the one stateful location (query and cookie only append), so it is the only one
+            # where the difference is observable, and every read of it argues the same way --
+            # `__init__` funnels the DEFAULT headers, auth included, through this same method, so
+            # deleting `key` here would let an `add_header("Authorization", [])` strip the
+            # credential off a request that never mentioned it.
+            #
+            # Last-writer-wins is not what is being diverged from. The C# reference (#2253) skips
+            # identically -- `SetHeader` leaves `_headers` untouched when the serialized value is
+            # empty -- and its `_headers.Add` raises on a key that is already present, so a second
+            # write there is an error rather than an override.
+            return self
 
         self.headers[key] = self._serialize_value(
             data, explode=explode, quote_str_values=False
@@ -96,6 +158,9 @@ class Serializer:
             return self
 
         data = extract_original_data(data)
+
+        if self._is_empty_collection(data):
+            return self
 
         self.cookies.append(
             f"{key}={self._serialize_value(data, explode=explode, quote_str_values=False)}"
@@ -178,6 +243,9 @@ class Serializer:
 
         data = extract_original_data(data)
 
+        if self._is_empty_collection(data):
+            return self
+
         if style == "form":
             separator = (
                 f"&{key}="
@@ -200,6 +268,62 @@ class Serializer:
 
         self.query.append(query_param)
         return self
+
+    def add_channel_query(self, key: str, data: Any) -> "Serializer":
+        """
+        Adds a WebSocket handshake query parameter.
+
+        Separate from add_query because a handshake parameter carries no OpenAPI style: the
+        channel binding declares a name and a schema and nothing else, so the encoding is fixed
+        rather than chosen. A list repeats its key, a mapping expands to bracketed keys at every
+        depth, and a mapping holding a list does both. An unset parameter stays off the URL.
+
+        :param str key: The query parameter key.
+        :param Any data: The data to be serialized as the query parameter value.
+        :return: The Serializer instance for method chaining.
+        :rtype: Serializer
+        """
+        if data is None or not was_value_set(data):
+            return self
+
+        extracted = extract_original_data(data)
+
+        if self._is_empty_collection(extracted):
+            return self
+
+        pairs = self._channel_query_pairs(key, extracted)
+        if pairs:
+            self.query.append("&".join(pairs))
+        return self
+
+    def _channel_query_pairs(self, key: str, data: Any) -> List[str]:
+        """
+        Flattens one handshake parameter into its `key=value` pairs.
+
+        :param str key: The key the value sits under, already bracketed for a nested mapping.
+        :param Any data: The already-extracted value.
+        :return: One entry per pair the parameter contributes.
+        :rtype: List[str]
+        """
+        if isinstance(data, dict):
+            pairs: List[str] = []
+            for nested_key, value in data.items():
+                pairs.extend(
+                    self._channel_query_pairs(
+                        f"{key}[{nested_key}]", extract_original_data(value)
+                    )
+                )
+            return pairs
+
+        if isinstance(data, (list, tuple, set, frozenset)):
+            pairs = []
+            for item in data:
+                pairs.extend(
+                    self._channel_query_pairs(key, extract_original_data(item))
+                )
+            return pairs
+
+        return [f"{quote_plus(key)}={quote_plus(str(data))}"]
 
     def add_error(self, status: int, error: ApiError) -> "Serializer":
         """
@@ -228,6 +352,8 @@ class Serializer:
         if len(self.cookies) > 0:
             self.headers["Cookie"] = ";".join(self.cookies)
 
+        self._apply_additional_headers()
+
         return (
             Request()
             .set_url(final_url)
@@ -235,6 +361,23 @@ class Serializer:
             .set_errors(self.errors)
             .set_config(self.config)
         )
+
+    def _apply_additional_headers(self) -> None:
+        """
+        Applies `additional_headers` from the resolved SdkConfig. Merged last, so an entry wins over
+        a header the SDK already set for this request (auth, User-Agent, a spec-declared header
+        parameter). A differently-cased existing key is dropped first so the override replaces the
+        header instead of sending it twice.
+        """
+        additional_headers = (self.config or {}).get("additional_headers") or {}
+
+        for key, value in additional_headers.items():
+            for existing in [
+                k for k in self.headers if k.lower() == key.lower() and k != key
+            ]:
+                del self.headers[existing]
+
+            self.add_header(key, value)
 
     def _define_url(self) -> str:
         """
