@@ -46,8 +46,11 @@ class Serializer:
         self.config: Optional["SdkConfig"] = config
 
         self.headers["User-Agent"] = (
-            "postman-codegen/3.7.0 celitech-sdk/2.0.10 (python)"
+            "postman-codegen/3.10.0 celitech-sdk/3.0.0 (python)"
         )
+        self.headers["X-Fern-Language"] = "Python"
+        self.headers["X-Fern-SDK-Name"] = "celitech-sdk"
+        self.headers["X-Fern-SDK-Version"] = "3.0.0"
 
         # Apply default headers, FIRST contributor of a header name winning (FSDK-1671).
         #
@@ -349,6 +352,8 @@ class Serializer:
         :return: The Request object containing the serialized components.
         :rtype: Request
         """
+        self._apply_additional_query_parameters()
+
         final_url = self._define_url()
 
         if len(self.cookies) > 0:
@@ -380,6 +385,39 @@ class Serializer:
                 del self.headers[existing]
 
             self.add_header(key, value)
+
+    def _apply_additional_query_parameters(self) -> None:
+        """
+        Applies `additional_query_parameters` from the resolved SdkConfig. Merged last, so an entry
+        wins over a spec-declared query parameter of the same wire name, which is why an existing
+        entry for the key is dropped first instead of being sent twice.
+
+        A dict value is sent as `key[sub]=value` rather than form-exploded: form explode drops the
+        key itself, so `{"filter": {"a": 1}}` would go out as `a=1`.
+        """
+        additional_query_parameters = (self.config or {}).get(
+            "additional_query_parameters"
+        ) or {}
+
+        for key, value in additional_query_parameters.items():
+            # `key[` as well as `key=`: a spec-declared deepObject parameter is stored as
+            # `key[sub]=...`, which `key=` alone does not match -- so the declared sub-keys and the
+            # caller's would BOTH go out instead of the caller overriding them. `add_query`
+            # interpolates the key unencoded, so these entries carry the raw key at this point.
+            self.query = [
+                entry
+                for entry in self.query
+                if not (entry.startswith(f"{key}=") or entry.startswith(f"{key}["))
+            ]
+
+            # Percent-encoded, unlike a spec-declared parameter name: this key is caller input at
+            # request time and `add_query` interpolates it verbatim, so an `&` or `=` inside it
+            # would otherwise split into forged query parameters of its own.
+            self.add_query(
+                quote(str(key), safe=""),
+                value,
+                style="deepObject" if isinstance(value, dict) else "form",
+            )
 
     def _define_url(self) -> str:
         """

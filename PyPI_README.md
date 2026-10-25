@@ -1,11 +1,12 @@
-# Celitech Python SDK 2.0.10<a id="celitech-python-sdk-2010"></a>
+# Celitech Python SDK 3.0.0<a id="celitech-python-sdk-300"></a>
 
 Welcome to the Celitech SDK documentation. This guide will help you get started with integrating and using the Celitech SDK in your project.
 
 ## Versions<a id="versions"></a>
 
-- API version: `2.0.10`
-- SDK version: `2.0.10`
+- SDK version: `3.0.0`
+- Authors: CELITECH
+- Homepage: [https://docs.celitech.com/](https://docs.celitech.com/)
 
 ## About the API<a id="about-the-api"></a>
 
@@ -45,7 +46,6 @@ Token URL: `https://auth.celitech.net/oauth2/token`
   - [Installation](#installation)
 - [Authentication](#authentication)
   - [OAuth Authentication](#oauth-authentication)
-  - [Environment Variables](#environment-variables)
 - [Setting a Custom Timeout](#setting-a-custom-timeout)
 - [Sample Usage](#sample-usage)
 - [Services](#services)
@@ -125,19 +125,6 @@ sdk.set_client_id("CLIENT_ID")
 sdk.set_client_secret("CLIENT_SECRET")
 ```
 
-## Environment Variables<a id="environment-variables"></a>
-
-These are the environment variables for the SDK:
-
-| Name          | Description             |
-| :------------ | :---------------------- |
-| CLIENT_ID     | Client ID parameter     |
-| CLIENT_SECRET | Client Secret parameter |
-
-Environment variables are a way to configure your application outside the code. You can set these environment variables on the command line or use your project's existing tooling for managing environment variables.
-
-If you are using a `.env` file, a template with the variable names is provided in the `.env.example` file located in the same directory as this README.
-
 ## Setting a Custom Timeout<a id="setting-a-custom-timeout"></a>
 
 You can set a custom timeout for the SDK's HTTP requests as follows:
@@ -172,9 +159,9 @@ The SDK includes an Async Client for making asynchronous API requests. This is u
 
 ```py
 import asyncio
-from celitech import CelitechAsync
+from celitech import AsyncCelitech
 
-sdk = CelitechAsync(
+sdk = AsyncCelitech(
     client_id="CLIENT_ID",
     client_secret="CLIENT_SECRET"
 )
@@ -211,27 +198,27 @@ The SDK includes several models that represent the data structures used in API r
 <details> 
 <summary>Below is a list of all available models:</summary>
 
-| Name                             | Description |
-| :------------------------------- | :---------- |
-| ListDestinationsOkResponse       |             |
-| ListPackagesOkResponse           |             |
-| CreatePurchaseV2Request          |             |
-| CreatePurchaseV2OkResponse       |             |
-| ListPurchasesOkResponse          |             |
-| CreatePurchaseRequest            |             |
-| CreatePurchaseOkResponse         |             |
-| TopUpEsimRequest                 |             |
-| TopUpEsimOkResponse              |             |
-| EditPurchaseRequest              |             |
-| EditPurchaseOkResponse           |             |
-| GetPurchaseConsumptionOkResponse |             |
-| GetEsimOkResponse                |             |
-| GetEsimDeviceOkResponse          |             |
-| GetEsimHistoryOkResponse         |             |
-| SuspendEsimOkResponse            |             |
-| TokenOkResponse                  |             |
-| GrantType                        |             |
-| ErrorResponse                    |             |
+| Name                            | Description |
+| :------------------------------ | :---------- |
+| ListDestinationsResponse        |             |
+| ListPackagesResponse            |             |
+| CreatePurchaseV2Request         |             |
+| CreatePurchaseV2Response        |             |
+| ListPurchasesResponse           |             |
+| CreatePurchaseRequest           |             |
+| CreatePurchaseResponse          |             |
+| TopUpEsimRequest                |             |
+| TopUpEsimResponse               |             |
+| EditPurchaseRequest             |             |
+| EditPurchaseResponse            |             |
+| GetPurchaseConsumptionResponse  |             |
+| GetEsimResponse                 |             |
+| GetEsimDeviceResponse           |             |
+| GetEsimHistoryResponse          |             |
+| SuspendEsimResponse             |             |
+| TokenResponse                   |             |
+| PostOauth2TokenRequestGrantType |             |
+| ErrorResponse                   |             |
 
 </details>
 

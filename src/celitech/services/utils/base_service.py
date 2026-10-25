@@ -15,7 +15,7 @@ from ...net.request_chain.handlers.oauth_handler import OauthHandler
 
 if TYPE_CHECKING:
     from ...net.sdk_config import SdkConfig, RetryConfig
-    from ...net.environment import Environment
+    from ...net.environment import CelitechEnvironment
 
 
 class BaseService:
@@ -37,7 +37,7 @@ class BaseService:
         """
         Initializes a BaseService instance.
 
-        :param base_url: The base URL for the service, as a string or an Environment enum member. Defaults to None.
+        :param base_url: The base URL for the service, as a string or an CelitechEnvironment enum member. Defaults to None.
         """
         self.base_url = self._normalize_base_url(base_url)
         self._default_headers = DefaultHeaders()
@@ -101,24 +101,26 @@ class BaseService:
 
         return self
 
-    def set_base_url(self, base_url: Union["Environment", str]):
+    def set_base_url(self, base_url: Union["CelitechEnvironment", str]):
         """
         Sets the base URL for the service.
 
-        :param base_url: The base URL to be set, as a string or an Environment enum member.
+        :param base_url: The base URL to be set, as a string or an CelitechEnvironment enum member.
         """
         self.base_url = self._normalize_base_url(base_url)
 
         return self
 
     @staticmethod
-    def _normalize_base_url(base_url: Union["Environment", str, None]) -> Optional[str]:
+    def _normalize_base_url(
+        base_url: Union["CelitechEnvironment", str, None],
+    ) -> Optional[str]:
         """
         Coerces a base URL to its string form. SdkConfig documents `base_url` as either a URL
-        string or an Environment enum member, so every entry point that assigns `self.base_url`
+        string or an CelitechEnvironment enum member, so every entry point that assigns `self.base_url`
         has to accept both or the setter and the constructor disagree on the property's type.
 
-        :param base_url: A URL string, an Environment enum member, or None.
+        :param base_url: A URL string, an CelitechEnvironment enum member, or None.
         :return: The URL without a trailing slash, or the input unchanged when it is empty.
         :rtype: Optional[str]
         """
@@ -133,7 +135,7 @@ class BaseService:
     ) -> Optional[str]:
         """
         Resolves the base URL for a single request: a scoped `base_url`, then the service's own
-        base URL, then a scoped `environment`. Each accepts a string or an Environment enum member.
+        base URL, then a scoped `environment`. Each accepts a string or an CelitechEnvironment enum member.
 
         `self.base_url` MUST come before `environment`. The generator delivers an operation-level
         server through `resolved_config['environment']`, so ordering `environment` first makes an
