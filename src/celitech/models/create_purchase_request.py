@@ -1,42 +1,13 @@
 from __future__ import annotations
-from enum import Enum
+import typing
 from pydantic import Field
 from typing import Optional
 from typing import Any
 from .utils.base_model import BaseModel
 
-
-class CreatePurchaseRequestLanguage(str, Enum):
-    """An enumeration representing different categories.
-
-    :cvar EN: "en"
-    :vartype EN: str
-    :cvar ES: "es"
-    :vartype ES: str
-    :cvar FR: "fr"
-    :vartype FR: str
-    :cvar DE: "de"
-    :vartype DE: str
-    :cvar PTBR: "pt-br"
-    :vartype PTBR: str
-    """
-
-    EN = "en"
-    ES = "es"
-    FR = "fr"
-    DE = "de"
-    PTBR = "pt-br"
-
-    @staticmethod
-    def list():
-        """Lists all enum values.
-
-        :return: A list of all enum values.
-        :rtype: list
-        """
-        return list(
-            map(lambda x: x.value, CreatePurchaseRequestLanguage._member_map_.values())
-        )
+CreatePurchaseRequestLanguage = typing.Union[
+    typing.Literal["en", "es", "fr", "de", "pt-br"], typing.Any
+]
 
 
 class CreatePurchaseRequest(BaseModel):
@@ -93,8 +64,6 @@ class CreatePurchaseRequest(BaseModel):
         serialization_alias="referenceId",
         default=None,
         description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes. Letters, digits, `-`, `_`, `.`, `@` and `+` are allowed (so an email address works), up to 255 characters.",
-        pattern=r"^[a-zA-Z0-9\-_.@+]+$",
-        max_length=255,
     )
     network_brand: Optional[str] = Field(
         alias="networkBrand",

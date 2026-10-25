@@ -1,4 +1,5 @@
 from typing import Any, List, Dict, Optional, Union, Type, TypeVar, get_origin, get_args
+from typing import Literal
 
 T = TypeVar("T")
 
@@ -120,10 +121,29 @@ class OneOfBaseModel:
         if inner_type is Any:
             return input_data
 
+        if get_origin(inner_type) in (Union, Literal):
+            for item in input_data:
+                if not cls._item_matches(item, inner_type):
+                    raise TypeError(f"{item!r} does not match {inner_type}")
+            return input_data
+
         if not all(isinstance(item, inner_type) for item in input_data):
             return [inner_type._unmap(item) for item in input_data]
 
         return input_data
+
+    @classmethod
+    def _item_matches(cls, item: Any, member: Any) -> bool:
+        if member is Any:
+            return True
+        origin = get_origin(member)
+        if origin is Literal:
+            return item in get_args(member)
+        if origin is Union:
+            return any(cls._item_matches(item, arg) for arg in get_args(member))
+        if isinstance(member, type):
+            return isinstance(item, member)
+        return False
 
     @classmethod
     def _raise_one_of_error(cls, exception_list):

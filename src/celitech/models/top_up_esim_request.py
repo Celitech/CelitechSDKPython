@@ -30,7 +30,7 @@ class TopUpEsimRequest(BaseModel):
     :type end_time: float, optional
     """
 
-    iccid: str = Field(description="ID of the eSIM", min_length=18, max_length=22)
+    iccid: str = Field(description="ID of the eSIM")
     data_limit_in_gb: float = Field(
         alias="dataLimitInGB",
         serialization_alias="dataLimitInGB",
@@ -61,8 +61,6 @@ class TopUpEsimRequest(BaseModel):
         serialization_alias="referenceId",
         default=None,
         description="An identifier provided by the partner to link this purchase to their booking or transaction for analytics and debugging purposes. Letters, digits, `-`, `_`, `.`, `@` and `+` are allowed (so an email address works), up to 255 characters.",
-        pattern=r"^[a-zA-Z0-9\-_.@+]+$",
-        max_length=255,
     )
     email_brand: Optional[str] = Field(
         alias="emailBrand",

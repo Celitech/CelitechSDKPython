@@ -1,6 +1,6 @@
-from typing import Dict, TypedDict, Optional, Union
+from typing import Any, Dict, TypedDict, Optional, Union
 
-from ..net.environment import Environment
+from ..net.environment import CelitechEnvironment
 
 
 class RetryConfig(TypedDict, total=False):
@@ -73,20 +73,28 @@ class SdkConfig(TypedDict, total=False):
     - Service config (set via set_config())
     - SDK config (set at initialization)
 
-    :ivar Union[Environment, str] base_url: Base URL for API requests. Can be a string URL or Environment enum. Wins over ``environment`` when both are set.
-    :ivar Union[Environment, str] environment: Base URL for API requests, expressed as an Environment enum member. Used only when ``base_url`` is not set at this or a higher-priority scope.
+    :ivar Union[CelitechEnvironment, str] base_url: Base URL for API requests. Can be a string URL or CelitechEnvironment enum. Wins over ``environment`` when both are set.
+    :ivar Union[CelitechEnvironment, str] environment: Base URL for API requests, expressed as an CelitechEnvironment enum member. Used only when ``base_url`` is not set at this or a higher-priority scope.
     :ivar float timeout: Request timeout in seconds.
     :ivar Dict[str, str] additional_headers: Extra headers merged into every request in scope. They override headers the SDK already set for the request (authentication, User-Agent, spec-declared header parameters) but not the body's Content-Type.
+    :ivar Dict[str, Any] additional_query_parameters: Extra query parameters appended to every request in scope, under the wire names given. An entry overrides a spec-declared parameter of the same name. A list value is sent as a repeated key; a dict value as `key[sub]=value`.
+    :ivar Dict[str, Any] additional_body_parameters: Extra keys merged into the JSON (or form) object body of every request in scope, under the wire names given. An entry overrides a field the SDK already serialized under the same wire name. An endpoint with no body sends these as its body; an array or primitive body has nowhere to merge into and is left alone.
+    :ivar bool stream_reconnection_enabled: Whether a resumable stream reconnects after a premature end. Defaults to True.
+    :ivar int max_stream_reconnection_attempts: Consecutive reconnection attempts allowed for a resumable stream. Defaults to 5.
     :ivar str client_id: OAuth client ID.
     :ivar str client_secret: OAuth client secret.
     :ivar RetryConfig retry: Retry configuration.
     :ivar ValidationConfig validation: Validation configuration.
     """
 
-    base_url: Union[Environment, str]
-    environment: Union[Environment, str]
+    base_url: Union[CelitechEnvironment, str]
+    environment: Union[CelitechEnvironment, str]
     timeout: float
     additional_headers: Dict[str, str]
+    additional_query_parameters: Dict[str, Any]
+    additional_body_parameters: Dict[str, Any]
+    stream_reconnection_enabled: bool
+    max_stream_reconnection_attempts: int
     client_id: str
     client_secret: str
     retry: RetryConfig

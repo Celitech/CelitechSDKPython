@@ -6,7 +6,7 @@ from enum import Enum
 from urllib.parse import urlparse
 
 
-class Environment(Enum):
+class CelitechEnvironment(Enum):
     """The environments available for the SDK"""
 
     DEFAULT = "https://api.celitech.net/v1"

@@ -1,14 +1,21 @@
+import functools
 from enum import Enum
-from typing import Any, get_args, Union
+from typing import Any, Callable, TypeVar, cast, get_args, Union
 from inspect import isclass
 from .one_of_base_model import OneOfBaseModel
 from .sentinel import was_value_set
 from pydantic import ValidationError
 
+F = TypeVar("F", bound=Callable[..., Any])
 
-def cast_models(func):
+
+def cast_models(func: F) -> F:
     """
     A decorator that allows for the conversion of dictionaries and enum values to model instances.
+
+    Declared as ``F -> F`` so a type checker keeps the decorated method's OWN signature. Without
+    it the decorator is untyped, every method it wraps collapses to ``Any``, and a type checker
+    reports nothing for a wrong argument or a wrong return type.
 
     :param func: The function to decorate.
     :type func: Callable
@@ -16,6 +23,10 @@ def cast_models(func):
     :rtype: Callable
     """
 
+    # `functools.wraps` is what makes `inspect.signature`, `help()` and every IDE see the wrapped
+    # method's real parameters instead of this wrapper's `(*clss, **kwargs)`, by carrying over
+    # `__doc__`/`__annotations__` and setting `__wrapped__` for signature-following to unwrap.
+    @functools.wraps(func)
     def wrapper(self, *clss, **kwargs):
         cls_types = func.__annotations__
         new_cls_args = []
@@ -169,4 +180,4 @@ def cast_models(func):
         """
         return hasattr(cls_type, "__origin__") and cls_type.__origin__ is Union
 
-    return wrapper
+    return cast(F, wrapper)

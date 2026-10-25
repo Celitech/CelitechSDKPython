@@ -4,6 +4,7 @@ from pydantic import (
     ConfigDict,
     ValidationError,
 )
+from pydantic import model_validator
 from typing import Any, Dict
 
 
@@ -128,6 +129,36 @@ class BaseModel(PydanticBaseModel):
         # compatibility by translateRegexForPython at generation time.
         regex_engine="python-re",
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _remap_legacy_field_names(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+
+        fields = cls.model_fields
+        known = set(fields)
+        known.update(info.alias for info in fields.values() if info.alias)
+        unknown = [key for key in data if isinstance(key, str) and key not in known]
+        if not unknown:
+            return data
+
+        by_flat_name: Dict[str, list] = {}
+        for name, info in fields.items():
+            for spelling in {name, info.alias or name}:
+                by_flat_name.setdefault(spelling.replace("_", "").lower(), []).append(
+                    name
+                )
+
+        remapped = dict(data)
+        for key in unknown:
+            targets = set(by_flat_name.get(key.replace("_", "").lower(), []))
+            if len(targets) == 1:
+                target = targets.pop()
+                alias = fields[target].alias
+                if target not in remapped and (alias is None or alias not in remapped):
+                    remapped[target] = remapped.pop(key)
+        return remapped
 
     def model_dump_original(self, **kwargs: Any) -> Dict[str, Any]:
         """

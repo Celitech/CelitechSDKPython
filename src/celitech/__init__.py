@@ -1,6 +1,13 @@
-from .sdk import Celitech
-from .sdk_async import CelitechAsync
-from .net.environment import Environment
+from .client import Celitech, AsyncCelitech
+from .net.environment import CelitechEnvironment
+from .version import __version__
+from .errors import (
+    BadRequestError,
+    ConflictError,
+    ServiceUnavailableError,
+    UnauthorizedError,
+    UnprocessableEntityError,
+)
 
 from . import models as _models
 
