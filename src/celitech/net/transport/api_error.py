@@ -1,33 +1,52 @@
 from .response import Response
-from typing import Optional
+from typing import Any, Dict, Optional
 
 
 class ApiError(Exception):
     """
     Class representing an API Error.
 
-    :ivar Optional[int] status: The status code of the HTTP error.
-    :ivar Optional[Response] response: The response associated with the error.
+    fernMode exposes Fern's error contract as the public surface — ``status_code`` / ``headers`` /
+    ``body`` — so ``except ApiError as e: e.status_code`` / ``e.body`` line up with Fern's SDK.
+    ``message`` / ``status`` / ``response`` are retained for internal transport use.
+
+    :ivar Optional[int] status_code: The HTTP status code of the error.
+    :ivar Optional[Dict[str, str]] headers: The response headers.
+    :ivar Any body: The (typed, when the endpoint declares one) error body.
     """
+
+    headers: Optional[Dict[str, str]]
+    status_code: Optional[int]
+    body: Any
 
     def __init__(
         self,
         message: Optional[str] = None,
         status: Optional[int] = None,
         response: Optional[Response] = None,
+        *,
+        status_code: Optional[int] = None,
+        headers: Optional[Dict[str, str]] = None,
+        body: Any = None,
     ):
         """
         Initialize a new instance of API Error.
-
-        :param Optional[int] status: The status code of the HTTP error.
-        :param Optional[Response] response: The response associated with the error.
         """
         self.message = message
         self.status = status
         self.response = response
+        # Fern-parity surface. status_code falls back to the transport status so a plain
+        # ApiError(message, status=...) raise (e.g. timeouts) still exposes status_code.
+        self.status_code = status_code if status_code is not None else status
+        self.headers = headers
+        self.body = body
         super().__init__(message)
 
     def __str__(self) -> str:
+        if self.status_code is not None or self.body is not None:
+            summary = f"headers: {self.headers}, status_code: {self.status_code}, body: {self.body}"
+            # Keep an explanatory message (e.g. the unmapped-status fallback) when one is set.
+            return f"{summary}: {self.message}" if self.message else summary
         parts = []
         if self.status is not None:
             parts.append(f"status={self.status}")

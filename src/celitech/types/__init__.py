@@ -1,0 +1,268 @@
+"""Lazy model exports.
+
+Names are resolved on first attribute access via PEP 562 ``__getattr__``,
+then cached in module globals. Avoids the multi-second eager-import cost
+on SDKs with thousands of generated models.
+"""
+
+import importlib
+import threading
+import typing
+
+import pydantic
+
+from .utils import base_model as _base_model
+
+# Names a model annotation can mention besides a model class. Pydantic re-evaluates an INHERITED
+# annotation that needs a forward ref in the SUBCLASS's module, not the base's, so a fernMode
+# `<Union>_<Variant>` subclass of a model declaring ``children: List[AstNodeInput]`` looks for
+# ``List`` in the union's module -- which has no reason to import it. Supplying them through the
+# rebuild namespace covers every such name at once. Module globals are layered on top, so a schema
+# that happens to be named ``Field`` still wins.
+_BUILTIN_NAMESPACE = {
+    "typing": typing,
+    "Annotated": typing.Annotated,
+    "Any": typing.Any,
+    "Dict": typing.Dict,
+    "List": typing.List,
+    "Literal": typing.Literal,
+    "Optional": typing.Optional,
+    "Union": typing.Union,
+    "Field": pydantic.Field,
+    "TypeAdapter": pydantic.TypeAdapter,
+    "UniqueItems": _base_model.UniqueItems,
+}
+
+_MODEL_TO_MODULE = {
+    "ListDestinationsResponse": "list_destinations_response",
+    "ListDestinationsResponseDestinationsItem": "list_destinations_response",
+    "ListPackagesResponse": "list_packages_response",
+    "ListPackagesResponsePackagesItem": "list_packages_response",
+    "CreatePurchaseV2Request": "create_purchase_v2request",
+    "CreatePurchaseV2RequestLanguage": "create_purchase_v2request",
+    "CreatePurchaseV2Response": "create_purchase_v2response",
+    "CreatePurchaseV2ResponsePurchase": "create_purchase_v2response",
+    "CreatePurchaseV2ResponseProfile": "create_purchase_v2response",
+    "ListPurchasesResponse": "list_purchases_response",
+    "ListPurchasesResponsePurchasesItem": "list_purchases_response",
+    "ListPurchasesResponsePurchasesItemPackage": "list_purchases_response",
+    "ListPurchasesResponsePurchasesItemEsim": "list_purchases_response",
+    "CreatePurchaseRequest": "create_purchase_request",
+    "CreatePurchaseRequestLanguage": "create_purchase_request",
+    "CreatePurchaseResponse": "create_purchase_response",
+    "CreatePurchaseResponsePurchase": "create_purchase_response",
+    "CreatePurchaseResponseProfile": "create_purchase_response",
+    "TopUpEsimRequest": "top_up_esim_request",
+    "TopUpEsimResponse": "top_up_esim_response",
+    "TopUpEsimResponsePurchase": "top_up_esim_response",
+    "TopUpEsimResponseProfile": "top_up_esim_response",
+    "EditPurchaseRequest": "edit_purchase_request",
+    "EditPurchaseResponse": "edit_purchase_response",
+    "GetPurchaseConsumptionResponse": "get_purchase_consumption_response",
+    "GetEsimResponse": "get_esim_response",
+    "GetEsimResponseEsim": "get_esim_response",
+    "GetEsimDeviceResponse": "get_esim_device_response",
+    "GetEsimDeviceResponseDevice": "get_esim_device_response",
+    "GetEsimHistoryResponse": "get_esim_history_response",
+    "GetEsimHistoryResponseEsim": "get_esim_history_response",
+    "GetEsimHistoryResponseEsimHistoryItem": "get_esim_history_response",
+    "SuspendEsimResponse": "suspend_esim_response",
+    "TokenResponse": "token_response",
+    "PostOauth2TokenRequest": "post_oauth2token_request",
+    "PostOauth2TokenResponse": "post_oauth2token_response",
+    "PostOauth2TokenRequestGrantType": "post_oauth2token_request_grant_type",
+    "ErrorResponse": "error_response",
+    "ErrorResponseData": "error_response",
+}
+
+_REBUILD_NAMES = frozenset(
+    {
+        "ListDestinationsResponse",
+        "ListDestinationsResponseDestinationsItem",
+        "ListPackagesResponse",
+        "ListPackagesResponsePackagesItem",
+        "CreatePurchaseV2Request",
+        "CreatePurchaseV2Response",
+        "CreatePurchaseV2ResponsePurchase",
+        "CreatePurchaseV2ResponseProfile",
+        "ListPurchasesResponse",
+        "ListPurchasesResponsePurchasesItem",
+        "CreatePurchaseRequest",
+        "CreatePurchaseResponse",
+        "CreatePurchaseResponsePurchase",
+        "CreatePurchaseResponseProfile",
+        "TopUpEsimRequest",
+        "TopUpEsimResponse",
+        "TopUpEsimResponsePurchase",
+        "TopUpEsimResponseProfile",
+        "EditPurchaseRequest",
+        "EditPurchaseResponse",
+        "GetPurchaseConsumptionResponse",
+        "GetEsimResponse",
+        "GetEsimResponseEsim",
+        "GetEsimDeviceResponse",
+        "GetEsimDeviceResponseDevice",
+        "GetEsimHistoryResponse",
+        "GetEsimHistoryResponseEsim",
+        "SuspendEsimResponse",
+        "TokenResponse",
+        "PostOauth2TokenRequest",
+        "PostOauth2TokenResponse",
+    }
+)
+
+_INTERNAL_NAMES = frozenset(
+    {
+        "ErrorResponseData",
+    }
+)
+
+__all__ = [name for name in _MODEL_TO_MODULE if name not in _INTERNAL_NAMES]
+
+_rebuilt = False
+
+
+class _CompletionState(threading.local):
+    def __init__(self):
+        self.pending = []
+        self.running = False
+
+
+_completion = _CompletionState()
+_unsettled = []
+
+
+def _load(name):
+    module = _MODEL_TO_MODULE.get(name)
+    if module is None:
+        return None
+    obj = getattr(importlib.import_module("." + module, __name__), name)
+    globals()[name] = obj
+    return obj
+
+
+def _rebuild(cls, ns):
+    """Rebuild ``cls``, loading on demand whatever its forward refs still need.
+
+    A deferred model can forward-reference a name that is not itself a
+    BaseModel — a module-level ``Union`` alias is the common case — and
+    no amount of rebuilding the BaseModels brings that alias into ``ns``.
+    Pydantic names the one it is missing, so load exactly that and retry
+    rather than eagerly importing every model, which is the cost this
+    module exists to avoid.
+
+    ``PydanticUndefinedAnnotation`` carries ``.name``; the ``name in ns``
+    guard is what terminates the loop, since ``_load`` either adds the
+    name or there is nothing more to try. The bound on the iteration count
+    is a second belt: it holds even if a future pydantic reports a name
+    that never equals the key inserted for it, which would otherwise hang
+    an SDK rather than fail it.
+    """
+    for _ in range(len(_MODEL_TO_MODULE) + 1):
+        try:
+            # _types_namespace is mandatory: pydantic resolves forward refs
+            # against caller-frame locals by default, but we're calling from
+            # inside a helper — the names live in this module's globals.
+            cls.model_rebuild(_types_namespace=ns)
+            return
+        except pydantic.PydanticUndefinedAnnotation as missing:
+            name = missing.name
+            if name in ns:
+                return
+            try:
+                obj = _load(name)
+            except Exception:
+                return
+            if obj is None:
+                return
+            ns[name] = obj
+        except Exception:
+            return
+
+
+def _ensure_rebuilt():
+    """Resolve forward refs across every BaseModel in one batched pass.
+
+    Individual model files import their cross-references inside a
+    ``TYPE_CHECKING`` block, so at runtime each file's globals contain
+    only itself. ``model_rebuild()`` walks the call stack to find
+    forward-ref names — calling it from this module once every
+    BaseModel has been loaded into our globals is what lets pydantic
+    resolve circular refs (the same shape the prior eager-import form
+    relied on). Enums, Union types, and error models stay lazy until a
+    rebuild asks for one.
+    """
+    global _rebuilt
+    if _rebuilt:
+        return
+    _rebuilt = True
+    for name in _REBUILD_NAMES:
+        if name not in globals():
+            try:
+                _load(name)
+            except Exception:
+                pass
+    ns = dict(_BUILTIN_NAMESPACE)
+    ns.update(globals())
+    for name in _REBUILD_NAMES:
+        cls = globals().get(name)
+        if cls is None:
+            continue
+        _rebuild(cls, ns)
+
+
+def _complete_models(*classes):
+    """Finish the models of an import cycle, called from the bottom of each model's own file.
+
+    A model in a cycle defers its partners to ``TYPE_CHECKING``, so imported by its own submodule
+    path it is left half-built and the first ``model_validate`` raises "not fully defined". This
+    loads the partners its references name, through ``_rebuild``, and rebuilds every class the
+    files it pulled in handed over, so one cycle completes without loading the rest of the package.
+    A file imported while a completion is running on the same thread only queues its classes; the
+    outermost call settles them all. Each thread completes what it imported itself, so no thread
+    waits on another while holding a module's import lock. A class that could not finish yet,
+    because a union alias it names was still mid-import, is kept and retried by the next outermost
+    call.
+    """
+    pending = _completion.pending
+    pending.extend(classes)
+    if _completion.running:
+        return
+    _completion.running = True
+    try:
+        ns = dict(_BUILTIN_NAMESPACE)
+        ns.update(globals())
+        while _unsettled:
+            try:
+                pending.append(_unsettled.pop())
+            except IndexError:
+                break
+        while pending:
+            settled = []
+            while pending:
+                cls = pending.pop()
+                if not (isinstance(cls, type) and issubclass(cls, pydantic.BaseModel)):
+                    continue
+                ns.setdefault(cls.__name__, cls)
+                settled.append(cls)
+                _rebuild(cls, ns)
+            for cls in settled:
+                if not cls.__pydantic_complete__:
+                    _rebuild(cls, ns)
+                if not cls.__pydantic_complete__:
+                    _unsettled.append(cls)
+    finally:
+        _completion.running = False
+
+
+def __getattr__(name):
+    if name not in _MODEL_TO_MODULE:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+    obj = _load(name)
+    if name in _REBUILD_NAMES:
+        _ensure_rebuilt()
+    return obj
+
+
+def __dir__():
+    return sorted(set(globals()).union(_MODEL_TO_MODULE))

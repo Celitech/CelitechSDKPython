@@ -39,7 +39,8 @@ class RetryHandler(BaseHandler):
         self._jitter_in_milliseconds = 50
         self._status_codes_to_retry = None
         self._http_methods_to_retry = {
-            m.upper() for m in ["GET", "PUT", "DELETE", "HEAD", "OPTIONS"]
+            m.upper()
+            for m in ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"]
         }
 
     def handle(
@@ -91,10 +92,17 @@ class RetryHandler(BaseHandler):
             retry_config = (request.config or {}).get("retry") or {}
             max_attempts = retry_config.get("attempts", self._max_attempts)
             try_count = 0
+            delivered = False
             stream = self._next_handler.stream(request)
             while True:
                 response, error = next(stream)
-                if try_count < max_attempts and self._should_retry(error, request):
+                # A retry reopens the stream from byte 0, so once a frame has reached the caller a
+                # retry would replay what they already hold and corrupt anything they concatenate.
+                if (
+                    not delivered
+                    and try_count < max_attempts
+                    and self._should_retry(error, request)
+                ):
                     self._delay(try_count, request, error)
                     try_count += 1
                     stream = self._next_handler.stream(request)  # Retry the request
@@ -103,6 +111,7 @@ class RetryHandler(BaseHandler):
                     # yielded, and only the inner generator running out ends iteration (the
                     # StopIteration below). Breaking here on the attempt count instead truncated
                     # a stream to one event whenever retries were disabled.
+                    delivered = delivered or error is None
                     yield response, error
 
         except StopIteration:
@@ -269,6 +278,9 @@ class RetryHandler(BaseHandler):
         # change nothing asked for. Checked explicitly rather than left to fall through, because
         # the status rules below would raise TypeError on its absent status.
         if isinstance(error, ApiConnectionError):
+            return False
+
+        if error.status is None:
             return False
 
         # Check if status code is retryable

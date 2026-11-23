@@ -1,6 +1,18 @@
 import logging
+import copy
 import requests
-from typing import Any, Dict, Optional, Tuple, Generator, Union, TYPE_CHECKING
+from typing import (
+    Any,
+    Dict,
+    Mapping,
+    Optional,
+    Tuple,
+    Generator,
+    Union,
+    TYPE_CHECKING,
+    cast,
+    TypeVar,
+)
 from enum import Enum
 
 from .default_headers import DefaultHeaders, DefaultHeadersKeys
@@ -12,10 +24,15 @@ from ...net.request_chain.handlers.retry_handler import RetryHandler
 from ...net.request_chain.handlers.logging_handler import LoggingHandler
 from ...net.oauth.token_manager import TokenManager
 from ...net.request_chain.handlers.oauth_handler import OauthHandler
+from ...core.client_wrapper import BaseClientWrapper, SyncClientWrapper
+from ...core.request_options import to_sdk_config
 
 if TYPE_CHECKING:
     from ...net.sdk_config import SdkConfig, RetryConfig
-    from ...net.environment import Environment
+    from ...net.environment import CelitechEnvironment
+
+
+_BaseServiceT = TypeVar("_BaseServiceT", bound="BaseService")
 
 
 class BaseService:
@@ -28,28 +45,57 @@ class BaseService:
 
     def __init__(
         self,
-        base_url: str,
-        token_manager: TokenManager,
+        base_url: Optional[str] = None,
+        token_manager: Optional[TokenManager] = None,
         http_client: Optional[requests.Session] = None,
         follow_redirects: bool = True,
         logger: Optional[logging.Logger] = None,
+        *,
+        client_wrapper: Optional[BaseClientWrapper] = None,
     ) -> None:
         """
         Initializes a BaseService instance.
 
-        :param base_url: The base URL for the service, as a string or an Environment enum member. Defaults to None.
+        :param base_url: The base URL for the service, as a string or an CelitechEnvironment enum member. Defaults to None.
+        :param client_wrapper: Fern's handle on another client's configuration. When given, this
+            client takes the base URL, transport, credentials and config from the wrapper's client,
+            and the other arguments are ignored, the way Fern builds a resource client from the
+            wrapper alone.
         """
+        if client_wrapper is not None:
+            base_url = client_wrapper._service.base_url
+            token_manager = client_wrapper._service._token_manager
+            http_client = client_wrapper._service._http_client
+            follow_redirects = client_wrapper._service._follow_redirects
+            logger = client_wrapper._service._logger
         self.base_url = self._normalize_base_url(base_url)
         self._default_headers = DefaultHeaders()
-        self._timeout = 60
+        self._timeout: float = 60.0
         self._http_client = http_client
         self._follow_redirects = follow_redirects
         self._logger = logger
         self._service_config: "SdkConfig" = {}
+        self._last_response: Any = None
 
         self._token_manager = token_manager
 
+        if client_wrapper is not None:
+            self._inherit_config(client_wrapper._service)
+        self._client_wrapper = (
+            client_wrapper if client_wrapper is not None else SyncClientWrapper(self)
+        )
         self._update_request_handler()
+
+    def _inherit_config(self, source: "BaseService") -> None:
+        """
+        Takes on the configuration of the client a ``client_wrapper`` belongs to, the same state a
+        parent hands a resource client it builds lazily.
+
+        :param BaseService source: The client whose configuration is copied.
+        """
+        self._default_headers = source._default_headers.copy()
+        self._timeout = source._timeout
+        self._service_config = source._service_config
 
     def set_timeout(self, timeout: float):
         """
@@ -101,24 +147,26 @@ class BaseService:
 
         return self
 
-    def set_base_url(self, base_url: Union["Environment", str]):
+    def set_base_url(self, base_url: Union["CelitechEnvironment", str]):
         """
         Sets the base URL for the service.
 
-        :param base_url: The base URL to be set, as a string or an Environment enum member.
+        :param base_url: The base URL to be set, as a string or an CelitechEnvironment enum member.
         """
         self.base_url = self._normalize_base_url(base_url)
 
         return self
 
     @staticmethod
-    def _normalize_base_url(base_url: Union["Environment", str, None]) -> Optional[str]:
+    def _normalize_base_url(
+        base_url: Union["CelitechEnvironment", str, None],
+    ) -> Optional[str]:
         """
         Coerces a base URL to its string form. SdkConfig documents `base_url` as either a URL
-        string or an Environment enum member, so every entry point that assigns `self.base_url`
+        string or an CelitechEnvironment enum member, so every entry point that assigns `self.base_url`
         has to accept both or the setter and the constructor disagree on the property's type.
 
-        :param base_url: A URL string, an Environment enum member, or None.
+        :param base_url: A URL string, an CelitechEnvironment enum member, or None.
         :return: The URL without a trailing slash, or the input unchanged when it is empty.
         :rtype: Optional[str]
         """
@@ -133,7 +181,7 @@ class BaseService:
     ) -> Optional[str]:
         """
         Resolves the base URL for a single request: a scoped `base_url`, then the service's own
-        base URL, then a scoped `environment`. Each accepts a string or an Environment enum member.
+        base URL, then a scoped `environment`. Each accepts a string or an CelitechEnvironment enum member.
 
         `self.base_url` MUST come before `environment`. The generator delivers an operation-level
         server through `resolved_config['environment']`, so ordering `environment` first makes an
@@ -175,11 +223,16 @@ class BaseService:
         :return: The service instance for method chaining.
         """
         return self.set_config(
-            self._deep_merge(self._service_config or {}, {"retry": retry})
+            cast(
+                "SdkConfig",
+                self._deep_merge(self._service_config or {}, {"retry": retry}),
+            )
         )
 
     @staticmethod
-    def _deep_merge(base: dict, override: dict) -> dict:
+    def _deep_merge(
+        base: Mapping[str, Any], override: Mapping[str, Any]
+    ) -> Dict[str, Any]:
         """
         Recursively merges two dictionaries. Nested dicts are merged key-by-key so
         that a partial override (e.g. ``{"retry": {"attempts": 5}}``) only overwrites
@@ -207,7 +260,9 @@ class BaseService:
         return merged
 
     def _get_resolved_config(
-        self, method_config: "SdkConfig" = None, request_config: "SdkConfig" = None
+        self,
+        method_config: Optional["SdkConfig"] = None,
+        request_config: Optional["SdkConfig"] = None,
     ) -> "SdkConfig":
         """
         Resolves configuration overrides from the hierarchy: request_config > method_config > service_config.
@@ -220,23 +275,30 @@ class BaseService:
         :return: Merged configuration with all overrides applied.
         :rtype: SdkConfig
         """
+        request_config = to_sdk_config(request_config)
         resolved: "SdkConfig" = {}
 
         # Apply service config
         if self._service_config:
-            resolved = BaseService._deep_merge(resolved, self._service_config)
+            resolved = cast(
+                "SdkConfig", BaseService._deep_merge(resolved, self._service_config)
+            )
 
         # Apply method config
         if method_config:
-            resolved = BaseService._deep_merge(resolved, method_config)
+            resolved = cast(
+                "SdkConfig", BaseService._deep_merge(resolved, method_config)
+            )
 
         # Apply request config
         if request_config:
-            resolved = BaseService._deep_merge(resolved, request_config)
+            resolved = cast(
+                "SdkConfig", BaseService._deep_merge(resolved, request_config)
+            )
 
         return resolved
 
-    def send_request(self, request: Request) -> Tuple[Dict, int, str]:
+    def send_request(self, request: Request) -> Tuple[Any, int, str]:
         """
         Sends the given request.
 
@@ -255,7 +317,21 @@ class BaseService:
             response.media_type,
         )
 
-    def stream_request(self, request: Request) -> Generator[Dict, None, None]:
+    def _for_one_call(self: _BaseServiceT) -> _BaseServiceT:
+        """
+        A shallow copy of this client with its own ``_last_response`` slot, for one streamed raw call.
+
+        A streaming method is lazy and its frames arrive over time, possibly on a worker thread, so
+        the shared slot would report whichever call wrote last. The copy shares the configuration and
+        the request handler, and only the call made through it records into its slot.
+        """
+        call_client = copy.copy(self)
+        call_client._last_response = None
+        return call_client
+
+    def stream_request(
+        self, request: Request
+    ) -> Generator[Tuple[Any, int, str], None, None]:
         """
         Streams the given request.
 
@@ -264,10 +340,11 @@ class BaseService:
         :rtype: Generator[Dict, None, None]
         """
         for response in self._request_handler.stream(request):
+            self._last_response = response
             # Same media-type normalisation as `send_request`, so a streaming method's branch
             # selection cannot disagree with a non-streaming one (FSDK-1571).
             yield (
-                response.body,
+                response.raw_chunk if request.binary_download else response.body,
                 response.status,
                 response.media_type,
             )

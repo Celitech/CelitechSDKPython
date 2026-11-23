@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Any
-from ...models.utils.base_model import BaseModel
+from ...types.utils.base_model import BaseModel
 
 
 def extract_original_data(data: Any) -> Any:
