@@ -1,4 +1,4 @@
-from typing import Any, Set, TYPE_CHECKING
+from typing import Any, Optional, Set, TYPE_CHECKING
 from .utils import extract_original_data
 
 if TYPE_CHECKING:
@@ -32,6 +32,9 @@ class Request:
     :ivar bool bearer_wins_over_oauth: Whether a supplied bearer token skips OAuth token acquisition.
     :ivar dict errors: Dictionary of HTTP status codes to error models.
     :ivar SdkConfig config: Configuration dictionary for the request.
+    :ivar Optional[str] sse_terminator: The terminal SSE ``data`` value this operation declared.
+    :ivar bool sse_resumable: Whether this operation declared itself resumable.
+    :ivar bool binary_download: Whether the response is a file download read as raw bytes.
     """
 
     def __init__(self):
@@ -42,7 +45,16 @@ class Request:
         self.scopes = None
         self.bearer_wins_over_oauth = False
         self.errors = None
-        self.config: "SdkConfig" = None
+        self.config: Optional["SdkConfig"] = None
+        # Left None unless the operation declared a terminator, because "no terminator" is a
+        # meaningful state: a stream with none ends when the server closes it, not on a sentinel.
+        self.sse_terminator: Optional[str] = None
+        # Reconnection is opt-in per operation. A stream that did not declare itself resumable must
+        # surface a mid-stream drop rather than silently reissue the request.
+        self.sse_resumable: bool = False
+        # A download is handed over as the bytes received. Without this the body is parsed by the
+        # content type the server sent, which decodes a textual one and returns a str.
+        self.binary_download: bool = False
 
     def set_url(self, url: str) -> "Request":
         """
@@ -123,7 +135,39 @@ class Request:
         self.errors = errors
         return self
 
-    def set_config(self, config: "SdkConfig") -> "Request":
+    def set_sse_resumable(self, resumable: bool) -> "Request":
+        """
+        Mark this operation as resumable, enabling mid-stream reconnection.
+
+        :param bool resumable: Whether the spec declared the stream resumable.
+        :return: The updated Request object.
+        :rtype: Request
+        """
+        self.sse_resumable = resumable
+        return self
+
+    def set_binary_download(self) -> "Request":
+        """
+        Mark this operation's response as a file download, streamed and read as raw bytes.
+
+        :return: The updated Request object.
+        :rtype: Request
+        """
+        self.binary_download = True
+        return self
+
+    def set_sse_terminator(self, terminator: str) -> "Request":
+        """
+        Set the terminal SSE ``data`` value declared for this operation.
+
+        :param str terminator: The declared terminal data value.
+        :return: The updated Request object.
+        :rtype: Request
+        """
+        self.sse_terminator = terminator
+        return self
+
+    def set_config(self, config: Optional["SdkConfig"]) -> "Request":
         """
         Set the configuration for the request.
 

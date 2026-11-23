@@ -1,9 +1,10 @@
+import platform
 from typing import Any, List, Optional, TYPE_CHECKING
 from urllib.parse import quote, quote_plus
 
 from .request import Request
 from .utils import extract_original_data
-from ...models.utils.sentinel import was_value_set
+from ...types.utils.sentinel import was_value_set
 from ...net.headers.base_header import BaseHeader
 from ...net.transport.api_error import ApiError
 
@@ -45,9 +46,14 @@ class Serializer:
         self.errors: dict[int, ApiError] = {}
         self.config: Optional["SdkConfig"] = config
 
-        self.headers["User-Agent"] = (
-            "postman-codegen/3.7.0 celitech-sdk/2.0.10 (python)"
+        self.headers["User-Agent"] = "celitech-sdk/3.0.0"
+        self.headers["X-Fern-Language"] = "Python"
+        self.headers["X-Fern-Runtime"] = f"python/{platform.python_version()}"
+        self.headers["X-Fern-Platform"] = (
+            f"{platform.system().lower()}/{platform.release()}"
         )
+        self.headers["X-Fern-SDK-Name"] = "celitech-sdk"
+        self.headers["X-Fern-SDK-Version"] = "3.0.0"
 
         # Apply default headers, FIRST contributor of a header name winning (FSDK-1671).
         #
@@ -349,6 +355,8 @@ class Serializer:
         :return: The Request object containing the serialized components.
         :rtype: Request
         """
+        self._apply_additional_query_parameters()
+
         final_url = self._define_url()
 
         if len(self.cookies) > 0:
@@ -380,6 +388,39 @@ class Serializer:
                 del self.headers[existing]
 
             self.add_header(key, value)
+
+    def _apply_additional_query_parameters(self) -> None:
+        """
+        Applies `additional_query_parameters` from the resolved SdkConfig. Merged last, so an entry
+        wins over a spec-declared query parameter of the same wire name, which is why an existing
+        entry for the key is dropped first instead of being sent twice.
+
+        A dict value is sent as `key[sub]=value` rather than form-exploded: form explode drops the
+        key itself, so `{"filter": {"a": 1}}` would go out as `a=1`.
+        """
+        additional_query_parameters = (self.config or {}).get(
+            "additional_query_parameters"
+        ) or {}
+
+        for key, value in additional_query_parameters.items():
+            # `key[` as well as `key=`: a spec-declared deepObject parameter is stored as
+            # `key[sub]=...`, which `key=` alone does not match -- so the declared sub-keys and the
+            # caller's would BOTH go out instead of the caller overriding them. `add_query`
+            # interpolates the key unencoded, so these entries carry the raw key at this point.
+            self.query = [
+                entry
+                for entry in self.query
+                if not (entry.startswith(f"{key}=") or entry.startswith(f"{key}["))
+            ]
+
+            # Percent-encoded, unlike a spec-declared parameter name: this key is caller input at
+            # request time and `add_query` interpolates it verbatim, so an `&` or `=` inside it
+            # would otherwise split into forged query parameters of its own.
+            self.add_query(
+                quote(str(key), safe=""),
+                value,
+                style="deepObject" if isinstance(value, dict) else "form",
+            )
 
     def _define_url(self) -> str:
         """
